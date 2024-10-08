@@ -1,6 +1,4 @@
 fileignoreconfig:
-  - filename: README.md
-    checksum: 9cf0cbecb530822345ea7fc8d9eb198b4c773541fbd8312ac52960e382d99dfd
   - filename: public/fonts/BundesSerifWeb-Italic.woff
     checksum: 2cad03dd85939c73e892cce6d994a89046677e94ceb11dd1cde5a23a3b35c392
   - filename: public/fonts/BundesSansWeb-BoldItalic.woff
