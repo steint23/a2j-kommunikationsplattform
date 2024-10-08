@@ -4,9 +4,9 @@
 
 ### Node.js and Homebrew
 
-We aim to use the current active [LTS version of Node.js](https://nodejs.dev/en/about/releases/), which is V20 at the time of writing. There is a `.node-version` file to simplify setup using [nodenv](https://github.com/nodenv/nodenv) `nodenv install` or [asdf](https://github.com/asdf-vm/asdf-nodejs) `asdf current`, for example.
+We aim to use the current active [LTS version of Node.js](https://nodejs.dev/en/about/releases/), which is V20 at the time of writing. There is a `.node-version` file to simplify setup using [nodenv](https://github.com/nodenv/nodenv) (install Node versions via `nodenv install`) or [asdf](https://github.com/asdf-vm/asdf-nodejs) (check and install Node versions via `asdf current`).
 
-Additionally we use [Git Hooks](#git-hooks) that rely on [lefthook](https://github.com/evilmartians/lefthook) and [talisman](https://github.com/thoughtworks/talisman/), both can be installed via Homebrew. Please make sure to install Homebrew before commiting any changes.
+Additionally we use [Git Hooks](#git-hooks) that rely on [lefthook](https://github.com/evilmartians/lefthook) and [talisman](https://github.com/thoughtworks/talisman/), both can be installed via Homebrew. Please make sure to install [Homebrew](https://brew.sh/) before commiting any changes.
 
 ### Dependencies
 
@@ -39,14 +39,6 @@ Before pushing, the following checks are additionally ran:
 
 - `licenses-audit` - uses `license-checker` to verify depency licenses
 - `secrets-audit` - avoid accidental pushes of [secrets and sensitive information](https://thoughtworks.github.io/talisman/)
-
-### security.txt
-
-This template contains a [security.txt](https://securitytxt.org/), where you probably want to update the expiration date. The following entry may also be added:
-
-```
-Canonical: https://<<PROJECT_URL>>/.well-known/security.txt
-```
 
 ## Development
 
