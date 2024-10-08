@@ -2,14 +2,15 @@
 
 ## Prerequisites
 
-### Node.js
+### Node.js and Homebrew
 
-We aim to use the current active [LTS version of nodejs](https://nodejs.dev/en/about/releases/), which is V20 at the time of writing.
-There is a `.node-version` file to simplify setup using [nodenv](https://github.com/nodenv/nodenv) or [asdf](https://github.com/asdf-vm/asdf-nodejs), for example.
+We aim to use the current active [LTS version of Node.js](https://nodejs.dev/en/about/releases/), which is V20 at the time of writing. There is a `.node-version` file to simplify setup using [nodenv](https://github.com/nodenv/nodenv) `nodenv install` or [asdf](https://github.com/asdf-vm/asdf-nodejs) `asdf current`, for example.
+
+Additionally we use [Git Hooks](#git-hooks) that rely on [lefthook](https://github.com/evilmartians/lefthook) and [talisman](https://github.com/thoughtworks/talisman/), both can be installed via Homebrew. Please make sure to install Homebrew before commiting any changes.
 
 ### Dependencies
 
-Install the dependencies using npm.
+Install the project dependencies using npm.
 
 ```bash
 npm install
@@ -25,12 +26,8 @@ npx playwright install
 
 ### Git Hooks
 
-For the provided Git hooks you will need to install [lefthook](https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md)
-(git hook manager) and [talisman](https://thoughtworks.github.io/talisman/docs) (secrets scanner):
-
-```bash
-brew install lefthook talisman
-```
+For the provided Git hooks you will need to install [lefthook](https://github.com/evilmartians/lefthook)
+(git hook manager) and [talisman](https://github.com/thoughtworks/talisman/) (secrets scanner) `brew install lefthook talisman`. Afterwards execute `lefthook install` to initialize the hooks or run `lefthook run pre-commit` before commiting new changes.
 
 The following hooks are specified in the `lefthook.yml`:
 
@@ -42,14 +39,6 @@ Before pushing, the following checks are additionally ran:
 
 - `licenses-audit` - uses `license-checker` to verify depency licenses
 - `secrets-audit` - avoid accidental pushes of [secrets and sensitive information](https://thoughtworks.github.io/talisman/)
-
-### Finish project setup
-
-To then finish the setup of the git hooks and to change the project name from the template name you can run:
-
-```bash
-./run.sh init
-```
 
 ### security.txt
 
@@ -113,13 +102,13 @@ The project includes a Dockerfile to create a Docker Image for the project.
 You can build the Docker Image using
 
 ```sh
-docker build -t remix-application-template .
+docker build -t a2j-verfahrensplattform .
 ```
 
 and then start it using
 
 ```sh
-docker run -d -p 3000:3000 --name remix-application-template remix-application-template
+docker run -d -p 3000:3000 --name a2j-verfahrensplattform a2j-verfahrensplattform
 ```
 
 The website is then available under http://localhost:3000
@@ -149,12 +138,12 @@ brew install adr-tools
 ## Contributing
 
 🇬🇧
-Everyone is welcome to contribute the development of the _remix-application-template_. You can contribute by opening pull request,
+Everyone is welcome to contribute the development of the _a2j-verfahrensplattform_. You can contribute by opening pull request,
 providing documentation or answering questions or giving feedback. Please always follow the guidelines and our
 [Code of Conduct](CODE_OF_CONDUCT.md).
 
 🇩🇪
-Jede:r ist herzlich eingeladen, die Entwicklung der _remix-application-template_ mitzugestalten. Du kannst einen Beitrag leisten,
+Jede:r ist herzlich eingeladen, die Entwicklung der _a2j-verfahrensplattform_ mitzugestalten. Du kannst einen Beitrag leisten,
 indem du Pull-Requests eröffnest, die Dokumentation erweiterst, Fragen beantwortest oder Feedback gibst.
 Bitte befolge immer die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT_DE.md).
 
