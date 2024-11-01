@@ -8,6 +8,8 @@ test.describe("basic example test", () => {
 
   test("shows hello message", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("text=Hello Kommunikationsplattform!")).toBeVisible();
+    await expect(
+      page.locator("text=Hello Kommunikationsplattform!"),
+    ).toBeVisible();
   });
 });

@@ -10,7 +10,9 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <main className={"flex flex-col items-center m-40"}>
-      <h1 className={"ds-heading-01-reg mb-40"}>Hello Kommunikationsplattform!</h1>
+      <h1 className={"ds-heading-01-reg mb-40"}>
+        Hello Kommunikationsplattform!
+      </h1>
     </main>
   );
 }
