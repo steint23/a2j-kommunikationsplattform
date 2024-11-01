@@ -1,4 +1,4 @@
-# A2J - Verfahrensplattform
+# A2J - Kommunikationsplattform
 
 ## Prerequisites
 
@@ -85,13 +85,13 @@ The project includes a Dockerfile to create a Docker Image for the project.
 You can build the Docker Image using
 
 ```sh
-docker build -t a2j-verfahrensplattform .
+docker build -t a2j-kommunikationsplattform .
 ```
 
 and then start it using
 
 ```sh
-docker run -d -p 3000:3000 --name a2j-verfahrensplattform a2j-verfahrensplattform
+docker run -d -p 3000:3000 --name a2j-kommunikationsplattform a2j-kommunikationsplattform
 ```
 
 The website is then available under http://localhost:3000
@@ -121,12 +121,12 @@ brew install adr-tools
 ## Contributing
 
 🇬🇧
-Everyone is welcome to contribute the development of the _a2j-verfahrensplattform_. You can contribute by opening pull request,
+Everyone is welcome to contribute the development of the _a2j-kommunikationsplattform_. You can contribute by opening pull request,
 providing documentation or answering questions or giving feedback. Please always follow the guidelines and our
 [Code of Conduct](CODE_OF_CONDUCT.md).
 
 🇩🇪
-Jede:r ist herzlich eingeladen, die Entwicklung der _a2j-verfahrensplattform_ mitzugestalten. Du kannst einen Beitrag leisten,
+Jede:r ist herzlich eingeladen, die Entwicklung der _a2j-kommunikationsplattform_ mitzugestalten. Du kannst einen Beitrag leisten,
 indem du Pull-Requests eröffnest, die Dokumentation erweiterst, Fragen beantwortest oder Feedback gibst.
 Bitte befolge immer die Richtlinien und unseren [Verhaltenskodex](CODE_OF_CONDUCT_DE.md).
 
