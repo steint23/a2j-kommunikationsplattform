@@ -151,6 +151,8 @@ jobs:
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
         uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # v0.28.0
         env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           # specify multiple registries: try default GitHub registry, if too many requests, use the aws mirror
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
@@ -158,13 +160,6 @@ jobs:
           scanners: "vuln"
           format: "cosign-vuln"
           output: "vulnerabilities.json"
-
-      - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v4
-        with:
-          name: "vulnerabilities.json"
-          path: "vulnerabilities.json"
-          if-no-files-found: error
 
       - name: Install cosign
         uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
