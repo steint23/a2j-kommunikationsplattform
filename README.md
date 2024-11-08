@@ -96,7 +96,7 @@ docker run -d -p 3000:3000 --name a2j-kommunikationsplattform a2j-kommunikations
 
 The website is then available under http://localhost:3000
 
-If you want to include any additional files during the build that are not in the `app` or `public` directories you need to add them to the `.dockerignore` file.
+If you want to include any additional files during the build that are not in the `app` directories you need to add them to the `.dockerignore` file.
 
 The `.github/workflows/pipeline.yml` GitHub Action includes a `build-and-push-image` job to build the Docker Image and push it to GitHub Packages.
 
@@ -107,7 +107,6 @@ If you're familiar with deploying node applications, the built-in Remix app serv
 Make sure to deploy the output of `npm run build`
 
 - `build/`
-- `public/build/`
 
 ## Architecture Decision Records
 
