@@ -3,12 +3,17 @@
 @tailwind utilities;
 
 h1,
-h2,
+h2 {
+  max-width: 848px;
+}
+
 h3,
 h4,
+h5,
+h6,
 li,
 p {
-  max-width: 70ch;
+  max-width: 630px;
 }
 
 ul {
@@ -24,7 +29,7 @@ html {
 body {
   font-family: "BundesSansWeb", "Calibri", "Verdana", "Arial", "Helvetica",
     sans-serif;
-  font-size: 1.125rem;
+  font-size: 18px;
   line-height: 1.5;
   min-height: 100vh;
 }
