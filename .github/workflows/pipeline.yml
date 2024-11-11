@@ -200,7 +200,7 @@ jobs:
         with:
           environment: staging
           version: ${{ env.CONTAINER_IMAGE_VERSION }}
-          deploying_repo: ${{ env.DEPLOYING_REPO }}
+          deploying_repo: ${{ github.event.repository.name }}
           infra_repo: ${{ github.event.repository.name }}-infra
           deploy_key: ${{ secrets.DEPLOY_KEY }}
           app: ${{ github.event.repository.name }}-staging
