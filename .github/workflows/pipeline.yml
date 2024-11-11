@@ -10,6 +10,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ github.repository }}
+  CONTAINER_IMAGE_VERSION: ${{ github.sha }}
 
 jobs:
   build:
