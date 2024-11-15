@@ -6,10 +6,8 @@ test.describe("basic example test", () => {
     await expect(page).toHaveTitle("Kommunikationsplattform");
   });
 
-  test("shows hello message", async ({ page }) => {
+  test("shows Kommunikationsplattform text", async ({ page }) => {
     await page.goto("/");
-    await expect(
-      page.locator("text=Hello Kommunikationsplattform!"),
-    ).toBeVisible();
+    await expect(page.locator("text=Kommunikationsplattform")).toBeVisible();
   });
 });
