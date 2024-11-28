@@ -40,9 +40,9 @@ jobs:
           format: "sarif"
           # By default SARIF format enforces output of all vulnerabilities regardless of configured severities.
           # To override this set limit-severities-for-sarif to true.
-          # limit-severities-for-sarif: true
+          limit-severities-for-sarif: true
           output: "trivy-results.sarif"
-          # severity: "CRITICAL,HIGH"
+          severity: "CRITICAL,HIGH"
           # exit-code: "1" # Fail the build!
 
       - name: Check trivy results
