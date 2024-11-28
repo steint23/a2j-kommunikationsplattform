@@ -10,7 +10,7 @@ on:
 env:
   CONTAINER_REGISTRY: ghcr.io
   CONTAINER_IMAGE_NAME: ${{ github.repository }}
-  CONTAINER_IMAGE_VERSION: ${{ github.sha }}
+  CONTAINER_IMAGE_VERSION: latest
 
 jobs:
   vulnerability-scan:
