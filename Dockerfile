@@ -11,7 +11,7 @@ FROM node:20-alpine AS production-dependencies
 ENV NODE_ENV=production
 WORKDIR /src
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --omit=optional
 
 # Build the app
 FROM node:20-alpine AS build
@@ -31,6 +31,13 @@ RUN npm run build
 
 # Final image that runs the app
 FROM node:20.17.0-alpine3.20
+
+# TODO: Check https://hub.docker.com/r/library/node/tags?name=alpine3.20
+# - Remove ssl when CVE-2024-9143 is fixed (https://scout.docker.com/vulnerabilities/id/CVE-2024-9143?s=alpine)
+# - Remove npm update when CVE-2024-21538 is fixed (https://scout.docker.com/vulnerabilities/id/CVE-2024-21538?s=github)
+RUN apk add --no-cache libssl3=3.3.2-r1 && \
+    npm update -g npm && npm cache clean --force && \
+    apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
 ENV NODE_ENV=production
