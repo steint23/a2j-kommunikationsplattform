@@ -28,7 +28,27 @@ jobs:
       - name: Validate github workflow files to have pinned versions
         uses: digitalservicebund/github-actions-linter@09783a3d4e13424bc0caf1f7145f68bc6138688b # v0.1.11
 
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner for main branch
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0 # v0.29.0
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          # Specify multiple registries: try default GitHub registry, if too many requests, use the aws mirror.
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
+        with:
+          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+          format: "sarif"
+          # By default SARIF format enforces output of all vulnerabilities regardless of configured severities.
+          # To override this set limit-severities-for-sarif to true.
+          limit-severities-for-sarif: true
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
+          # exit-code: "1" # Fail the build!
+
+      - name: Run Trivy vulnerability scanner on an updated image
+        if: github.ref != 'refs/heads/main' && github.event_name == 'pull_request'
+        needs: build
         uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0 # v0.29.0
         env:
           TRIVY_USERNAME: ${{ github.actor }}
