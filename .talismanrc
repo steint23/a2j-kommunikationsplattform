@@ -6,7 +6,7 @@ fileignoreconfig:
   - filename: SECURITY.md
     checksum: b1743150cdd537be3a66f5308f887d130f0f320ab21628b63713808090a84e3f
   - filename: .github/workflows/pipeline.yml
-    checksum: ca568eb9a669a0ca54e4289a7c5615f53ee13c7f4c7ef030125a4ef0256965fa
+    checksum: 9cb41716dbe46d620a16bc142b6a7496ff268320f0ce7bfda6a6986feef1d126
   - filename: app/components/Button.tsx
     checksum: 76dff4b52407d5271d6a6ebee5fe1f3e8176435d0aa02193c951cac14ec49c5e
 version: ""
