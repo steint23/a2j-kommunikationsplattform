@@ -11,7 +11,7 @@ FROM node:20-alpine AS production-dependencies
 ENV NODE_ENV=production
 WORKDIR /src
 COPY package*.json ./
-RUN npm ci --omit=optional
+RUN npm ci
 
 # Build the app
 FROM node:20-alpine AS build
