@@ -1,4 +1,4 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { requireUserSession } from "~/services/brakAuth.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
