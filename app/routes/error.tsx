@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 
-export default function Error() {
+export default function ErrorPage() {
   return (
     <main className={"m-40 flex flex-col items-center"}>
       <h1 className={"ds-heading-01-bold mb-40 break-all"}>
