@@ -1,7 +1,7 @@
 # Download and install the dependenciees for building the app
 FROM node:20-alpine AS build-dependencies
 
-WORKDIR /src
+WORKDIR /kompla-app
 COPY package*.json ./
 RUN npm ci
 
@@ -9,7 +9,7 @@ RUN npm ci
 FROM node:20-alpine AS production-dependencies
 
 ENV NODE_ENV=production
-WORKDIR /src
+WORKDIR /kompla-app
 COPY package*.json ./
 RUN npm ci
 
@@ -20,10 +20,10 @@ ARG COMMIT_SHA
 ENV APP_VERSION=$COMMIT_SHA
 
 # Create app directory
-WORKDIR /src
+WORKDIR /kompla-app
 
 # Copy the build dependencies
-COPY --from=build-dependencies /src/node_modules /src/node_modules
+COPY --from=build-dependencies /kompla-app/node_modules /kompla-app/node_modules
 
 # Required files are whitelisted in dockerignore
 COPY . ./
@@ -48,14 +48,13 @@ ENV npm_config_cache=/tmp/.npm
 ARG COMMIT_SHA
 ENV APP_VERSION=$COMMIT_SHA
 
-WORKDIR /home/node/src
+WORKDIR /home/node/kompla-app
 # Move only the files to the final image that are really needed
-COPY --chown=node:node package*.json LICENSE SECURITY.md ./
-COPY --chown=node:node --from=production-dependencies /src/node_modules/ ./node_modules/
-COPY --chown=node:node --from=build /src/build/server ./build/server
-COPY --chown=node:node --from=build /src/build/client ./build/client
+COPY start.sh package*.json LICENSE SECURITY.md ./
+COPY --from=production-dependencies /kompla-app/node_modules/ ./node_modules/
+COPY --from=build /kompla-app/build/server ./build/server
+COPY --from=build /kompla-app/build/client ./build/client
 
 EXPOSE 3000
-# CMD ["npm", "run", "start"]
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["sh", "./start.sh"]
