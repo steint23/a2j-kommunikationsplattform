@@ -11,7 +11,7 @@ import { redirect } from "@remix-run/node";
 import { config } from "~/config/config.server";
 import { commitSession, getSession } from "./session.server";
 
-let configuration: client.Configuration;
+let configuration: client.Configuration | undefined;
 
 async function getClientConfiguration(): Promise<client.Configuration> {
   if (configuration !== undefined) {
