@@ -29,9 +29,6 @@ COPY --from=build-dependencies /kompla-app/node_modules /kompla-app/node_modules
 COPY . ./
 RUN npm run build
 
-# Copy start shell script
-COPY ../start.sh ./
-
 # Final image that runs the app
 FROM node:20.17.0-alpine3.20
 
@@ -56,5 +53,4 @@ COPY --from=build /kompla-app/build/server ./build/server
 COPY --from=build /kompla-app/build/client ./build/client
 
 EXPOSE 3000
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["sh", "./start.sh"]
+CMD ["npm", "run", "start"]
