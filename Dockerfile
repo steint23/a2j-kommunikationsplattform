@@ -47,7 +47,6 @@ ENV APP_VERSION=$COMMIT_SHA
 
 WORKDIR /home/node/kompla-app
 # Move only the files to the final image that are really needed
-COPY start.sh package*.json LICENSE SECURITY.md ./
 COPY --from=production-dependencies /kompla-app/node_modules/ ./node_modules/
 COPY --from=build /kompla-app/build/server ./build/server
 COPY --from=build /kompla-app/build/client ./build/client

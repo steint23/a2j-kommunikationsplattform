@@ -13,4 +13,3 @@
 !tsconfig.json
 !postcss.config.mjs
 !vite.config.ts
-!start.sh
