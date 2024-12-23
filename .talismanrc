@@ -12,7 +12,7 @@ fileignoreconfig:
   - filename: app/services/session.server.ts
     checksum: 191f115c3975c89e2f06abeeb67b8796afa9b5f5553e1210c173302b3e7d6afa
   - filename: app/services/brakAuth.server.ts
-    checksum: a5a44dc6b6e91467a0d1c2e6fe9f63bb4446f98138ad3c378cfe5f8d925de169
+    checksum: d0ed7c5f8143376083b00304d514096728f6455e98aa2dfbe57e260868b28888
   - filename: app/config/config.server.ts
     checksum: b6a0e33089ec2984286d88f2cd36ae713e1f007c8555e3da2277f34578f8b085
 version: ""
