@@ -60,8 +60,8 @@ export async function requireUserSession(request: Request) {
     // Example request: https://schulung.bea-brak.de/auth/realms/brak/protocol/openid-connect/auth?redirect_uri=https%3A%2F%2Fschulung.bea-brak.de%2Flogin%2Foidc.html&scope=openid+safeid&code_challenge=-OGjPhfsbyrNmB0ALk0MsFBrLESZy0veLmLhfcFIlrM&client_id=00321&response_type=code
 
     let parameters: Record<string, string> = {
-      redirect_uri: `${config().BRAK_IDP_OIDC_REDIRECT_URI}/login/oidc.html`,
-      scope: "openid safeid",
+      redirect_uri: `${config().BRAK_IDP_OIDC_REDIRECT_URI}`,
+      scope: "profile safe_oidc email",
       code_challenge,
       code_challenge_method: "S256",
     };
