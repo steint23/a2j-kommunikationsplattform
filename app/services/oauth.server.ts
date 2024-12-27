@@ -16,12 +16,8 @@ authenticator.use(
       clientId: config().BRAK_IDP_OIDC_CLIENT_ID,
       clientSecret: config().BRAK_IDP_OIDC_CLIENT_SECRET,
 
-      // authorizationEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/auth`,
-      authorizationEndpoint: `https://schulung.bea-brak.de/auth/realms/brak/protocol/openid-connect/auth`,
-
-      // tokenEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/token`,
-      tokenEndpoint: `https://schulung.bea-brak.de/auth/realms/brak/protocol/openid-connect/token`,
-
+      authorizationEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/auth`,
+      tokenEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/token`,
       redirectURI: `${config().BRAK_IDP_OIDC_REDIRECT_URI}`,
 
       //   tokenRevocationEndpoint: "https://provider.com/oauth2/revoke", // optional
@@ -38,5 +34,5 @@ authenticator.use(
   ),
   // this is optional, but if you setup more than one OAuth2 instance you will
   // need to set a custom name to each one
-  "provider-name",
+  "bea",
 );

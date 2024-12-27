@@ -5,7 +5,11 @@ import { authenticator } from "~/services/oauth.server";
 export const loader: LoaderFunction = async ({ request }) => {
   console.log("BeaLogin loader...");
 
-  await authenticator.authenticate("provider-name", request);
+  // Using the openid-connect library:
+  // await requireUserSession(request);
+
+  // Using the remix-oauth library:
+  await authenticator.authenticate("bea", request);
 
   return null;
 };

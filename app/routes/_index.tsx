@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { data, Link, redirect } from "@remix-run/react";
 import { authenticator } from "~/services/oauth.server";
+// import { authorizeUser } from "~/services/brakAuth.server";
 import { getSession } from "~/services/session.server";
 
 export const meta: MetaFunction = () => {
@@ -23,8 +24,22 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // Our redirect_uri is currently incorrectly configured to the index endpoint.
   // We have requested this to be updated to the auth.callback endpoint, but it has not yet been done.
   // As a workaround, we will call the authUser function here, which will call authorizeUser.
-  // await authUser(request);
 
+  // Using the openid-connect library:
+  // await authUserOpenId(request);
+
+  // Using the remix-oauth library:
+  await authUserRemixOAuth(request);
+
+  const codeVerifier = session.get("code_verifier");
+  const return_to = session.get("return_to");
+  console.log("codeVerifier is", codeVerifier);
+  console.log("return_to is", return_to);
+
+  return data(null);
+}
+
+async function authUserRemixOAuth(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   if (code) {
@@ -35,14 +50,24 @@ export async function loader({ request }: LoaderFunctionArgs) {
       console.error("Authentication error:", error);
     }
   }
-
-  const codeVerifier = session.get("code_verifier");
-  const return_to = session.get("return_to");
-  console.log("codeVerifier is", codeVerifier);
-  console.log("return_to is", return_to);
-
-  return data(null);
 }
+
+// async function authUserOpenId(request: Request) {
+//   const url = new URL(request.url);
+//   const code = url.searchParams.get("code");
+
+//   if (code) {
+//     await authorizeUser(request)
+//       .then((data) => {
+//         console.log("authorizeUser then", data);
+//         throw redirect("/dashboard");
+//       })
+//       .catch((error) => {
+//         console.log("authorizeUser catch", error);
+//         throw redirect("/error");
+//       });
+//   }
+// }
 
 export default function Index() {
   return (
