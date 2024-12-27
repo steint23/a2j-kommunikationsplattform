@@ -28,8 +28,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   if (code) {
-    let user = await authenticator.authenticate("provider-name", request);
-    console.log("user is", user);
+    try {
+      let user = await authenticator.authenticate("provider-name", request);
+      console.log("user is", user);
+    } catch (error) {
+      console.error("Authentication error:", error);
+    }
   }
 
   const codeVerifier = session.get("code_verifier");
