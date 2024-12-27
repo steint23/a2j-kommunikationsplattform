@@ -1,6 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { data, Link, redirect } from "@remix-run/react";
-import { authorizeUser } from "~/services/brakAuth.server";
 import { authenticator } from "~/services/oauth.server";
 import { getSession } from "~/services/session.server";
 
@@ -41,22 +40,22 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return data(null);
 }
 
-async function authUser(request: Request) {
-  const url = new URL(request.url);
-  const code = url.searchParams.get("code");
+// async function authUser(request: Request) {
+//   const url = new URL(request.url);
+//   const code = url.searchParams.get("code");
 
-  if (code) {
-    await authorizeUser(request)
-      .then((data) => {
-        console.log("authorizeUser then", data);
-        throw redirect("/dashboard");
-      })
-      .catch((error) => {
-        console.log("authorizeUser catch", error);
-        throw redirect("/error");
-      });
-  }
-}
+//   if (code) {
+//     await authorizeUser(request)
+//       .then((data) => {
+//         console.log("authorizeUser then", data);
+//         throw redirect("/dashboard");
+//       })
+//       .catch((error) => {
+//         console.log("authorizeUser catch", error);
+//         throw redirect("/error");
+//       });
+//   }
+// }
 
 export default function Index() {
   return (
