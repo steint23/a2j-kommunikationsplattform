@@ -7,27 +7,6 @@ interface User {
 }
 
 export const authenticator = new Authenticator<User>();
-// authenticator.use(
-//     await OAuth2Strategy.discover<User>(
-//       "https://schulung.bea-brak.de/auth/",
-//       {
-//         clientId: config().BRAK_IDP_OIDC_CLIENT_ID,
-//         clientSecret: config().BRAK_IDP_OIDC_CLIENT_SECRET,
-
-//         redirectURI: `${config().BRAK_IDP_OIDC_REDIRECT_URI}/auth/callback`,
-//         scopes: ["openid", "email", "profile"], // optional
-//       },
-//       async ({ tokens, request }) => {
-//         // here you can use the params above to get the user and return it
-//         // what you do inside this and how you find the user is up to you
-//         // return await getUser(tokens, request);
-//         console.log("tokens: " + tokens)
-
-//         return {code: "", tokens}
-//       }
-//     ),
-//     "provider-name"
-//   );
 
 authenticator.use(
   new OAuth2Strategy(
@@ -53,8 +32,6 @@ authenticator.use(
     async ({ tokens, request }) => {
       // here you can use the params above to get the user and return it
       // what you do inside this and how you find the user is up to you
-      //   return await getUser(tokens, request);
-      // console.log("tokens: " + tokens);
 
       return { code: tokens.accessToken.toString() };
     },

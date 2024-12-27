@@ -40,23 +40,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return data(null);
 }
 
-// async function authUser(request: Request) {
-//   const url = new URL(request.url);
-//   const code = url.searchParams.get("code");
-
-//   if (code) {
-//     await authorizeUser(request)
-//       .then((data) => {
-//         console.log("authorizeUser then", data);
-//         throw redirect("/dashboard");
-//       })
-//       .catch((error) => {
-//         console.log("authorizeUser catch", error);
-//         throw redirect("/error");
-//       });
-//   }
-// }
-
 export default function Index() {
   return (
     <main className={"m-40 flex flex-col items-center"}>
