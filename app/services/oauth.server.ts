@@ -26,7 +26,7 @@ authenticator.use(
 
       //   tokenRevocationEndpoint: "https://provider.com/oauth2/revoke", // optional
 
-      scopes: ["safe_oidc", "email", "profile"],
+      // scopes: ["safe_oidc", "email", "profile"],
       codeChallengeMethod: CodeChallengeMethod.S256, // optional
     },
     async ({ tokens, request }) => {
