@@ -37,21 +37,26 @@ authenticator.use(
       clientId: config().BRAK_IDP_OIDC_CLIENT_ID,
       clientSecret: config().BRAK_IDP_OIDC_CLIENT_SECRET,
 
-      authorizationEndpoint: config().BRAK_IDP_OIDC_ISSUER,
-      tokenEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/oauth2/token`,
+      // authorizationEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/auth`,
+      authorizationEndpoint: `https://schulung.bea-brak.de/auth/realms/brak/protocol/openid-connect/auth`,
+
+      // tokenEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/token`,
+      tokenEndpoint: `https://schulung.bea-brak.de/auth/realms/brak/protocol/openid-connect/token`,
+
       redirectURI: `${config().BRAK_IDP_OIDC_REDIRECT_URI}`,
 
       //   tokenRevocationEndpoint: "https://provider.com/oauth2/revoke", // optional
 
-      //   scopes: ["openid", "email", "profile"], // optional
+      scopes: ["safe_oidc", "email", "profile"],
       codeChallengeMethod: CodeChallengeMethod.S256, // optional
     },
     async ({ tokens, request }) => {
       // here you can use the params above to get the user and return it
       // what you do inside this and how you find the user is up to you
       //   return await getUser(tokens, request);
+      // console.log("tokens: " + tokens);
 
-      return { code: "" };
+      return { code: tokens.accessToken.toString() };
     },
   ),
   // this is optional, but if you setup more than one OAuth2 instance you will
