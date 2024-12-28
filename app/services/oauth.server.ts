@@ -16,8 +16,8 @@ authenticator.use(
       clientId: config().BRAK_IDP_OIDC_CLIENT_ID,
       clientSecret: config().BRAK_IDP_OIDC_CLIENT_SECRET,
 
-      authorizationEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/auth`,
-      tokenEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/token`,
+      authorizationEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/protocol/openid-connect/auth`,
+      tokenEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/protocol/openid-connect/token`,
       redirectURI: `${config().BRAK_IDP_OIDC_REDIRECT_URI}`,
 
       //   tokenRevocationEndpoint: "https://provider.com/oauth2/revoke", // optional
