@@ -21,7 +21,7 @@ export function config(): Config {
       BRAK_IDP_OIDC_CLIENT_ID:
         process.env.BRAK_IDP_OIDC_CLIENT_ID?.trim() ?? "",
       BRAK_IDP_OIDC_CLIENT_SECRET: oidcClientSecretFileExists
-        ? readFileSync(oidcClientSecretFilePath, "utf-8")
+        ? readFileSync(oidcClientSecretFilePath, "utf-8")?.trim()
         : "",
       BRAK_IDP_OIDC_ISSUER: process.env.BRAK_IDP_OIDC_ISSUER?.trim() ?? "",
       BRAK_IDP_OIDC_REDIRECT_URI:
