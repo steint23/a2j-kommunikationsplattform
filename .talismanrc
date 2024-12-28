@@ -16,7 +16,7 @@ fileignoreconfig:
   - filename: app/config/config.server.ts
     checksum: 3e1bcb8f961ca98c3c018e9ea0eb3abbbce7b071f9cf7b0428b7c8be5f29e947
   - filename: app/services/oauth.server.ts
-    checksum: 176d4dddd55ec3106c1f720675afa18877af2e01e83798fc3b691f190d6a3bfd
+    checksum: 566960ad258b2a1fd5c388f716466fa72c9a4df8f5e0a59d9e649d11bdc2f9bd
 version: ""
 scopeconfig:
   - scope: node
