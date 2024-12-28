@@ -44,7 +44,7 @@ async function authUserRemixOAuth(request: Request) {
   const code = url.searchParams.get("code");
   if (code) {
     try {
-      let user = await authenticator.authenticate("provider-name", request);
+      let user = await authenticator.authenticate("bea", request);
       console.log("user is", user);
     } catch (error) {
       console.error("Authentication error:", error);
