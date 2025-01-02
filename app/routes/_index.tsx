@@ -10,7 +10,6 @@ export const meta: MetaFunction = () => {
 };
 
 // TODO:
-// - test user auth with BRAK IdP test env "schulung"
 // - auth flow: add error handling
 // - on page load: if user is logged in already, redirect to /dashboard
 //   - authorizeUser() via auth.callback.tsx, when redirect_url has been updated @ BRAK
@@ -49,7 +48,7 @@ export default function Index() {
 
       <div className={"m-40 text-center"}>
         <p className={"pb-20"}>Bitte wählen Sie Ihre Loginmethode:</p>
-        <Link to={"/login/bea"} className={"ds-button"}>
+        <Link to={"/login"} className={"ds-button"}>
           beA-Portal
         </Link>
       </div>

@@ -1,10 +1,15 @@
 import { Authenticator } from "remix-auth";
 import { CodeChallengeMethod, OAuth2Strategy } from "remix-auth-oauth2";
 import { config } from "~/config/config.server";
+import { createUserSession } from "./session.server";
+import { z } from "zod";
 
-interface User {
-  code: string;
-}
+export const UserSchema = z.object({
+  accessToken: z.string(),
+  expiresAt: z.number(),
+});
+
+export type User = z.infer<typeof UserSchema>;
 
 export const authenticator = new Authenticator<User>();
 
@@ -21,10 +26,14 @@ authenticator.use(
       codeChallengeMethod: CodeChallengeMethod.S256,
     },
     async ({ tokens, request }) => {
-      // TODO: once we have a successful response, we can check which properties we need to extract from the response and return.
-      // We can then update the `User` type to reflect the properties we need.
-      // For now, it's just returning the accessToken
-      return { code: tokens.accessToken.toString() };
+      const user: User = {
+        accessToken: tokens.accessToken(),
+        expiresAt: Date.now() + 60 * 60 * 1000 * 24 * 14, // 14 days
+      };
+
+      await createUserSession(user, request);
+
+      return user;
     },
   ),
   "bea", // name of the strategy. When you call `authenticate`, you pass this name to use this strategy.
