@@ -11,28 +11,21 @@ export const authenticator = new Authenticator<User>();
 authenticator.use(
   new OAuth2Strategy(
     {
-      cookie: "oauth2", // Optional, can also be an object with more options
-
+      cookie: "oauth2",
       clientId: config().BRAK_IDP_OIDC_CLIENT_ID,
       clientSecret: config().BRAK_IDP_OIDC_CLIENT_SECRET,
-
       authorizationEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/protocol/openid-connect/auth`,
       tokenEndpoint: `${config().BRAK_IDP_OIDC_ISSUER}/protocol/openid-connect/token`,
       redirectURI: `${config().BRAK_IDP_OIDC_REDIRECT_URI}`,
-
-      //   tokenRevocationEndpoint: "https://provider.com/oauth2/revoke", // optional
-
-      // scopes: ["safe_oidc", "email", "profile"],
-      codeChallengeMethod: CodeChallengeMethod.S256, // optional
+      // scopes: ["safe_oidc", "email", "profile"], // TODO: Check which scopes we need
+      codeChallengeMethod: CodeChallengeMethod.S256,
     },
     async ({ tokens, request }) => {
-      // here you can use the params above to get the user and return it
-      // what you do inside this and how you find the user is up to you
-
+      // TODO: once we have a successful response, we can check which properties we need to extract from the response and return.
+      // We can then update the `User` type to reflect the properties we need.
+      // For now, it's just returning the accessToken
       return { code: tokens.accessToken.toString() };
     },
   ),
-  // this is optional, but if you setup more than one OAuth2 instance you will
-  // need to set a custom name to each one
-  "bea",
+  "bea", // name of the strategy. When you call `authenticate`, you pass this name to use this strategy.
 );
