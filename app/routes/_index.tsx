@@ -36,7 +36,10 @@ async function authUserRemixOAuth(request: Request) {
       });
     } catch (error) {
       console.error("Authentication error:", error);
+      return data(null);
     }
+  } else {
+    return data(null);
   }
 }
 
