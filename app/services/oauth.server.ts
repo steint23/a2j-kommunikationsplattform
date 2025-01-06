@@ -11,7 +11,12 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>;
 
-export const authenticator = new Authenticator<User>();
+interface AuthenticatedUserResponse {
+  user: User;
+  sessionCookieHeader: string;
+}
+
+export const authenticator = new Authenticator<AuthenticatedUserResponse>();
 
 authenticator.use(
   new OAuth2Strategy(
@@ -26,14 +31,23 @@ authenticator.use(
       codeChallengeMethod: CodeChallengeMethod.S256,
     },
     async ({ tokens, request }) => {
-      const user: User = {
-        accessToken: tokens.accessToken(),
-        expiresAt: Date.now() + 60 * 60 * 1000 * 24 * 14, // 14 days
+      const accessToken = tokens.accessToken();
+      const expiresAt = Date.now() + 60 * 60 * 1000 * 24 * 14;
+      const sessionCookieHeader = await createUserSession(
+        accessToken,
+        expiresAt,
+        request,
+      );
+
+      const response: AuthenticatedUserResponse = {
+        user: {
+          accessToken,
+          expiresAt,
+        },
+        sessionCookieHeader,
       };
 
-      await createUserSession(user, request);
-
-      return user;
+      return response;
     },
   ),
   "bea", // name of the strategy. When you call `authenticate`, you pass this name to use this strategy.

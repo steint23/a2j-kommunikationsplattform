@@ -17,11 +17,15 @@ const { getSession, commitSession, destroySession } =
 export { getSession, commitSession, destroySession };
 
 // Once a user has authenticated with the OAuth2 strategy, we create a session for the user.
-export const createUserSession = async (user: User, request: Request) => {
+export const createUserSession = async (
+  accessToken: string,
+  expiresAt: number,
+  request: Request,
+) => {
   const session = await getSession(request.headers.get("Cookie"));
 
-  session.set("accessToken", user.accessToken);
-  session.set("expiresAt", user.expiresAt);
+  session.set("accessToken", accessToken);
+  session.set("expiresAt", expiresAt);
 
   return commitSession(session);
 };

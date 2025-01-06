@@ -27,9 +27,15 @@ async function authUserRemixOAuth(request: Request) {
   const code = url.searchParams.get("code");
   if (code) {
     try {
-      let user = await authenticator.authenticate("bea", request);
-      console.log("user is", user);
-      throw redirect("/dashboard");
+      let authenticationResponse = await authenticator.authenticate(
+        "bea",
+        request,
+      );
+      return redirect("/dashboard", {
+        headers: {
+          "Set-Cookie": authenticationResponse.sessionCookieHeader,
+        },
+      });
     } catch (error) {
       console.error("Authentication error:", error);
     }
