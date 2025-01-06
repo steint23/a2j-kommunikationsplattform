@@ -29,6 +29,7 @@ async function authUserRemixOAuth(request: Request) {
     try {
       let user = await authenticator.authenticate("bea", request);
       console.log("user is", user);
+      throw redirect("/dashboard");
     } catch (error) {
       console.error("Authentication error:", error);
     }
