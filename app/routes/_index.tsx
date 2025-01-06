@@ -17,9 +17,7 @@ export const meta: MetaFunction = () => {
 export async function loader({ request }: LoaderFunctionArgs) {
   // We have requested this to be updated to the auth.callback endpoint, but it has not yet been done.
   // As a workaround, we will call the authUserRemixOAuth function here, instead of in the `auth.callback.tsx` route.
-  await authUserRemixOAuth(request);
-
-  return data(null);
+  return await authUserRemixOAuth(request);
 }
 
 async function authUserRemixOAuth(request: Request) {
