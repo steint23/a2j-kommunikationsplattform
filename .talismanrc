@@ -9,14 +9,12 @@ fileignoreconfig:
     checksum: 3f194ddcbbfc8f9ac2a1655dcd288be0df200b3a285e1c96a5765b9664c1f88d
   - filename: .env.example
     checksum: e4f39c1718c11d16be854b2ff85c9bfb1d6ea9d5d1fafa3945515b5b458f0dcc
-  - filename: app/services/brakAuth.server.ts
-    checksum: d0ed7c5f8143376083b00304d514096728f6455e98aa2dfbe57e260868b28888
   - filename: app/config/config.server.ts
     checksum: 3e1bcb8f961ca98c3c018e9ea0eb3abbbce7b071f9cf7b0428b7c8be5f29e947
-  - filename: app/services/oauth.server.ts
-    checksum: 8adeb6ed54f89b211c51775ef5ee8c7237271b5e791884a9d6691bf24599786c
   - filename: app/services/session.server.ts
-    checksum: 3bd11eb583e1d75872148c2bf127c6eba067084379173b4f53fa83fc5a820cda
+    checksum: 53b3fb2c0f37f106048ea9bbe6cd4634686ee4035882d3ccedd50b0fd396b83c
+  - filename: app/services/oauth.server.ts
+    checksum: c7cf1c465b0a0a4eb5de3d84ea18b60f207ca622d989980cdb27ed9a5cf7a110
 version: ""
 scopeconfig:
   - scope: node
