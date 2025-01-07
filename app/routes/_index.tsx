@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { data, Link, redirect } from "@remix-run/react";
-import { authenticator } from "~/services/oauth.server";
+import { AuthenticationProvider, authenticator } from "~/services/oauth.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,7 +26,7 @@ async function authUserRemixOAuth(request: Request) {
   if (code) {
     try {
       let authenticationResponse = await authenticator.authenticate(
-        "bea",
+        AuthenticationProvider.BEA,
         request,
       );
       return redirect("/dashboard", {

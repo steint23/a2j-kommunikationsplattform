@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { authenticator } from "~/services/oauth.server";
+import { AuthenticationProvider, authenticator } from "~/services/oauth.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await authenticator.authenticate("bea", request);
+  await authenticator.authenticate(AuthenticationProvider.BEA, request);
   return null;
 };
