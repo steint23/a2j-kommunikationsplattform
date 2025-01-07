@@ -163,6 +163,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Restore Docker image cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            /tmp/.docker-cache
+          key: ${{ runner.os }}-docker-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
       - name: Load cached Docker image
         id: load-docker-image
         run: |
