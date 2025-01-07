@@ -1,20 +1,24 @@
-import { data, redirect, type LoaderFunction } from "@remix-run/node";
-import { authenticator } from "~/services/oauth.server";
+import { redirect, type LoaderFunction } from "@remix-run/node";
+import { AuthenticationProvider, authenticator } from "~/services/oauth.server";
 
-// needs to be done on root URL at the moment (redirect_url update needed by BRAK)
 export const loader: LoaderFunction = async ({ request }) => {
-  await authenticator
-    .authenticate("bea", request)
-    .then((data) => {
-      console.log("authorizeUser then", data);
-      throw redirect("/dashboard");
+  const authenticationProvider = AuthenticationProvider.BEA;
+  return authenticator
+    .authenticate(authenticationProvider, request)
+    .then((authenticationResponse) => {
+      return redirect("/dashboard", {
+        headers: {
+          "Set-Cookie": authenticationResponse.sessionCookieHeader,
+        },
+      });
     })
     .catch((error) => {
-      console.log("authorizeUser catch", error);
+      console.log(
+        `Failed to authenticate user at : ${authenticationProvider}`,
+        error,
+      );
       throw redirect("/error");
     });
-
-  return data(null);
 };
 
 export default function AuthCallback() {
