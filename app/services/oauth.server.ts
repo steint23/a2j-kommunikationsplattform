@@ -2,21 +2,22 @@ import { Authenticator } from "remix-auth";
 import { CodeChallengeMethod, OAuth2Strategy } from "remix-auth-oauth2";
 import { config } from "~/config/config.server";
 import { createUserSession } from "./session.server";
-import { z } from "zod";
 
-export const UserSchema = z.object({
-  accessToken: z.string(),
-  expiresAt: z.number(),
-});
-
-export type User = z.infer<typeof UserSchema>;
-
-interface AuthenticatedUserResponse {
-  user: User;
-  sessionCookieHeader: string;
+export interface AuthenticationContext {
+  accessToken: string;
+  expiresAt: number;
 }
 
-export const authenticator = new Authenticator<AuthenticatedUserResponse>();
+export interface AuthenticationResponse {
+  authenticationContext: AuthenticationContext;
+  sessionCookieHeader: string; // This is the Set-Cookie header that should be set in the response to the client
+}
+
+export enum AuthenticationProvider {
+  BEA = "bea",
+}
+
+export const authenticator = new Authenticator<AuthenticationResponse>();
 
 authenticator.use(
   new OAuth2Strategy(
@@ -32,15 +33,15 @@ authenticator.use(
     },
     async ({ tokens, request }) => {
       const accessToken = tokens.accessToken();
-      const expiresAt = Date.now() + 60 * 60 * 1000 * 24 * 14;
+      const expiresAt = Date.now() + 60 * 60 * 1000 * 24 * 14; // 14 days
       const sessionCookieHeader = await createUserSession(
         accessToken,
         expiresAt,
         request,
       );
 
-      const response: AuthenticatedUserResponse = {
-        user: {
+      const response: AuthenticationResponse = {
+        authenticationContext: {
           accessToken,
           expiresAt,
         },
@@ -50,5 +51,5 @@ authenticator.use(
       return response;
     },
   ),
-  "bea", // name of the strategy. When you call `authenticate`, you pass this name to use this strategy.
+  AuthenticationProvider.BEA,
 );

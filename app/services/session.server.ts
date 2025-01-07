@@ -1,6 +1,6 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import { config } from "~/config/config.server";
-import { User, UserSchema } from "./oauth.server";
+import type { AuthenticationContext } from "./oauth.server";
 
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
@@ -33,7 +33,7 @@ export const createUserSession = async (
 // We retrieve the user session from the request headers and ensure that the session has not expired.
 export const getUserSession = async (
   request: Request,
-): Promise<User | null> => {
+): Promise<AuthenticationContext | null> => {
   const session = await getSession(request.headers.get("Cookie"));
   const accessToken = session.get("accessToken");
   const expiresAt = session.get("expiresAt");
@@ -43,18 +43,10 @@ export const getUserSession = async (
     return null;
   }
 
-  const user = {
+  return {
     accessToken,
     expiresAt,
   };
-
-  try {
-    const parsedUser = UserSchema.parse(user);
-    return parsedUser;
-  } catch (error) {
-    console.error("Error parsing user session", error);
-    return null;
-  }
 };
 
 export const requireUserSession = async (request: Request) => {
