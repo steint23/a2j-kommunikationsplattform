@@ -87,15 +87,19 @@ jobs:
           name: playwright-a11y-test-results
           path: tests/a11y/playwright-report
 
-      - name: Cache Docker image so that it can simply be pushed in the next job
+      - name: Cache Docker image
         uses: actions/cache@v4
         with:
-          path: ${{ env.IMAGE_NAME }}_${{ github.sha }}.tar
-          key: ${{ runner.os }}-docker-${{ env.IMAGE_NAME }}-${{ github.sha }}
+          path: |
+            /tmp/.docker-cache
+          key: ${{ runner.os }}-docker-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
 
-      - name: Build an image from Dockerfile
+      - name: Build and cache image from Dockerfile
         run: |
           docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} . --build-arg COMMIT_SHA=${{ github.sha }}
+          docker save ${{ env.IMAGE_NAME }}:${{ github.sha }} -o /tmp/.docker-cache/${{ env.IMAGE_NAME }}_${{ github.sha }}.tar
 
       - name: Send failure to Slack
         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
@@ -162,7 +166,7 @@ jobs:
         run: |
           echo "IMAGE_NAME=${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-          if docker load -i ${{ env.IMAGE_NAME }}_${{ github.sha }}.tar; then
+          if docker load -i /tmp/.docker-cache/${{ env.IMAGE_NAME }}_${{ github.sha }}.tar; then
             echo "cache-hit=true" >> $GITHUB_ENV
             echo "::set-output name=cache-hit::true"
           else
