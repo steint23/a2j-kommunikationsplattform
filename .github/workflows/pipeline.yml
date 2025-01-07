@@ -98,7 +98,7 @@ jobs:
 
       - name: Build and cache image from Dockerfile
         run: |
-          mkdir -p /tmp/.docker-cache
+          mkdir -p /tmp/.docker-cache/${{ env.IMAGE_NAME }}
           docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} . --build-arg COMMIT_SHA=${{ github.sha }}
           docker save ${{ env.IMAGE_NAME }}:${{ github.sha }} -o /tmp/.docker-cache/${{ env.IMAGE_NAME }}_${{ github.sha }}.tar
 
