@@ -53,6 +53,9 @@ export const requireUserSession = async (request: Request) => {
   const userSession = await getUserSession(request);
 
   if (!userSession) {
+    console.log(
+      `User session not found on ${request.url}. Redirecting to login.`,
+    );
     throw redirect("/login");
   }
 
