@@ -19,7 +19,12 @@ export async function action({ request }: ActionFunctionArgs) {
     uploadHandler,
   );
 
-  const files = formData.getAll("files");
+  const files = formData.getAll("files") as File[];
+
+  for (const file of files) {
+    console.log("Inspecting file", file);
+  }
+
   // Validate the XML against the corresponding XJustix xsd schema
   // Call the /verfahren endpoint in the Justiz-Backend-API, reusing the same formData from the req to create a new Verfahren
   // Return the created verfahren_id
