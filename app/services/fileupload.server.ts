@@ -11,7 +11,7 @@ export async function getFilesFromMultipartFormData(
   // https://remix.run/docs/en/main/guides/file-uploads
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
-      maxPartSize: 5_000_000,
+      maxPartSize: 6_000_000_0, // 60MB
       file: ({ filename }) => filename,
       avoidFileConflicts: false,
     }),

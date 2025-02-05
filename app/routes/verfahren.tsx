@@ -13,3 +13,27 @@ export async function action({ request }: ActionFunctionArgs) {
     verfahren_id: "verfahren",
   };
 }
+
+export default function Verfahren() {
+  return (
+    <main className={"m-40 flex flex-col items-center"}>
+      <h1 className={"ds-heading-01-bold mb-40 break-all"}>Verfahren</h1>
+      <form method="post" encType="multipart/form-data">
+        <label htmlFor="files" className="">
+          Dateien hochladen
+        </label>
+        <input
+          type="file"
+          name="files"
+          id="files"
+          multiple
+          className="hidden"
+        />
+
+        <button type="submit" className={"ds-button"}>
+          Klage einreichen
+        </button>
+      </form>
+    </main>
+  );
+}
