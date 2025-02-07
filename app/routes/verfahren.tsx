@@ -7,6 +7,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   await requireUserSession(request);
   return null;
 };
+
 export async function action({ request }: ActionFunctionArgs) {
   await requireUserSession(request);
 
