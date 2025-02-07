@@ -1,0 +1,64 @@
+openapi: 3.0.1
+info:
+  title: KommunikationsPlattform API
+  description: KommunikationsPlattform API
+  version: 0.0.1
+paths:
+  /verfahren:
+    post:
+      summary: "Create a new Verfahren"
+      tags:
+        - "Verfahren"
+      description: "Uploads multiple files to create a new Verfahren. The files must be either XML or PDF files. The XML file is mandatory and must conform to the XJustiz schema."
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                    description: "An file to upload (XML or PDF)"
+                  description: "Multiple files to upload"
+      security:
+        - BearerAuth: []
+      responses:
+        "201":
+          description: "Verfahren created successfully."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verfahren_id:
+                    type: string
+                    format: uuid
+        "400":
+          description: "Invalid XML file format."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid XML format. Please upload valid XML files conforming to the XJustiz schema."
+        "500":
+          description: "Internal server error."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An unexpected error occurred on the server."
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
