@@ -35,7 +35,6 @@ FROM node:20.18.3-alpine3.21
 # TODO: Check https://hub.docker.com/r/library/node/tags?name=alpine3.20
 # - Remove npm update when CVE-2024-21538 is fixed (https://scout.docker.com/vulnerabilities/id/CVE-2024-21538?s=github)
 RUN npm update -g npm && npm cache clean --force && \
-    apk update && apk upgrade -a && apk cache clean && \
     apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER node
