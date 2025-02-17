@@ -30,7 +30,7 @@ COPY . ./
 RUN npm run build
 
 # Final image that runs the app
-FROM node:20.17.0-alpine3.20
+FROM node:20.18.1-alpine3.20
 
 # TODO: Check https://hub.docker.com/r/library/node/tags?name=alpine3.20
 # - Remove npm update when CVE-2024-21538 is fixed (https://scout.docker.com/vulnerabilities/id/CVE-2024-21538?s=github)
