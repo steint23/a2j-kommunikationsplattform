@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
-import { getFilesFromMultipartFormData } from "~/services/fileupload.server";
+import { getKlageeinreuchingFilesFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -11,7 +11,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 export async function action({ request }: ActionFunctionArgs) {
   await requireUserSession(request);
 
-  const files = getFilesFromMultipartFormData(request);
+  const klageeinreichungFiles =
+    await getKlageeinreuchingFilesFromRequest(request);
   return null;
 }
 
@@ -23,14 +24,29 @@ export default function Verfahren() {
       <h1 className={"ds-heading-01-bold mb-40 break-all"}>Verfahren</h1>
       <form method="post" encType="multipart/form-data">
         <div className="flex flex-col gap-4">
+          <label className="font-bold" htmlFor="xjustiz">
+            XJustiz-Datei
+          </label>
           <input
+            className="border-2 border-black-300 p-10"
+            type="file"
+            accept=".xml"
+            name="xjustiz"
+            id="xjustiz"
+            onChange={(e) =>
+              setFilesSelected((e?.target?.files?.length || 0) > 0)
+            }
+          />
+          <label className="font-bold" htmlFor="files">
+            Anhänge
+          </label>
+
+          <input
+            className="border-2 border-black-300 p-10"
             type="file"
             name="files"
             id="files"
             multiple
-            onChange={(e) =>
-              setFilesSelected((e?.target?.files?.length || 0) > 0)
-            }
           />
           {filesSelected && (
             <button type="submit" className={"ds-button"}>
