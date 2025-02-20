@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
 import { getFormDataFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
+import { JustizBackendServiceImpl } from "~/services/justizbackend.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   // await requireUserSession(request);
@@ -10,19 +11,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export async function action({ request }: ActionFunctionArgs) {
   // await requireUserSession(request);
-
-  const klageeinreichungFiles =
-    await getKlageeinreuchingFilesFromRequest(request);
-  return null;
-}
-
-export async function getKlageeinreuchingFilesFromRequest(request: Request) {
+  const justizBackendService = new JustizBackendServiceImpl();
   const formData = await getFormDataFromRequest(request);
 
   const xjustiz = formData.get("xjustiz") as File;
   const files = formData.getAll("files") as File[];
 
-  return { xjustiz, files };
+  await justizBackendService.createVerfahren(xjustiz, files);
+
+  return null;
 }
 
 export default function Verfahren() {
