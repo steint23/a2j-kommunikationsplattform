@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { getKlageeinreuchingFilesFromRequest } from "~/services/fileupload.server";
+import { getFormDataFromRequest } from "~/services/fileupload.server";
 
 describe("File Upload Service", () => {
   it("should extract files from multipart form data correctly", async () => {
@@ -17,12 +17,9 @@ describe("File Upload Service", () => {
       body: formData,
     });
 
-    const klageEinreichungFiles =
-      await getKlageeinreuchingFilesFromRequest(request);
-    const xjustix = klageEinreichungFiles.xjustiz;
-    const additionalFiles = klageEinreichungFiles.files;
+    const formDataFromRequest = await getFormDataFromRequest(request);
+    const xjustiz = formDataFromRequest.get("xjustiz") as File;
 
-    expect(xjustix.text()).resolves.toBe(fileContent);
-    expect(additionalFiles).toHaveLength(0);
+    expect(xjustiz.text()).resolves.toBe(fileContent);
   });
 });

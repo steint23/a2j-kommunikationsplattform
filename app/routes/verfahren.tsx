@@ -1,19 +1,28 @@
 import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
-import { getKlageeinreuchingFilesFromRequest } from "~/services/fileupload.server";
+import { getFormDataFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await requireUserSession(request);
+  // await requireUserSession(request);
   return null;
 };
 
 export async function action({ request }: ActionFunctionArgs) {
-  await requireUserSession(request);
+  // await requireUserSession(request);
 
   const klageeinreichungFiles =
     await getKlageeinreuchingFilesFromRequest(request);
   return null;
+}
+
+export async function getKlageeinreuchingFilesFromRequest(request: Request) {
+  const formData = await getFormDataFromRequest(request);
+
+  const xjustiz = formData.get("xjustiz") as File;
+  const files = formData.getAll("files") as File[];
+
+  return { xjustiz, files };
 }
 
 export default function Verfahren() {
