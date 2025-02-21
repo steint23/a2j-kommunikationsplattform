@@ -22,6 +22,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
     formData.append("xjustiz", xjustiz);
     files.forEach((file) => formData.append("file", file));
 
+    // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
     const headers = {
       "X-User-ID": "Pierre",
     };
