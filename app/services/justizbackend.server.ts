@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 interface JustizBackendService {
   createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren>;
   getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]>;
+  getVerfahren(id: string): Promise<Verfahren | undefined>;
 }
 
 class JustizBackendServiceMockImpl implements JustizBackendService {
@@ -11,6 +12,10 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
 
   async getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]> {
     return this.verfahren;
+  }
+
+  async getVerfahren(id: string): Promise<Verfahren | undefined> {
+    return this.verfahren.find((v) => v.id === id);
   }
 
   async createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren> {
@@ -32,6 +37,52 @@ class JustizBackendServiceImpl implements JustizBackendService {
   constructor(url: string = "https://kompla.sinc.de") {
     this.baseUrl = url;
   }
+
+  async getVerfahren(id: string): Promise<Verfahren | undefined> {
+    // Hack until SINC has a valid certificate
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+    const url = `${this.baseUrl}/api/v1/verfahren/${id}`;
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "X-User-ID": "Pierre", // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 404) {
+        console.log("Verfahren not found: ", id);
+        return undefined;
+      }
+
+      if (!response.ok) {
+        response.body
+          ?.getReader()
+          .read()
+          .then((r) =>
+            console.error("Failed to fetch Verfahren: ", r.value?.toString()),
+          );
+        throw new Error(`Failed to fetch Verfahren`);
+      }
+
+      const body = await response.json();
+      const parsedVerfahren: Verfahren = VerfahrenSchema.parse(body);
+
+      console.log("Fetched Verfahren successfully:", parsedVerfahren);
+      return parsedVerfahren;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Handle zod validation errors
+        console.error("Zod validation error:", error.errors);
+      } else {
+        console.error("Error fetching Verfahren:", error);
+      }
+      throw error;
+    }
+  }
+
   async getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]> {
     // Hack until SINC has a valid certificate
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
