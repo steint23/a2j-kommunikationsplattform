@@ -40,13 +40,24 @@ function ListVerfahren() {
     return null;
   }
 
-  return verfahren.map((v) => (
-    <div key={v.id} className="flex flex-col gap-4">
-      <h2 className="font-bold">Verfahren {v.aktenzeichen}</h2>
-      <p>Status: {v.status}</p>
-      <p>Geändert am: {v.status_changed}</p>
+  return (
+    <div className="mt-24 ">
+      {verfahren.map((v) => (
+        <div id={v.id} className="border-2 border-gray-500 p-24 mb-24">
+          <div className="font-bold text-3xl">{v.aktenzeichen}</div>
+          <div className="text-md text-gray-500">Aktenzeichen</div>
+
+          <div className="grid grid-cols-2 gap-2 mt-10">
+            <div className="text-xl">{v.status}</div>
+            <div className="text-xl">{v.status_changed}</div>
+            <div className="text-md text-gray-500">Einreichungsstatus</div>
+
+            <div className="text-md text-gray-500">Zuletzt geändert</div>
+          </div>
+        </div>
+      ))}
     </div>
-  ));
+  );
 }
 function CreateVerfahren() {
   const [xjustizSelected, setXjustizSelected] = useState(false);
