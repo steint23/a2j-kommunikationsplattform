@@ -35,11 +35,8 @@ export default function Verfahren() {
 function ListVerfahren() {
   const verfahren = useLoaderData<typeof loader>();
   const navigate = useNavigate();
-  interface ExpandedState {
-    [key: string]: boolean;
-  }
 
-  const [expanded, setExpanded] = useState<ExpandedState>({});
+  const [expanded, setExpanded] = useState<string | null>(null);
   const [navigateTo, setNavigateTo] = useState<string | null>(null);
 
   useEffect(() => {
@@ -50,11 +47,10 @@ function ListVerfahren() {
   }, [navigateTo, navigate]);
 
   const toggleSidebar = (id: string) => {
-    setExpanded((prevExpanded: ExpandedState) => {
-      const isExpanded = !prevExpanded[id];
-
+    setExpanded((prevExpanded) => {
+      const isExpanded = prevExpanded !== id;
       setNavigateTo(isExpanded ? `/verfahren/${id}` : `/verfahren`);
-      return { ...prevExpanded, [id]: isExpanded };
+      return isExpanded ? id : null;
     });
   };
 
@@ -80,7 +76,7 @@ function ListVerfahren() {
               <div className="text-sm text-gray-500">Zuletzt geändert</div>
             </div>
 
-            {expanded[v.id] && (
+            {expanded === v.id && (
               <div className="mt-20">
                 <Outlet />
               </div>
@@ -92,7 +88,7 @@ function ListVerfahren() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-24 w-24 text-gray-500 transition-transform ${expanded[v.id] ? "rotate-180" : ""}`}
+              className={`h-24 w-24 text-gray-500 transition-transform ${expanded === v.id ? "rotate-180" : ""}`}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
