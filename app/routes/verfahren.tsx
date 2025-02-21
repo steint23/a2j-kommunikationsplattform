@@ -109,7 +109,7 @@ function CreateVerfahren() {
   const [xjustizSelected, setXjustizSelected] = useState(false);
   const [filesSelected, setFilesSelected] = useState(false);
   return (
-    <form method="post" encType="multipart/form-data">
+    <form method="post" encType="multipart/form-data" action="/verfahren">
       <div className="flex flex-col gap-4">
         <label className="font-bold" htmlFor="xjustiz">
           XJustiz-Datei <span className="text-red-500">*</span>
