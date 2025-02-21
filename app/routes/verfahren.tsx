@@ -46,6 +46,7 @@ function ListVerfahren() {
   ));
 }
 function CreateVerfahren() {
+  const [xjustizSelected, setXjustizSelected] = useState(false);
   const [filesSelected, setFilesSelected] = useState(false);
   return (
     <form method="post" encType="multipart/form-data">
@@ -54,13 +55,13 @@ function CreateVerfahren() {
           XJustiz-Datei
         </label>
         <input
-          className="border-2 border-black-300 p-10"
+          className={`border-2 border-black-300 p-10 hover:border-blue-600 ${xjustizSelected ? "border-green-500" : ""}`}
           type="file"
           accept=".xml"
           name="xjustiz"
           id="xjustiz"
           onChange={(e) =>
-            setFilesSelected((e?.target?.files?.length || 0) > 0)
+            setXjustizSelected((e?.target?.files?.length || 0) > 0)
           }
         />
         <label className="font-bold" htmlFor="files">
@@ -68,14 +69,17 @@ function CreateVerfahren() {
         </label>
 
         <input
-          className="border-2 border-black-300 p-10"
+          className={`border-2 border-black-300 p-10 hover:border-blue-600 ${filesSelected ? "border-green-500" : ""}`}
           type="file"
           name="files"
           id="files"
           multiple
+          onChange={(e) =>
+            setFilesSelected((e?.target?.files?.length || 0) > 0)
+          }
         />
-        {filesSelected && (
-          <button type="submit" className={"ds-button"}>
+        {xjustizSelected && (
+          <button type="submit" className={"ds-button mt-24"}>
             Klage einreichen
           </button>
         )}
