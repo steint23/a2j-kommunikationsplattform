@@ -41,18 +41,20 @@ function ListVerfahren() {
   }
 
   return (
-    <div className="mt-24 ">
+    <div className="mt-24 flex flex-col gap-24 w-full sm:w-2/3 lg:w-1/2">
       {verfahren.map((v) => (
         <div id={v.id} className="border-2 border-gray-500 p-24 mb-24">
           <div className="font-bold text-3xl">{v.aktenzeichen}</div>
-          <div className="text-md text-gray-500">Aktenzeichen</div>
+          <div className="text-sm text-gray-500">Aktenzeichen</div>
 
-          <div className="grid grid-cols-2 gap-2 mt-10">
+          <div className="grid grid-cols-2 gap-y-2  mt-24">
             <div className="text-xl">{v.status}</div>
-            <div className="text-xl">{v.status_changed}</div>
-            <div className="text-md text-gray-500">Einreichungsstatus</div>
+            <div className="text-xl">
+              {new Date(v.status_changed).toLocaleDateString("de-DE")}
+            </div>
+            <div className="text-sm text-gray-500">Einreichungsstatus</div>
 
-            <div className="text-md text-gray-500">Zuletzt geändert</div>
+            <div className="text-sm text-gray-500">Zuletzt geändert</div>
           </div>
         </div>
       ))}
