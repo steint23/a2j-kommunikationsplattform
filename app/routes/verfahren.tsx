@@ -41,7 +41,7 @@ function ListVerfahren() {
   }
 
   return (
-    <div className="mt-24 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-1/2">
+    <div className="mt-36 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-1/2">
       {verfahren.map((v) => (
         <div key={v.id} className="border-2 border-gray-500 p-24 mb-24">
           <div className="font-bold text-3xl">{v.aktenzeichen}</div>
@@ -96,7 +96,7 @@ function CreateVerfahren() {
         />
         <button
           type="submit"
-          className={`ds-button mt-24 ${xjustizSelected ? "" : "is-disabled"}`}
+          className={`ds-button mt-20 ${xjustizSelected ? "" : "is-disabled"}`}
           disabled={!xjustizSelected}
         >
           Klage einreichen
