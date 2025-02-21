@@ -4,17 +4,16 @@ import { getFormDataFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
 import { JustizBackendServiceImpl } from "~/services/justizbackend.server";
 import { useLoaderData } from "@remix-run/react";
+import { justizBackendService } from "~/services/servicescontext.server";
 
 export async function loader() {
   // await requireUserSession(request);
-  const justizBackendService = new JustizBackendServiceImpl();
   const verfahren = await justizBackendService.getAllVerfahren(10, 0);
   return verfahren;
 }
 
 export async function action({ request }: ActionFunctionArgs) {
   // await requireUserSession(request);
-  const justizBackendService = new JustizBackendServiceImpl();
   const formData = await getFormDataFromRequest(request);
 
   const xjustiz = formData.get("xjustiz") as File;

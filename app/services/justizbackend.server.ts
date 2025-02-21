@@ -1,32 +1,27 @@
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
 interface JustizBackendService {
   createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren>;
   getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]>;
 }
 
-class JustizBackendMockImpl implements JustizBackendService {
+class JustizBackendServiceMockImpl implements JustizBackendService {
   verfahren: Verfahren[] = [];
 
   async getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]> {
-    return [
-      {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        aktenzeichen: "AZ123456",
-        status: "InTransmission",
-        status_changed: new Date().toISOString(),
-      },
-    ];
+    return this.verfahren;
   }
 
   async createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren> {
     const mockVerfahren: Verfahren = {
-      id: "123e4567-e89b-12d3-a456-426614174000",
+      id: uuidv4(),
       aktenzeichen: "AZ123456",
       status: "InTransmission",
       status_changed: new Date().toISOString(),
     };
     this.verfahren.push(mockVerfahren);
+    console.log("Created Verfahren:", this.verfahren);
     return mockVerfahren;
   }
 }
@@ -146,5 +141,5 @@ const VerfahrenSchema = z.object({
 // type VerfahrenStatus = z.infer<typeof VerfahrenStatusSchema>;
 type Verfahren = z.infer<typeof VerfahrenSchema>;
 
-export { JustizBackendServiceImpl, JustizBackendMockImpl };
+export { JustizBackendServiceImpl, JustizBackendServiceMockImpl };
 export type { JustizBackendService };
