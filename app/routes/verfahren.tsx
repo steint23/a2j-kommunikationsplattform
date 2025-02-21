@@ -43,7 +43,7 @@ function ListVerfahren() {
   return (
     <div className="mt-24 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-1/2">
       {verfahren.map((v) => (
-        <div id={v.id} className="border-2 border-gray-500 p-24 mb-24">
+        <div key={v.id} className="border-2 border-gray-500 p-24 mb-24">
           <div className="font-bold text-3xl">{v.aktenzeichen}</div>
           <div className="text-sm text-gray-500">Aktenzeichen</div>
 
