@@ -36,6 +36,10 @@ export default function Verfahren() {
 function ListVerfahren() {
   const verfahren = useLoaderData<typeof loader>();
 
+  if (!verfahren) {
+    return null;
+  }
+
   return verfahren.map((v) => (
     <div key={v.id} className="flex flex-col gap-4">
       <h2 className="font-bold">Verfahren {v.aktenzeichen}</h2>
@@ -77,11 +81,13 @@ function CreateVerfahren() {
             setFilesSelected((e?.target?.files?.length || 0) > 0)
           }
         />
-        {xjustizSelected && (
-          <button type="submit" className={"ds-button mt-24"}>
-            Klage einreichen
-          </button>
-        )}
+        <button
+          type="submit"
+          className={`ds-button mt-24 ${xjustizSelected ? "" : "is-disabled"}`}
+          disabled={!xjustizSelected}
+        >
+          Klage einreichen
+        </button>
       </div>
     </form>
   );

@@ -16,7 +16,6 @@ class ServicesContext {
   }
 }
 
-// Usage
 const justizBackendService = ServicesContext.getJustizBackendService();
 
 export { ServicesContext, justizBackendService };
