@@ -20,6 +20,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const response = await fetch(url, {
         method: "GET",
         headers: {
+          "X-User-ID": "Pierre", // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
           "Content-Type": "application/json",
         },
       });

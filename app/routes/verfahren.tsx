@@ -1,13 +1,16 @@
 import { useState } from "react";
-import type { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
+import type { ActionFunctionArgs } from "@remix-run/node";
 import { getFormDataFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
 import { JustizBackendServiceImpl } from "~/services/justizbackend.server";
+import { useLoaderData } from "@remix-run/react";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader() {
   // await requireUserSession(request);
-  return null;
-};
+  const justizBackendService = new JustizBackendServiceImpl();
+  const verfahren = await justizBackendService.getAllVerfahren(10, 0);
+  return verfahren;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   // await requireUserSession(request);
@@ -27,10 +30,21 @@ export default function Verfahren() {
     <main className={"m-40 flex flex-col items-center"}>
       <h1 className={"ds-heading-01-bold mb-40 break-all"}>Verfahren</h1>
       <CreateVerfahren />
+      <ListVerfahren />
     </main>
   );
 }
+function ListVerfahren() {
+  const verfahren = useLoaderData<typeof loader>();
 
+  return verfahren.map((v) => (
+    <div key={v.id} className="flex flex-col gap-4">
+      <h2 className="font-bold">Verfahren {v.aktenzeichen}</h2>
+      <p>Status: {v.status}</p>
+      <p>Geändert am: {v.status_changed}</p>
+    </div>
+  ));
+}
 function CreateVerfahren() {
   const [filesSelected, setFilesSelected] = useState(false);
   return (
