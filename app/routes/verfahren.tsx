@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { getFormDataFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
-import { Outlet, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useNavigate } from "@remix-run/react";
 import { justizBackendService } from "~/services/servicescontext.server";
 
 export async function loader() {
@@ -34,22 +34,12 @@ export default function Verfahren() {
 }
 function ListVerfahren() {
   const verfahren = useLoaderData<typeof loader>();
-  const navigate = useNavigate();
 
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [navigateTo, setNavigateTo] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (navigateTo) {
-      navigate(navigateTo);
-      setNavigateTo(null);
-    }
-  }, [navigateTo, navigate]);
 
   const toggleSidebar = (id: string) => {
     setExpanded((prevExpanded) => {
       const isExpanded = prevExpanded !== id;
-      setNavigateTo(isExpanded ? `/verfahren/${id}` : `/verfahren`);
       return isExpanded ? id : null;
     });
   };
@@ -61,7 +51,13 @@ function ListVerfahren() {
   return (
     <div className="mt-36 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-1/2">
       {verfahren.map((v) => (
-        <div key={v.id} className="flex border-2 border-gray-500 p-24 mb-24">
+        <Link
+          to={`/verfahren/${v.id}`}
+          key={v.id}
+          className="flex border-2 border-gray-500 p-24 mb-24"
+          onClick={() => toggleSidebar(v.id)}
+          preventScrollReset={true}
+        >
           <div className="w-full">
             <div className="font-bold text-3xl">{v.aktenzeichen}</div>
             <div className="text-sm text-gray-500">Aktenzeichen</div>
@@ -82,10 +78,7 @@ function ListVerfahren() {
               </div>
             )}
           </div>
-          <div
-            className=" my-auto ml-auto cursor-pointer"
-            onClick={() => toggleSidebar(v.id)}
-          >
+          <div className=" my-auto ml-auto cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={`h-24 w-24 text-gray-500 transition-transform ${expanded === v.id ? "rotate-180" : ""}`}
@@ -99,7 +92,7 @@ function ListVerfahren() {
               />
             </svg>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
