@@ -55,7 +55,7 @@ function CreateVerfahren() {
     <form method="post" encType="multipart/form-data">
       <div className="flex flex-col gap-4">
         <label className="font-bold" htmlFor="xjustiz">
-          XJustiz-Datei
+          XJustiz-Datei <span className="text-red-500">*</span>
         </label>
         <input
           className={`border-2 border-black-300 p-10 hover:border-blue-600 ${xjustizSelected ? "border-green-500" : ""}`}
