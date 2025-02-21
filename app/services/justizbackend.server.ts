@@ -5,6 +5,32 @@ interface JustizBackendService {
   getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]>;
 }
 
+class JustizBackendMockImpl implements JustizBackendService {
+  verfahren: Verfahren[] = [];
+
+  async getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]> {
+    return [
+      {
+        id: "123e4567-e89b-12d3-a456-426614174000",
+        aktenzeichen: "AZ123456",
+        status: "InTransmission",
+        status_changed: new Date().toISOString(),
+      },
+    ];
+  }
+
+  async createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren> {
+    const mockVerfahren: Verfahren = {
+      id: "123e4567-e89b-12d3-a456-426614174000",
+      aktenzeichen: "AZ123456",
+      status: "InTransmission",
+      status_changed: new Date().toISOString(),
+    };
+    this.verfahren.push(mockVerfahren);
+    return mockVerfahren;
+  }
+}
+
 class JustizBackendServiceImpl implements JustizBackendService {
   private baseUrl: string;
 
@@ -120,5 +146,5 @@ const VerfahrenSchema = z.object({
 // type VerfahrenStatus = z.infer<typeof VerfahrenStatusSchema>;
 type Verfahren = z.infer<typeof VerfahrenSchema>;
 
-export { JustizBackendServiceImpl };
+export { JustizBackendServiceImpl, JustizBackendMockImpl };
 export type { JustizBackendService };
