@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { getFormDataFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
-import { JustizBackendServiceImpl } from "~/services/justizbackend.server";
-import { useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData, useNavigate } from "@remix-run/react";
 import { justizBackendService } from "~/services/servicescontext.server";
 
 export async function loader() {
@@ -35,6 +34,29 @@ export default function Verfahren() {
 }
 function ListVerfahren() {
   const verfahren = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+  interface ExpandedState {
+    [key: string]: boolean;
+  }
+
+  const [expanded, setExpanded] = useState<ExpandedState>({});
+  const [navigateTo, setNavigateTo] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (navigateTo) {
+      navigate(navigateTo);
+      setNavigateTo(null);
+    }
+  }, [navigateTo, navigate]);
+
+  const toggleSidebar = (id: string) => {
+    setExpanded((prevExpanded: ExpandedState) => {
+      const isExpanded = !prevExpanded[id];
+
+      setNavigateTo(isExpanded ? `/verfahren/${id}` : `/verfahren`);
+      return { ...prevExpanded, [id]: isExpanded };
+    });
+  };
 
   if (!verfahren) {
     return null;
@@ -43,24 +65,50 @@ function ListVerfahren() {
   return (
     <div className="mt-36 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-1/2">
       {verfahren.map((v) => (
-        <div key={v.id} className="border-2 border-gray-500 p-24 mb-24">
-          <div className="font-bold text-3xl">{v.aktenzeichen}</div>
-          <div className="text-sm text-gray-500">Aktenzeichen</div>
+        <div key={v.id} className="flex border-2 border-gray-500 p-24 mb-24">
+          <div className="w-full">
+            <div className="font-bold text-3xl">{v.aktenzeichen}</div>
+            <div className="text-sm text-gray-500">Aktenzeichen</div>
 
-          <div className="grid grid-cols-2 gap-y-2  mt-24">
-            <div className="text-xl">{v.status}</div>
-            <div className="text-xl">
-              {new Date(v.status_changed).toLocaleDateString("de-DE")}
+            <div className="grid grid-cols-2 gap-y-2  mt-24">
+              <div className="text-xl">{v.status}</div>
+              <div className="text-xl">
+                {new Date(v.status_changed).toLocaleDateString("de-DE")}
+              </div>
+              <div className="text-sm text-gray-500">Einreichungsstatus</div>
+
+              <div className="text-sm text-gray-500">Zuletzt geändert</div>
             </div>
-            <div className="text-sm text-gray-500">Einreichungsstatus</div>
 
-            <div className="text-sm text-gray-500">Zuletzt geändert</div>
+            {expanded[v.id] && (
+              <div className="mt-20">
+                <Outlet />
+              </div>
+            )}
+          </div>
+          <div
+            className=" my-auto ml-auto cursor-pointer"
+            onClick={() => toggleSidebar(v.id)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-24 w-24 text-gray-500 transition-transform ${expanded[v.id] ? "rotate-180" : ""}`}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
           </div>
         </div>
       ))}
     </div>
   );
 }
+
 function CreateVerfahren() {
   const [xjustizSelected, setXjustizSelected] = useState(false);
   const [filesSelected, setFilesSelected] = useState(false);
