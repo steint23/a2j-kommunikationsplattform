@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { getFormDataFromRequest } from "~/services/fileupload.server";
 import { requireUserSession } from "~/services/session.server";
-import { Link, Outlet, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useNavigation } from "@remix-run/react";
 import { justizBackendService } from "~/services/servicescontext.server";
 
 export async function loader() {
@@ -34,7 +34,7 @@ export default function Verfahren() {
 }
 function ListVerfahren() {
   const verfahren = useLoaderData<typeof loader>();
-
+  const navigation = useNavigation();
   const [expanded, setExpanded] = useState<string | null>(null);
 
   const toggleSidebar = (id: string) => {
@@ -68,7 +68,11 @@ function ListVerfahren() {
 
             {expanded === v.id && (
               <div className="mt-20">
-                <Outlet />
+                {navigation.state === "loading" ? (
+                  <div>Datenraum wird geladen...</div>
+                ) : (
+                  <Outlet />
+                )}
               </div>
             )}
           </div>
