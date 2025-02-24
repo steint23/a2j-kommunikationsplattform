@@ -51,13 +51,7 @@ function ListVerfahren() {
   return (
     <div className="mt-36 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-1/2">
       {verfahren.map((v) => (
-        <Link
-          to={`/verfahren/${v.id}`}
-          key={v.id}
-          className="flex border-2 border-gray-500 p-24"
-          onClick={() => toggleSidebar(v.id)}
-          preventScrollReset={true}
-        >
+        <div className="flex border-2 border-gray-500 p-24">
           <div className="w-full">
             <div className="font-bold text-3xl">{v.aktenzeichen}</div>
             <div className="text-sm text-gray-500">Aktenzeichen</div>
@@ -78,21 +72,29 @@ function ListVerfahren() {
               </div>
             )}
           </div>
-          <div className=" my-auto ml-auto cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`h-24 w-24 text-gray-500 transition-transform ${expanded === v.id ? "rotate-180" : ""}`}
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-        </Link>
+          <Link
+            to={`/verfahren/${v.id}`}
+            key={v.id}
+            onClick={() => toggleSidebar(v.id)}
+            preventScrollReset={true}
+            className="items-stretch cursor-pointer pl-24 border-l-2 border-gray-300 flex"
+          >
+            <div className="my-auto">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-24 w-24 text-gray-500 transition-transform ${expanded === v.id ? "rotate-180" : ""}`}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </Link>
+        </div>
       ))}
     </div>
   );
