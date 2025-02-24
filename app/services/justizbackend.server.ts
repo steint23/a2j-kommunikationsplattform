@@ -57,13 +57,15 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
     const mockDokumente: Dokument[] = [
       {
         id: uuidv4(),
-        name: "Dokument 1",
+        name: xjustiz.name,
       },
-      {
+    ].concat(
+      files.map((file) => ({
         id: uuidv4(),
-        name: "Dokument 2",
-      },
-    ];
+        name: file.name,
+      })),
+    );
+
     this.dokumente.set(mockAkte.aktenteile![0].id!, mockDokumente);
 
     console.log("Created Verfahren:", this.verfahren);
