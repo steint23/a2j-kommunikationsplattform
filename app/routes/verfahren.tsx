@@ -51,7 +51,7 @@ function ListVerfahren() {
   return (
     <div className="mt-36 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-1/2">
       {verfahren.map((v) => (
-        <div className="flex border-2 border-gray-500 p-24">
+        <div key={v.id} className="flex border-2 border-gray-500 p-24">
           <div className="w-full">
             <div className="font-bold text-3xl">{v.aktenzeichen}</div>
             <div className="text-sm text-gray-500">Aktenzeichen</div>
@@ -74,7 +74,6 @@ function ListVerfahren() {
           </div>
           <Link
             to={`/verfahren/${v.id}`}
-            key={v.id}
             onClick={() => toggleSidebar(v.id)}
             preventScrollReset={true}
             className="items-stretch cursor-pointer pl-24 border-l-2 border-gray-300 flex"
