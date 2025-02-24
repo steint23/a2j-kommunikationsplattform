@@ -60,10 +60,12 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
         name: xjustiz.name,
       },
     ].concat(
-      files.map((file) => ({
-        id: uuidv4(),
-        name: file.name,
-      })),
+      files
+        .filter((file) => file.size > 0)
+        .map((file) => ({
+          id: uuidv4(),
+          name: file.name,
+        })),
     );
 
     this.dokumente.set(mockAkte.aktenteile![0].id!, mockDokumente);
