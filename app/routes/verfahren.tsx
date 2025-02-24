@@ -54,7 +54,7 @@ function ListVerfahren() {
         <Link
           to={`/verfahren/${v.id}`}
           key={v.id}
-          className="flex border-2 border-gray-500 p-24 mb-24"
+          className="flex border-2 border-gray-500 p-24"
           onClick={() => toggleSidebar(v.id)}
           preventScrollReset={true}
         >
