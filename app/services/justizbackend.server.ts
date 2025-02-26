@@ -6,18 +6,23 @@ interface JustizBackendService {
   getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]>;
   getVerfahren(id: string): Promise<Verfahren | undefined>;
   getAkte(verfahrenId: string): Promise<Akte | undefined>;
-  getDokumente(
+  getAllDokumente(
     verfahrenId: string,
     aktenteilId: string,
     limit: number,
     offset: number,
-  ): Promise<DokumentResponse>;
+  ): Promise<AllDokumenteResponse>;
+  getDokumentFile(
+    verfahrenId: string,
+    dokumentId: string,
+  ): Promise<DokumentFile | undefined>; // New method
 }
 
 class JustizBackendServiceMockImpl implements JustizBackendService {
   verfahren: Verfahren[] = [];
   akten: Map<string, Akte> = new Map(); // verfahrenId -> akte
   dokumente: Map<string, Dokument[]> = new Map(); // aktenteilId -> dokumente
+  dokumentFiles: Map<string, Blob> = new Map(); // dokumentId -> file
 
   async getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]> {
     return this.verfahren;
@@ -68,6 +73,10 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
         })),
     );
 
+    mockDokumente.forEach((dokument) => {
+      this.dokumentFiles.set(dokument.id!, new Blob([dokument.name!]));
+    });
+
     this.dokumente.set(mockAkte.aktenteile![0].id!, mockDokumente);
 
     console.log("Created Verfahren:", this.verfahren);
@@ -78,12 +87,12 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
     return this.akten.get(verfahrenId);
   }
 
-  async getDokumente(
+  async getAllDokumente(
     verfahrenId: string,
     aktenteilId: string,
     limit: number,
     offset: number,
-  ): Promise<DokumentResponse> {
+  ): Promise<AllDokumenteResponse> {
     const dokumente = this.dokumente.get(aktenteilId) || [];
     const paginatedDokumente = dokumente.slice(offset, offset + limit);
     return {
@@ -91,6 +100,20 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
       dokumente: paginatedDokumente,
       count: dokumente.length,
     };
+  }
+
+  async getDokumentFile(
+    verfahrenId: string,
+    dokumentId: string,
+  ): Promise<DokumentFile | undefined> {
+    const blob = this.dokumentFiles.get(dokumentId);
+    const fileName =
+      this.dokumente.get(verfahrenId)?.find((d) => d.id === dokumentId)?.name ||
+      "dokument.pdf";
+    if (blob) {
+      return { file: blob, fileName };
+    }
+    return undefined;
   }
 }
 
@@ -282,12 +305,12 @@ class JustizBackendServiceImpl implements JustizBackendService {
     }
   }
 
-  async getDokumente(
+  async getAllDokumente(
     verfahrenId: string,
     aktenteilId: string,
     limit: number,
     offset: number,
-  ): Promise<DokumentResponse> {
+  ): Promise<AllDokumenteResponse> {
     // Hack until SINC has a valid certificate
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -317,8 +340,8 @@ class JustizBackendServiceImpl implements JustizBackendService {
       }
 
       const body = await response.json();
-      const parsedDokumentResponse: DokumentResponse =
-        DokumentResponseSchema.parse(body);
+      const parsedDokumentResponse: AllDokumenteResponse =
+        AllDokumenteResponseSchema.parse(body);
 
       console.log("Fetched Dokumente successfully:", parsedDokumentResponse);
       return parsedDokumentResponse;
@@ -329,6 +352,54 @@ class JustizBackendServiceImpl implements JustizBackendService {
       } else {
         console.error("Error fetching Dokumente:", error);
       }
+      throw error;
+    }
+  }
+
+  async getDokumentFile(
+    verfahrenId: string,
+    dokumentId: string,
+  ): Promise<DokumentFile | undefined> {
+    // Hack until SINC has a valid certificate
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokument/${dokumentId}`;
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "X-User-ID": "Pierre",
+        },
+      });
+
+      if (response.status === 404) {
+        console.log("Dokument not found: ", dokumentId);
+        return undefined;
+      }
+
+      if (!response.ok) {
+        response.body
+          ?.getReader()
+          .read()
+          .then((r) =>
+            console.error(
+              "Failed to fetch Dokument file: ",
+              r.value?.toString(),
+            ),
+          );
+        throw new Error(`Failed to fetch Dokument file`);
+      }
+
+      const contentDisposition = response.headers.get("Content-Disposition");
+      const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
+      const fileName = fileNameMatch ? fileNameMatch[1] : "dokument.pdf";
+
+      const file = await response.blob();
+
+      console.log("Fetched Dokument file successfully:", file);
+      return { file, fileName };
+    } catch (error) {
+      console.error("Error fetching Dokument file:", error);
       throw error;
     }
   }
@@ -367,14 +438,16 @@ const DokumentSchema = z.object({
   name: z.string().nullable(),
 });
 
-const DokumentResponseSchema = z.object({
+const AllDokumenteResponseSchema = z.object({
   verfahren_id: z.string().nullable(),
   dokumente: z.array(DokumentSchema).nullable(),
   count: z.number().int(),
 });
 
+type DokumentFile = { file: Blob; fileName: string };
+
 type Dokument = z.infer<typeof DokumentSchema>;
-type DokumentResponse = z.infer<typeof DokumentResponseSchema>;
+type AllDokumenteResponse = z.infer<typeof AllDokumenteResponseSchema>;
 
 type Akte = z.infer<typeof AkteSchema>;
 type Verfahren = z.infer<typeof VerfahrenSchema>;

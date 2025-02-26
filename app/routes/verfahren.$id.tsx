@@ -1,12 +1,12 @@
 import { justizBackendService } from "~/services/servicescontext.server";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export async function loader({ params }: { params: { id: string } }) {
   const akte = await justizBackendService.getAkte(params.id);
 
   const dokumentePromises =
     akte?.aktenteile?.map((aktenteil) => {
-      return justizBackendService.getDokumente(
+      return justizBackendService.getAllDokumente(
         params.id,
         aktenteil.id!,
         100,
@@ -15,7 +15,10 @@ export async function loader({ params }: { params: { id: string } }) {
     }) || [];
 
   const dokumente = await Promise.all(dokumentePromises);
-  return dokumente.flatMap((d) => d.dokumente);
+  return {
+    verfahrenId: params.id,
+    dokumente: dokumente.flatMap((d) => d.dokumente),
+  };
 }
 export default function VerfahrenInfo() {
   return (
@@ -27,7 +30,7 @@ export default function VerfahrenInfo() {
 }
 
 function ListDokumente() {
-  const dokumente = useLoaderData<typeof loader>();
+  const { verfahrenId, dokumente } = useLoaderData<typeof loader>();
 
   return (
     <div>
@@ -35,7 +38,13 @@ function ListDokumente() {
         {dokumente &&
           dokumente.map((dokument) => {
             return (
-              <div className="flex gap-10 items-center">
+              <a
+                // preventScrollReset={true}
+                download
+                key={dokument!.id}
+                href={`/verfahren/${verfahrenId}/dokument/${dokument!.id}`}
+                className="flex gap-10 items-center"
+              >
                 <svg
                   width="24"
                   height="24"
@@ -54,7 +63,7 @@ function ListDokumente() {
                 <div key={dokument!.id} className="text-md text-[#0073A8]">
                   {dokument!.name}
                 </div>
-              </div>
+              </a>
             );
           })}
       </div>
