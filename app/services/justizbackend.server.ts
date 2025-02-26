@@ -391,8 +391,21 @@ class JustizBackendServiceImpl implements JustizBackendService {
       }
 
       const contentDisposition = response.headers.get("Content-Disposition");
-      const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
-      const fileName = fileNameMatch ? fileNameMatch[1] : "dokument.pdf";
+
+      let fileName = "dokument.pdf";
+
+      if (contentDisposition) {
+        const fileNameMatch = contentDisposition.match(/filename="([^"]+)"/);
+        const fileNameStarMatch = contentDisposition.match(
+          /filename\*=UTF-8''([^;]+)/,
+        );
+
+        if (fileNameStarMatch) {
+          fileName = decodeURIComponent(fileNameStarMatch[1]);
+        } else if (fileNameMatch) {
+          fileName = fileNameMatch[1];
+        }
+      }
 
       const file = await response.blob();
 
