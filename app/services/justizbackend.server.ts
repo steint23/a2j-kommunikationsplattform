@@ -125,9 +125,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
   }
 
   async getVerfahren(id: string): Promise<Verfahren | undefined> {
-    // Hack until SINC has a valid certificate
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
     const url = `${this.baseUrl}/api/v1/verfahren/${id}`;
     try {
       const response = await fetch(url, {
@@ -170,9 +167,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
   }
 
   async getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]> {
-    // Hack until SINC has a valid certificate
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
     const url = `${this.baseUrl}/api/v1/verfahren?limit=${limit}&offset=${offset}`;
     try {
       const response = await fetch(url, {
@@ -212,9 +206,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
   }
 
   async createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren> {
-    // Hack until SINC has a valid certificate
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
     const url = `${this.baseUrl}/api/v1/verfahren`;
 
     const formData = new FormData();
@@ -261,9 +252,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
   }
 
   async getAkte(verfahrenId: string): Promise<Akte | undefined> {
-    // Hack until SINC has a valid certificate
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
     const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/akte`;
     try {
       const response = await fetch(url, {
@@ -311,9 +299,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
     limit: number,
     offset: number,
   ): Promise<AllDokumenteResponse> {
-    // Hack until SINC has a valid certificate
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
     const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokumente/${aktenteilId}?limit=${limit}&offset=${offset}`;
     try {
       const response = await fetch(url, {
@@ -360,9 +345,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
     verfahrenId: string,
     dokumentId: string,
   ): Promise<DokumentFile | undefined> {
-    // Hack until SINC has a valid certificate
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
     const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokument/${dokumentId}`;
     try {
       const response = await fetch(url, {
