@@ -54,9 +54,9 @@ function AkteWithDokumente() {
       {filteredAkteTeile &&
         filteredAkteTeile.map((aktenteil) => {
           return (
-            <div key={aktenteil.aktenteilId}>
+            <div className="my-10" key={aktenteil.aktenteilId}>
               <div className="mb-10 font-medium">{aktenteil.aktenteilName}</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-y-16 flex-wrap">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-y-16 flex-wrap">
                 {aktenteil.dokumente &&
                   aktenteil.dokumente.map((dokument) => {
                     return (
@@ -86,7 +86,7 @@ function AkteWithDokumente() {
                           key={dokument!.id}
                           className="text-md text-[#0073A8]"
                         >
-                          {truncateText(dokument.name!, 25)}
+                          {truncateText(dokument.name!, 30)}
                         </div>
                       </a>
                     );
