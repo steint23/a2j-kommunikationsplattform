@@ -35,6 +35,13 @@ export default function VerfahrenInfo() {
   );
 }
 
+function truncateText(text: string, maxLength: number): string {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + "...";
+  }
+  return text;
+}
+
 function AkteWithDokumente() {
   const { verfahrenId, aktenTeileWithDokumente } =
     useLoaderData<typeof loader>();
@@ -79,7 +86,7 @@ function AkteWithDokumente() {
                           key={dokument!.id}
                           className="text-md text-[#0073A8]"
                         >
-                          {dokument!.name}
+                          {truncateText(dokument.name!, 25)}
                         </div>
                       </a>
                     );
