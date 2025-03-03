@@ -110,46 +110,72 @@ function ListVerfahren() {
 function CreateVerfahren() {
   const [xjustizSelected, setXjustizSelected] = useState(false);
   const [filesSelected, setFilesSelected] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
+
+  const toggleFormVisibility = () => {
+    setFormVisible(!formVisible);
+  };
+
   return (
-    <form method="post" encType="multipart/form-data" action="/verfahren">
-      <h2 className="text-xl font-bold mb-10">Klage einreichen</h2>
-      <div className="flex flex-col gap-4 border-2 border-dashed border-[#0073A8] px-40 py-20">
-        <label className="font-bold" htmlFor="xjustiz">
-          XJustiz-Datei <span className="text-red-500">*</span>
-        </label>
-        <input
-          className={`border-2 border-black-300 p-10 hover:border-blue-600 ${xjustizSelected ? "border-green-500" : ""}`}
-          type="file"
-          accept=".xml"
-          name="xjustiz"
-          id="xjustiz"
-          onChange={(e) =>
-            setXjustizSelected((e?.target?.files?.length || 0) > 0)
-          }
-        />
-        <label className="font-bold" htmlFor="files">
-          Anhänge
-        </label>
+    <>
+      {!formVisible && (
+        <button onClick={toggleFormVisibility} className="ds-button mt-20">
+          Neue Klage einreichen
+        </button>
+      )}
+      {formVisible && (
+        <form
+          method="post"
+          encType="multipart/form-data"
+          action="/verfahren"
+          className="relative"
+        >
+          <h2 className="text-xl font-bold mb-10">Klage einreichen</h2>
+          <button
+            onClick={toggleFormVisibility}
+            className="absolute top-0 right-0 mt-2 mr-2 text-red-500"
+          >
+            X
+          </button>
+          <div className="flex flex-col gap-4 border-2 rounded border-dashed border-[#0073A8] px-40 py-20">
+            <label className="font-bold" htmlFor="xjustiz">
+              XJustiz-Datei <span className="text-red-500">*</span>
+            </label>
+            <input
+              className={`border-2 border-black-300 p-10 hover:border-blue-600 ${xjustizSelected ? "border-green-500" : ""}`}
+              type="file"
+              accept=".xml"
+              name="xjustiz"
+              id="xjustiz"
+              onChange={(e) =>
+                setXjustizSelected((e?.target?.files?.length || 0) > 0)
+              }
+            />
+            <label className="font-bold" htmlFor="files">
+              Anhänge
+            </label>
 
-        <input
-          className={`border-2 border-black-300 p-10 hover:border-blue-600 ${filesSelected ? "border-green-500" : ""}`}
-          type="file"
-          name="files"
-          id="files"
-          multiple
-          onChange={(e) =>
-            setFilesSelected((e?.target?.files?.length || 0) > 0)
-          }
-        />
-      </div>
+            <input
+              className={`border-2 border-black-300 p-10 hover:border-blue-600 ${filesSelected ? "border-green-500" : ""}`}
+              type="file"
+              name="files"
+              id="files"
+              multiple
+              onChange={(e) =>
+                setFilesSelected((e?.target?.files?.length || 0) > 0)
+              }
+            />
+          </div>
 
-      <button
-        type="submit"
-        className={`ds-button mt-20 ${xjustizSelected ? "" : "hidden is-disabled"}`}
-        disabled={!xjustizSelected}
-      >
-        Klage einreichen
-      </button>
-    </form>
+          <button
+            type="submit"
+            className={`ds-button mt-20 ${xjustizSelected ? "" : "hidden is-disabled"}`}
+            disabled={!xjustizSelected}
+          >
+            Klage einreichen
+          </button>
+        </form>
+      )}
+    </>
   );
 }
