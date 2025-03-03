@@ -47,7 +47,7 @@ function AkteWithDokumente() {
   const { verfahrenId, aktenTeileWithDokumente } =
     useLoaderData<typeof loader>();
   const filteredAkteTeile = aktenTeileWithDokumente.filter(
-    (aktenteil) => aktenteil?.dokumente?.length || 0 > 0,
+    (aktenteil) => (aktenteil?.dokumente?.length || 0) > 0,
   );
 
   return (
