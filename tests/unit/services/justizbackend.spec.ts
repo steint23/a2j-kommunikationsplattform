@@ -48,6 +48,6 @@ describe("JustizBackendService", () => {
     const formData = (global.fetch as jest.Mock).mock.calls[0][1]
       .body as FormData;
     expect(formData.get("xjustiz")).toEqual(xjustizFile);
-    expect(formData.getAll("file")).toContain(otherFile);
+    expect(formData.getAll("files")).toContain(otherFile);
   });
 });
