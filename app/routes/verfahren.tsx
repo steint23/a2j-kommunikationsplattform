@@ -112,7 +112,8 @@ function CreateVerfahren() {
   const [filesSelected, setFilesSelected] = useState(false);
   return (
     <form method="post" encType="multipart/form-data" action="/verfahren">
-      <div className="flex flex-col gap-4">
+      <h2 className="text-xl font-bold mb-10">Klage einreichen</h2>
+      <div className="flex flex-col gap-4 border-2 border-dashed border-[#0073A8] px-40 py-20">
         <label className="font-bold" htmlFor="xjustiz">
           XJustiz-Datei <span className="text-red-500">*</span>
         </label>
@@ -140,14 +141,15 @@ function CreateVerfahren() {
             setFilesSelected((e?.target?.files?.length || 0) > 0)
           }
         />
-        <button
-          type="submit"
-          className={`ds-button mt-20 ${xjustizSelected ? "" : "is-disabled"}`}
-          disabled={!xjustizSelected}
-        >
-          Klage einreichen
-        </button>
       </div>
+
+      <button
+        type="submit"
+        className={`ds-button mt-20 ${xjustizSelected ? "" : "hidden is-disabled"}`}
+        disabled={!xjustizSelected}
+      >
+        Klage einreichen
+      </button>
     </form>
   );
 }
