@@ -15,7 +15,7 @@ interface JustizBackendService {
   getDokumentFile(
     verfahrenId: string,
     dokumentId: string,
-  ): Promise<DokumentFile | undefined>; // New method
+  ): Promise<DokumentFile | undefined>;
 }
 
 class JustizBackendServiceMockImpl implements JustizBackendService {
@@ -79,7 +79,6 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
 
     this.dokumente.set(mockAkte.aktenteile![0].id!, mockDokumente);
 
-    console.log("Created Verfahren:", this.verfahren);
     return mockVerfahren;
   }
 
@@ -153,7 +152,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const body = await response.json();
       const parsedVerfahren: Verfahren = VerfahrenSchema.parse(body);
 
-      console.log("Fetched Verfahren successfully:", parsedVerfahren);
       return parsedVerfahren;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -192,7 +190,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
       // const parsedVerfahren: Verfahren[] = z.object( { data: z.array(VerfahrenSchema) }).parse(body)?.data;
       const parsedVerfahren: Verfahren[] = z.array(VerfahrenSchema).parse(body);
 
-      console.log("Fetched Verfahren successfully:", parsedVerfahren);
       return parsedVerfahren;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -238,7 +235,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const data = await response.json();
       const parsedVerfahren: Verfahren = VerfahrenSchema.parse(data);
 
-      console.log("Verfahren created successfully:", parsedVerfahren);
       return parsedVerfahren;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -280,7 +276,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const body = await response.json();
       const parsedAkte: Akte = AkteSchema.parse(body);
 
-      console.log("Fetched Akte successfully:", parsedAkte);
       return parsedAkte;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -310,7 +305,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
       });
 
       if (response.status === 404) {
-        console.log("Dokumente not found for aktenteil: ", aktenteilId);
         return { verfahren_id: verfahrenId, dokumente: [], count: 0 };
       }
 
@@ -328,7 +322,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const parsedDokumentResponse: AllDokumenteResponse =
         AllDokumenteResponseSchema.parse(body);
 
-      console.log("Fetched Dokumente successfully:", parsedDokumentResponse);
       return parsedDokumentResponse;
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -391,7 +384,6 @@ class JustizBackendServiceImpl implements JustizBackendService {
 
       const file = await response.blob();
 
-      console.log("Fetched Dokument file successfully:", file);
       return { file, fileName };
     } catch (error) {
       console.error("Error fetching Dokument file:", error);
