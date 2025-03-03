@@ -118,6 +118,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
 }
 
 class JustizBackendServiceImpl implements JustizBackendService {
+  private hardcodedUserId: string = "PierreM"; // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
   private baseUrl: string;
 
   constructor(url: string = "https://kompla.sinc.de") {
@@ -130,7 +131,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "X-User-ID": "Pierre", // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
+          "X-User-ID": this.hardcodedUserId,
           "Content-Type": "application/json",
         },
       });
@@ -172,7 +173,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "X-User-ID": "Pierre", // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
+          "X-User-ID": this.hardcodedUserId,
           "Content-Type": "application/json",
         },
       });
@@ -215,7 +216,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
 
     // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
     const headers = {
-      "X-User-ID": "Pierre",
+      "X-User-ID": this.hardcodedUserId,
     };
 
     try {
@@ -257,7 +258,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "X-User-ID": "Pierre",
+          "X-User-ID": this.hardcodedUserId,
           "Content-Type": "application/json",
         },
       });
@@ -304,7 +305,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "X-User-ID": "Pierre",
+          "X-User-ID": this.hardcodedUserId,
           "Content-Type": "application/json",
         },
       });
@@ -350,7 +351,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "X-User-ID": "Pierre",
+          "X-User-ID": this.hardcodedUserId,
         },
       });
 

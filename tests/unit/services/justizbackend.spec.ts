@@ -4,6 +4,7 @@
 import { JustizBackendServiceImpl } from "~/services/justizbackend.server";
 
 global.fetch = jest.fn();
+const hardcodedUserId = "PierreM";
 
 describe("JustizBackendService", () => {
   const service = new JustizBackendServiceImpl("http://localhost");
@@ -40,7 +41,7 @@ describe("JustizBackendService", () => {
       "http://localhost/api/v1/verfahren",
       expect.objectContaining({
         method: "POST",
-        headers: { "X-User-ID": "Pierre" },
+        headers: { "X-User-ID": hardcodedUserId },
         body: expect.any(FormData),
       }),
     );
