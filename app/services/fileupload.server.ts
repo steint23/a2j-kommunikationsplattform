@@ -5,9 +5,9 @@ import {
   unstable_createFileUploadHandler,
 } from "@remix-run/node";
 
-export async function getFilesFromMultipartFormData(
+export async function getFormDataFromRequest(
   request: Request,
-): Promise<File[]> {
+): Promise<FormData> {
   // https://remix.run/docs/en/main/guides/file-uploads
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
@@ -17,12 +17,5 @@ export async function getFilesFromMultipartFormData(
     }),
     unstable_createMemoryUploadHandler(),
   );
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    uploadHandler,
-  );
-
-  const files = formData.getAll("files") as File[];
-
-  return files;
+  return unstable_parseMultipartFormData(request, uploadHandler);
 }

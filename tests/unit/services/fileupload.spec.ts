@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { getFilesFromMultipartFormData } from "~/services/fileupload.server";
+import { getFormDataFromRequest } from "~/services/fileupload.server";
 
 describe("File Upload Service", () => {
   it("should extract files from multipart form data correctly", async () => {
@@ -9,7 +9,7 @@ describe("File Upload Service", () => {
     const fileContent = "file content";
     const file = new File([fileContent], fileName, { type: "text/xml" });
     const formData = new FormData();
-    formData.append("files", file);
+    formData.append("xjustiz", file);
 
     const url = new URL("/api/verfahren", "http://localhost");
     const request = new Request(url.toString(), {
@@ -17,10 +17,9 @@ describe("File Upload Service", () => {
       body: formData,
     });
 
-    const files = await getFilesFromMultipartFormData(request);
+    const formDataFromRequest = await getFormDataFromRequest(request);
+    const xjustiz = formDataFromRequest.get("xjustiz") as File;
 
-    expect(files).toHaveLength(1);
-    expect(files[0].name).toBe(fileName);
-    expect(files[0].text()).resolves.toBe(fileContent);
+    expect(xjustiz.text()).resolves.toBe(fileContent);
   });
 });

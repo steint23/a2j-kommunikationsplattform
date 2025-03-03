@@ -6,6 +6,7 @@ interface Config {
   BRAK_IDP_OIDC_CLIENT_SECRET: string;
   BRAK_IDP_OIDC_ISSUER: string;
   BRAK_IDP_OIDC_REDIRECT_URI: string;
+  JUSTIZ_BACKEND_API_URL: string;
 }
 
 let instance: Config | undefined = undefined;
@@ -26,6 +27,8 @@ export function config(): Config {
       BRAK_IDP_OIDC_ISSUER: process.env.BRAK_IDP_OIDC_ISSUER?.trim() ?? "",
       BRAK_IDP_OIDC_REDIRECT_URI:
         process.env.BRAK_IDP_OIDC_REDIRECT_URI?.trim() ?? "",
+      JUSTIZ_BACKEND_API_URL:
+        process.env.JUSTIZ_BACKEND_API_URL?.trim() ?? "https://kompla.sinc.de",
     };
   }
 
