@@ -15,7 +15,9 @@ export async function getFormDataFromRequest(
     //   file: ({ filename }) => filename,
     //   avoidFileConflicts: false,
     // }),
-    unstable_createMemoryUploadHandler(),
+    unstable_createMemoryUploadHandler({
+      maxPartSize: 6_000_000_0, // 60MB
+    }),
   );
   return unstable_parseMultipartFormData(request, uploadHandler);
 }
