@@ -1,3 +1,4 @@
+import { config } from "~/config/config.server";
 import type { JustizBackendService } from "./justizbackend.server";
 import { JustizBackendServiceImpl } from "./justizbackend.server";
 
@@ -10,7 +11,9 @@ class ServicesContext {
 
   public static getJustizBackendService(): JustizBackendService {
     if (!ServicesContext.justizBackendService) {
-      ServicesContext.justizBackendService = new JustizBackendServiceImpl();
+      ServicesContext.justizBackendService = new JustizBackendServiceImpl(
+        config().JUSTIZ_BACKEND_API_URL,
+      );
     }
     return ServicesContext.justizBackendService;
   }

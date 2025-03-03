@@ -32,6 +32,7 @@ export default function Verfahren() {
     </main>
   );
 }
+
 function ListVerfahren() {
   const verfahren = useLoaderData<typeof loader>();
   const navigation = useNavigation();

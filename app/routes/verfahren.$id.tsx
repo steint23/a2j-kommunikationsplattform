@@ -25,6 +25,7 @@ export async function loader({ params }: { params: { id: string } }) {
     aktenTeileWithDokumente: dokumente,
   };
 }
+
 export default function VerfahrenInfo() {
   return (
     <div>
