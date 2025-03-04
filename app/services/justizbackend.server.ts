@@ -63,6 +63,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
       {
         id: uuidv4(),
         name: xjustiz.name,
+        dokumentKlasse: "XJustiz",
       },
     ].concat(
       files
@@ -70,6 +71,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
         .map((file) => ({
           id: uuidv4(),
           name: file.name,
+          dokumentKlasse: "Anlage",
         })),
     );
 
@@ -429,10 +431,16 @@ const AkteSchema = z.object({
     .nullable(),
 });
 
-const DokumentSchema = z.object({
-  id: z.string().nullable(),
-  name: z.string().nullable(),
-});
+const DokumentSchema = z
+  .object({
+    id: z.string().nullable(),
+    name: z.string().nullable(),
+    dokument_klasse: z.string().nullable(),
+  })
+  .transform(({ dokument_klasse, ...rest }) => ({
+    ...rest,
+    dokumentKlasse: dokument_klasse,
+  }));
 
 const AllDokumenteResponseSchema = z.object({
   verfahren_id: z.string().nullable(),
