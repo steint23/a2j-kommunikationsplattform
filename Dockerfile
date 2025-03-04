@@ -41,7 +41,7 @@ RUN npm update -g npm && npm cache clean --force && \
 # Create tmp directory and make it writable.
 # This is needed for the application to write file uploads to the tmp directory
 #   before they are sent to the Justiz-Backend-API
-RUN mkdir -p /tmp && chmod -R 777 /tmp
+RUN mkdir -p /tmp && chown node:node /tmp && chmod 700 /tmp
 
 USER node
 ENV NODE_ENV=production
