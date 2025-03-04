@@ -83,10 +83,7 @@ function AkteWithDokumente() {
                             />
                           </svg>
 
-                          <div
-                            key={dokument!.id}
-                            className="text-md text-[#0073A8]"
-                          >
+                          <div className="text-md text-[#0073A8]">
                             {truncateText(dokument.name!, 25)}
                           </div>
                         </a>
