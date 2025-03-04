@@ -63,7 +63,6 @@ function AkteWithDokumente() {
                     return (
                       <div className="flex flex-col">
                         <a
-                          // preventScrollReset={true}
                           download
                           key={dokument!.id}
                           href={`/verfahren/${verfahrenId}/dokument/${dokument!.id}`}
