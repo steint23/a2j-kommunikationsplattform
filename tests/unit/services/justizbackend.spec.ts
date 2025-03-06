@@ -25,7 +25,7 @@ describe("JustizBackendService", () => {
     const mockResponse = {
       id: "123e4567-e89b-12d3-a456-426614174000",
       aktenzeichen: "AZ123456",
-      status: "InTransmission",
+      status: "Eingereicht",
       status_changed: new Date().toISOString(),
     };
 

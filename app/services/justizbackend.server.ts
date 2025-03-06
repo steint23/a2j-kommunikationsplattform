@@ -36,7 +36,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
     const mockVerfahren: Verfahren = {
       id: uuidv4(),
       aktenzeichen: "AZ123456",
-      status: "InTransmission",
+      status: "Eingereicht",
       status_changed: new Date().toISOString(),
     };
     this.verfahren.push(mockVerfahren);
