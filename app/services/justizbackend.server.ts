@@ -403,12 +403,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
   }
 }
 
-const VerfahrenStatusSchema = z.enum([
-  "InTransmission",
-  "Transmitted",
-  "Pending",
-  "Closed",
-]);
+const VerfahrenStatusSchema = z.enum(["Erstellt", "Eingereicht"]);
 
 const VerfahrenSchema = z.object({
   id: z.string().uuid(),
