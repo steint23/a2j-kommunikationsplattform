@@ -144,13 +144,9 @@ class JustizBackendServiceImpl implements JustizBackendService {
       }
 
       if (!response.ok) {
-        response.body
-          ?.getReader()
-          .read()
-          .then((r) =>
-            console.error("Failed to fetch Verfahren: ", r.value?.toString()),
-          );
-        throw new Error(`Failed to fetch Verfahren`);
+        const error = "Failed to fetch Verfahren: ";
+        handleErrorResponse(response, error);
+        throw new Error(error);
       }
 
       const body = await response.json();
@@ -181,13 +177,9 @@ class JustizBackendServiceImpl implements JustizBackendService {
       });
 
       if (!response.ok) {
-        response.body
-          ?.getReader()
-          .read()
-          .then((r) =>
-            console.error("Failed to fetch Verfahren: ", r.value?.toString()),
-          );
-        throw new Error(`Failed to fetch Verfahren`);
+        const error = "Failed to fetch all Verfahren: ";
+        handleErrorResponse(response, error);
+        throw new Error(error);
       }
 
       const body = await response.json();
@@ -229,13 +221,9 @@ class JustizBackendServiceImpl implements JustizBackendService {
       });
 
       if (!response.ok) {
-        response.body
-          ?.getReader()
-          .read()
-          .then((r) =>
-            console.error("Failed to create Verfahren: ", r.value?.toString()),
-          );
-        throw new Error(`Failed to create Verfahren`);
+        const error = "Failed to create Verfahren: ";
+        handleErrorResponse(response, error);
+        throw new Error(error);
       }
 
       const data = await response.json();
@@ -271,13 +259,9 @@ class JustizBackendServiceImpl implements JustizBackendService {
       }
 
       if (!response.ok) {
-        response.body
-          ?.getReader()
-          .read()
-          .then((r) =>
-            console.error("Failed to fetch Akte: ", r.value?.toString()),
-          );
-        throw new Error(`Failed to fetch Akte`);
+        const error = "Failed to fetch Akte: ";
+        handleErrorResponse(response, error);
+        throw new Error(error);
       }
 
       const body = await response.json();
@@ -318,13 +302,9 @@ class JustizBackendServiceImpl implements JustizBackendService {
       }
 
       if (!response.ok) {
-        response.body
-          ?.getReader()
-          .read()
-          .then((r) =>
-            console.error("Failed to fetch Dokumente: ", r.value?.toString()),
-          );
-        throw new Error(`Failed to fetch Dokumente`);
+        const error = "Failed to fetch Dokumente: ";
+        handleErrorResponse(response, error);
+        throw new Error(error);
       }
 
       const body = await response.json();
@@ -363,16 +343,9 @@ class JustizBackendServiceImpl implements JustizBackendService {
       }
 
       if (!response.ok) {
-        response.body
-          ?.getReader()
-          .read()
-          .then((r) =>
-            console.error(
-              "Failed to fetch Dokument file: ",
-              r.value?.toString(),
-            ),
-          );
-        throw new Error(`Failed to fetch Dokument file`);
+        const error = "Failed to fetch Dokument file";
+        handleErrorResponse(response, error);
+        throw new Error(error);
       }
 
       const contentDisposition = response.headers.get("Content-Disposition");
@@ -401,6 +374,22 @@ class JustizBackendServiceImpl implements JustizBackendService {
       throw error;
     }
   }
+}
+
+async function handleErrorResponse(
+  response: Response,
+  errorMessage: string,
+): Promise<string> {
+  const reader = response.body?.getReader();
+  if (reader) {
+    const { value } = await reader.read();
+    const decoder = new TextDecoder();
+    const decodedText = decoder.decode(value); // Decodes the Uint8Array to a string
+    console.error(`${errorMessage}: `, decodedText);
+    return decodedText;
+  }
+  console.error(errorMessage);
+  return errorMessage;
 }
 
 const VerfahrenStatusSchema = z.enum(["Erstellt", "Eingereicht"]);
