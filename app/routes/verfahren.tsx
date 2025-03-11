@@ -30,12 +30,18 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function Verfahren() {
   return (
-    <main className={"m-40 flex flex-col items-center"}>
-      <h1 className={"ds-heading-01-bold mb-40 break-all"}>Verfahren</h1>
-      <CreateVerfahren />
-      <ListVerfahren />
-    </main>
+    <ContentContainer>
+      <h1 className={"text-3xl font-semibold mb-40 break-all"}>Verfahren</h1>
+      <div className="flex flex-col items-center">
+        <CreateVerfahren />
+        <ListVerfahren />
+      </div>
+    </ContentContainer>
   );
+}
+
+function ContentContainer({ children }: { children: React.ReactNode }) {
+  return <main className="grid px-40 md:px-128">{children}</main>;
 }
 
 function ListVerfahren() {
@@ -55,7 +61,7 @@ function ListVerfahren() {
   }
 
   return (
-    <div className="mt-36 flex flex-col gap-24 w-full sm:w-3/4 xl:w-2/3 2xl:w-6/10">
+    <div className="mt-36 flex flex-col gap-24 w-full">
       {verfahren.map((v) => (
         <div key={v.id} className="flex border-2 border-gray-500 p-24">
           <div className="w-full">
