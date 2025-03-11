@@ -37,12 +37,6 @@ FROM node:20.18.3-alpine3.21
 RUN npm update -g npm && npm cache clean --force && \
     apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
-
-# Create tmp directory and make it writable.
-# This is needed for the application to write file uploads to the tmp directory
-#   before they are sent to the Justiz-Backend-API
-RUN mkdir -p /tmp && chown node:node /tmp && chmod 770 /tmp
-
 USER node
 ENV NODE_ENV=production
 ENV npm_config_cache=/tmp/.npm

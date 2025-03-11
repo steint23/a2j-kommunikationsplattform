@@ -5,6 +5,7 @@ import { getFormDataFromRequest } from "~/services/fileupload.server";
 
 describe("File Upload Service", () => {
   it("should extract files from multipart form data correctly", async () => {
+    process.env.FILE_UPLOAD_DIRECTORY = "/tmp";
     const fileName = `file_${Date.now()}.xml`;
     const fileContent = "file content";
     const file = new File([fileContent], fileName, { type: "text/xml" });
