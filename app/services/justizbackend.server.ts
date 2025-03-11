@@ -286,7 +286,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
     limit: number,
     offset: number,
   ): Promise<AllDokumenteResponse> {
-    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokumente/${aktenteilId}?limit=${limit}&offset=${offset}`;
+    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/akte/${aktenteilId}/dokumente?limit=${limit}&offset=${offset}`;
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -328,7 +328,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
     verfahrenId: string,
     dokumentId: string,
   ): Promise<DokumentFile | undefined> {
-    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokument/${dokumentId}`;
+    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/akte/dokumente/${dokumentId}`;
     try {
       const response = await fetch(url, {
         method: "GET",
