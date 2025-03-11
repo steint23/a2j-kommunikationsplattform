@@ -17,6 +17,11 @@ interface JustizBackendService {
     verfahrenId: string,
     dokumentId: string,
   ): Promise<DokumentFile | undefined>;
+  uploadDocumentFiles(
+    verfahrenId: string,
+    aktenteilId: string,
+    files: File[],
+  ): Promise<void>;
 }
 
 class JustizBackendServiceMockImpl implements JustizBackendService {
@@ -117,6 +122,31 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
       return { file: blob, fileName };
     }
     return undefined;
+  }
+
+  async uploadDocumentFiles(
+    verfahrenId: string,
+    aktenteilId: string,
+    files: File[],
+  ): Promise<void> {
+    const verfahren = this.verfahren.find((v) => v.id === verfahrenId);
+    if (!verfahren) {
+      throw new Error("Verfahren not found");
+    }
+
+    files.forEach((file) => {
+      const dokumentId = uuidv4();
+      this.dokumentFiles.set(dokumentId, new Blob([file]));
+      const dokument: Dokument = {
+        id: dokumentId,
+        name: file.name,
+        dokumentKlasse: "Anlage",
+      };
+      const dokumente = this.dokumente.get(aktenteilId) || [];
+      dokumente.push(dokument);
+      this.dokumente.set(aktenteilId, dokumente);
+    });
+    console.log("Uploaded document files:", files);
   }
 }
 
@@ -372,6 +402,40 @@ class JustizBackendServiceImpl implements JustizBackendService {
       return { file, fileName };
     } catch (error) {
       console.error("Error fetching Dokument file:", error);
+      throw error;
+    }
+  }
+
+  async uploadDocumentFiles(
+    verfahrenId: string,
+    aktenteilId: string,
+    files: File[],
+  ): Promise<void> {
+    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/akte/${aktenteilId}/dokumente`;
+
+    const formData = new FormData();
+    files.forEach((file) => formData.append("files", file));
+
+    const headers = {
+      "X-User-ID": this.hardcodedUserId,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const error = "Failed to upload document files: ";
+        handleErrorResponse(response, error);
+        throw new Error(error);
+      }
+
+      console.log("Uploaded document files successfully");
+    } catch (error) {
+      console.error("Error uploading document files:", error);
       throw error;
     }
   }
