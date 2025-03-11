@@ -65,7 +65,7 @@ function AkteWithDokumente() {
                         <a
                           download
                           key={dokument!.id}
-                          href={`/verfahren/${verfahrenId}/akte/dokumente/${dokument!.id}`}
+                          href={`/verfahren/${verfahrenId}/dokumente/${dokument!.id}`}
                           className="flex gap-10 items-center"
                         >
                           <svg
