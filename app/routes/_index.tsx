@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { data, Link, redirect } from "@remix-run/react";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { data, Link, redirect } from "react-router";
 import { AuthenticationProvider, authenticator } from "~/services/oauth.server";
 
 export const meta: MetaFunction = () => {
@@ -25,6 +25,7 @@ async function authUserRemixOAuth(request: Request) {
         AuthenticationProvider.BEA,
         request,
       );
+
       return redirect("/dashboard", {
         headers: {
           "Set-Cookie": authenticationResponse.sessionCookieHeader,

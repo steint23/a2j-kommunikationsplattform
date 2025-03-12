@@ -7,9 +7,9 @@ updates:
     schedule:
       interval: "daily"
     groups:
-      remix:
+      react-router:
         patterns:
-          - "@remix-run/*"
+          - "@react-router/*"
     # Too much noise with patch releases...
     ignore:
       - dependency-name: "*"

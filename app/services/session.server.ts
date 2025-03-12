@@ -1,4 +1,4 @@
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { createCookieSessionStorage, redirect } from "react-router";
 import { config } from "~/config/config.server";
 import type { AuthenticationContext } from "./oauth.server";
 

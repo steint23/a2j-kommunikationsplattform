@@ -1,6 +1,6 @@
-# Remix
-/.cache
-/build
+# React Router
+/.react-router/
+/build/
 
 # Logs
 logs

@@ -24,7 +24,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
   dokumente: Map<string, Dokument[]> = new Map(); // aktenteilId -> dokumente
   dokumentFiles: Map<string, Blob> = new Map(); // dokumentId -> file
 
-  async getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]> {
+  async getAllVerfahren(): Promise<Verfahren[]> {
     return this.verfahren;
   }
 

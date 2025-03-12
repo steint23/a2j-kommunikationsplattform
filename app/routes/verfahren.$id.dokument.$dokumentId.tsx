@@ -1,4 +1,4 @@
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction } from "react-router";
 import { justizBackendService } from "~/services/servicescontext.server";
 
 export const loader: LoaderFunction = async ({ params }) => {

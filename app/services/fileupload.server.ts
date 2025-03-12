@@ -6,6 +6,8 @@ import {
 } from "@remix-run/node";
 import { config } from "~/config/config.server";
 
+// @TODO: adjust to React Router file upload recommendation
+// @see: https://reactrouter.com/how-to/file-uploads
 export async function getFormDataFromRequest(
   request: Request,
 ): Promise<FormData> {

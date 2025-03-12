@@ -1,5 +1,10 @@
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction } from "react-router";
 import { requireUserSession } from "~/services/session.server";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireUserSession(request);
+  return null;
+};
 
 export default function Dashboard() {
   return (
@@ -8,8 +13,3 @@ export default function Dashboard() {
     </main>
   );
 }
-
-export const loader: LoaderFunction = async ({ request }) => {
-  await requireUserSession(request);
-  return null;
-};

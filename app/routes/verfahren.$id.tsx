@@ -1,5 +1,5 @@
 import { justizBackendService } from "~/services/servicescontext.server";
-import { Link, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "react-router";
 
 export async function loader({ params }: { params: { id: string } }) {
   const akte = await justizBackendService.getAkte(params.id);

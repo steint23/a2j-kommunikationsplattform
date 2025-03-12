@@ -7,8 +7,6 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
   ],
   overrides: [
     {
@@ -35,4 +33,5 @@ module.exports = {
       // It will default to "latest" and warn if missing, and to "detect" in the future
     },
   },
+  ignorePatterns: ["tailwind.config.js"],
 };

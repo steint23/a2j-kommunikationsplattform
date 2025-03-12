@@ -10,7 +10,7 @@ const config: Config.InitialOptions = {
   testPathIgnorePatterns: ["<rootDir>/tests/e2e", "<rootDir>/tests/a11y"],
   setupFilesAfterEnv: ["<rootDir>/tests/jest.setup.ts"],
   collectCoverageFrom: ["app/**/*.{ts,tsx,js,jsx}", "!**/*.d.ts"],
-  transformIgnorePatterns: ["/node_modules/(?!@remix-run)"],
+  transformIgnorePatterns: ["/node_modules/(?!@react-router)"],
 };
 
 export default config;
