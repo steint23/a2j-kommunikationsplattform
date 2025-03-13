@@ -3,5 +3,5 @@ import { flatRoutes } from "@react-router/fs-routes";
 
 // @see: https://reactrouter.com/how-to/file-route-conventions
 export default flatRoutes({
-  ignoredRouteFiles: ["example.tsx"],
+  // ignoredRouteFiles: ["example.tsx"],
 }) satisfies RouteConfig;

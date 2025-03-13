@@ -7,7 +7,7 @@ import {
   useNavigation,
 } from "react-router";
 import { getFormDataFromRequest } from "~/services/fileupload.server";
-import { requireUserSession } from "~/services/session.server";
+// import { requireUserSession } from "~/services/session.server";
 import { justizBackendService } from "~/services/servicescontext.server";
 
 export async function loader() {
@@ -98,8 +98,8 @@ function ListVerfahren() {
                 className={`h-24 w-24 text-gray-500 transition-transform ${expanded === v.id ? "rotate-180" : ""}`}
               >
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M15.5002 19.85C15.6558 19.9056 15.8225 19.9333 16.0002 19.9333C16.178 19.9333 16.3447 19.9056 16.5002 19.85C16.6558 19.7945 16.8002 19.7 16.9336 19.5667L23.0669 13.4333C23.3113 13.1889 23.4336 12.8778 23.4336 12.5C23.4336 12.1222 23.3113 11.8111 23.0669 11.5667C22.8225 11.3222 22.5113 11.2 22.1336 11.2C21.7558 11.2 21.4447 11.3222 21.2002 11.5667L16.0002 16.7667L10.8002 11.5667C10.5558 11.3222 10.2447 11.2 9.86689 11.2C9.48912 11.2 9.17801 11.3222 8.93356 11.5667C8.68912 11.8111 8.56689 12.1222 8.56689 12.5C8.56689 12.8778 8.68912 13.1889 8.93356 13.4333L15.0669 19.5667C15.2002 19.7 15.3447 19.7945 15.5002 19.85Z"
                   fill="#0073A8"
                 />
