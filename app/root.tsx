@@ -6,11 +6,15 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
+import type { PropsWithChildren } from "react";
 import type { Route } from "./+types/root";
 
 import stylesheet from "~/styles.css?url";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css?url";
+
+type LayoutProps = PropsWithChildren & {
+  readonly children?: React.ReactNode;
+};
 
 export const links: Route.LinksFunction = () => [
   {
@@ -32,7 +36,7 @@ export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 ];
 
-export function Layout({ children }: { children: Readonly<React.ReactNode> }) {
+export function Layout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <head>
