@@ -157,3 +157,4 @@ talisman_report
 
 # Temporariy data/files/secrets
 temp
+/fileuploads
