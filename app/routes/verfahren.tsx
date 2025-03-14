@@ -46,7 +46,7 @@ export default function Verfahren() {
         </svg>
         <h1 className={"text-2xl font-semibold break-all"}>Verfahren</h1>
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex flex-col items-start">
         <CreateVerfahren />
         <ListVerfahren />
       </div>
@@ -155,7 +155,7 @@ function CreateVerfahren() {
           action="/verfahren"
           className="relative"
         >
-          <h2 className="text-xl font-bold mb-10">Klage einreichen</h2>
+          <h2 className="text-xl font-bold mt-24 mb-10">Klage einreichen</h2>
           <button
             onClick={toggleFormVisibility}
             className="absolute top-0 right-0 mt-2 mr-2 text-red-500"
