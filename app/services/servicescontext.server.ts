@@ -1,6 +1,8 @@
 import { config } from "~/config/config.server";
-import type { JustizBackendService } from "./justizbackend.server";
-import { JustizBackendServiceImpl } from "./justizbackend.server";
+import {
+  type JustizBackendService,
+  JustizBackendServiceImpl,
+} from "./justizBackend.server";
 
 class ServicesContext {
   private static justizBackendService: JustizBackendService;

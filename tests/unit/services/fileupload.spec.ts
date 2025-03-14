@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { getFormDataFromRequest } from "~/services/fileupload.server";
+import { getFormDataFromRequest } from "~/services/fileUpload.server";
 
 describe("File Upload Service", () => {
   it("should extract files from multipart form data correctly", async () => {

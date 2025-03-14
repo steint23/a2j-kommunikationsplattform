@@ -1,6 +1,6 @@
 import { createCookieSessionStorage, redirect } from "react-router";
 import { config } from "~/config/config.server";
-import type { AuthenticationContext } from "./oauth.server";
+import type { AuthenticationContext } from "./oAuth.server";
 
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({

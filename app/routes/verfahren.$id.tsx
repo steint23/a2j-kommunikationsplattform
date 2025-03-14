@@ -1,4 +1,4 @@
-import { justizBackendService } from "~/services/servicescontext.server";
+import { justizBackendService } from "~/services/servicesContext.server";
 import { useLoaderData } from "react-router";
 
 export async function loader({ params }: { params: { id: string } }) {

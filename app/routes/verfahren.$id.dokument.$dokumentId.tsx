@@ -1,5 +1,5 @@
 import { LoaderFunction } from "react-router";
-import { justizBackendService } from "~/services/servicescontext.server";
+import { justizBackendService } from "~/services/servicesContext.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id, dokumentId } = params;

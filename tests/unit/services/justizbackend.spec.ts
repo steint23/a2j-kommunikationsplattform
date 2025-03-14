@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { JustizBackendServiceImpl } from "~/services/justizbackend.server";
+import { JustizBackendServiceImpl } from "~/services/justizBackend.server";
 
 global.fetch = jest.fn();
 const hardcodedUserId = "PierreM";

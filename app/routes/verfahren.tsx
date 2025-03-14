@@ -6,9 +6,9 @@ import {
   useLoaderData,
   useNavigation,
 } from "react-router";
-import { getFormDataFromRequest } from "~/services/fileupload.server";
+import { getFormDataFromRequest } from "~/services/fileUpload.server";
 // import { requireUserSession } from "~/services/session.server";
-import { justizBackendService } from "~/services/servicescontext.server";
+import { justizBackendService } from "~/services/servicesContext.server";
 
 export async function loader() {
   // await requireUserSession(request);

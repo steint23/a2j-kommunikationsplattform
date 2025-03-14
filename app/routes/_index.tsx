@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { data, Link, redirect } from "react-router";
-import { AuthenticationProvider, authenticator } from "~/services/oauth.server";
+import { AuthenticationProvider, authenticator } from "~/services/oAuth.server";
 
 export const meta: MetaFunction = () => {
   return [
