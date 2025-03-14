@@ -28,8 +28,7 @@ export function config(): Config {
       BRAK_IDP_OIDC_ISSUER: process.env.BRAK_IDP_OIDC_ISSUER?.trim() ?? "",
       BRAK_IDP_OIDC_REDIRECT_URI:
         process.env.BRAK_IDP_OIDC_REDIRECT_URI?.trim() ?? "",
-      JUSTIZ_BACKEND_API_URL:
-        process.env.JUSTIZ_BACKEND_API_URL?.trim() ?? "https://kompla.sinc.de",
+      JUSTIZ_BACKEND_API_URL: process.env.JUSTIZ_BACKEND_API_URL?.trim() ?? "",
       FILE_UPLOAD_DIRECTORY:
         process.env.FILE_UPLOAD_DIRECTORY?.trim() ?? "/fileuploads",
     };

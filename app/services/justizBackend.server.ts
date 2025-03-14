@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
+import { config } from "~/config/config.server";
 
 interface JustizBackendService {
   createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren>;
@@ -123,7 +124,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
   private hardcodedUserId: string = "PierreM"; // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
   private baseUrl: string;
 
-  constructor(url: string = "https://kompla.sinc.de") {
+  constructor(url: string = config().JUSTIZ_BACKEND_API_URL) {
     this.baseUrl = url;
   }
 
