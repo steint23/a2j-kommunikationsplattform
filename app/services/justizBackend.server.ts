@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
-import { config } from "~/config/config.server";
 
 interface JustizBackendService {
+  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void>;
   createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren>;
   getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]>;
   getVerfahren(id: string): Promise<Verfahren | undefined>;
@@ -17,11 +17,6 @@ interface JustizBackendService {
     verfahrenId: string,
     dokumentId: string,
   ): Promise<DokumentFile | undefined>;
-  uploadDocumentFiles(
-    verfahrenId: string,
-    aktenteilId: string,
-    files: File[],
-  ): Promise<void>;
 }
 
 class JustizBackendServiceMockImpl implements JustizBackendService {
@@ -124,14 +119,21 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
     return undefined;
   }
 
-  async uploadDocumentFiles(
-    verfahrenId: string,
-    aktenteilId: string,
-    files: File[],
-  ): Promise<void> {
+  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void> {
     const verfahren = this.verfahren.find((v) => v.id === verfahrenId);
+    const akte = this.akten.get(verfahrenId);
+
+    if (!akte) {
+      throw new Error("Akte not found");
+    }
+
     if (!verfahren) {
       throw new Error("Verfahren not found");
+    }
+
+    const eingangsOrdner = akte?.aktenteile?.find((a) => a.name === "Eingänge");
+    if (!eingangsOrdner) {
+      throw new Error("Eingänge folder not found");
     }
 
     files.forEach((file) => {
@@ -142,11 +144,12 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
         name: file.name,
         dokumentKlasse: "Anlage",
       };
-      const dokumente = this.dokumente.get(aktenteilId) || [];
+      const dokumente = this.dokumente.get(eingangsOrdner.id!) || [];
       dokumente.push(dokument);
-      this.dokumente.set(aktenteilId, dokumente);
+      this.dokumente.set(eingangsOrdner.id!, dokumente);
     });
-    console.log("Uploaded document files:", files);
+    console.log("Uploaded document files successfully");
+    return Promise.resolve();
   }
 }
 
@@ -154,7 +157,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
   private hardcodedUserId: string = "PierreM"; // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
   private baseUrl: string;
 
-  constructor(url: string = config().JUSTIZ_BACKEND_API_URL) {
+  constructor(url: string = "https://kompla.sinc.de") {
     this.baseUrl = url;
   }
 
@@ -406,12 +409,8 @@ class JustizBackendServiceImpl implements JustizBackendService {
     }
   }
 
-  async uploadDocumentFiles(
-    verfahrenId: string,
-    aktenteilId: string,
-    files: File[],
-  ): Promise<void> {
-    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/akte/${aktenteilId}/dokumente`;
+  async uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void> {
+    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokumente`;
 
     const formData = new FormData();
     files.forEach((file) => formData.append("files", file));

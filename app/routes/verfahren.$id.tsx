@@ -41,12 +41,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   if (!verfahrenId) {
     throw new Error("Verfahren ID is required");
   }
-  const aktenteilId = "1"; // TODO: Confirm if we need to pass this
-  await justizBackendService.uploadDocumentFiles(
-    verfahrenId,
-    aktenteilId,
-    files,
-  );
+  await justizBackendService.uploadDocumentFiles(verfahrenId, files);
 
   return null;
 }
