@@ -449,10 +449,10 @@ async function handleErrorResponse(
     const { value } = await reader.read();
     const decoder = new TextDecoder();
     const decodedText = decoder.decode(value); // Decodes the Uint8Array to a string
-    console.error(`${errorMessage}: `, decodedText);
+    console.error(`${response.status}: ${errorMessage}: `, decodedText);
     return decodedText;
   }
-  console.error(errorMessage);
+  console.error(`${response.status}: ${errorMessage}: `);
   return errorMessage;
 }
 
