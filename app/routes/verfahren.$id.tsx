@@ -35,8 +35,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const files = formData.getAll("files") as File[];
 
-  console.log(files.length);
-
   const verfahrenId = params.id;
   if (!verfahrenId) {
     throw new Error("Verfahren ID is required");
