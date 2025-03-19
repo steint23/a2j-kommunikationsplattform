@@ -48,7 +48,6 @@ export default function VerfahrenInfo() {
   return (
     <div>
       <div className="text-xl mb-20 font-bold">Datenraum</div>
-      {/* <ListDokumente /> */}
       <AkteWithDokumente />
       <UploadFile />
     </div>
@@ -157,7 +156,6 @@ function UploadFile() {
     >
       <button
         className="ds-button ds-button-small ds-button-tertiary ds-button-with-icon"
-        // type="submit"
         onClick={handleButtonClick}
       >
         <div className="flex gap-10">
