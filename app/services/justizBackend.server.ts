@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
-import { config } from "~/config/config.server";
 
 interface JustizBackendService {
+  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void>;
   createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren>;
   getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]>;
   getVerfahren(id: string): Promise<Verfahren | undefined>;
@@ -118,13 +118,46 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
     }
     return undefined;
   }
+
+  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void> {
+    const verfahren = this.verfahren.find((v) => v.id === verfahrenId);
+    const akte = this.akten.get(verfahrenId);
+
+    if (!akte) {
+      throw new Error("Akte not found");
+    }
+
+    if (!verfahren) {
+      throw new Error("Verfahren not found");
+    }
+
+    const eingangsOrdner = akte?.aktenteile?.find((a) => a.name === "Eingänge");
+    if (!eingangsOrdner) {
+      throw new Error("Eingänge folder not found");
+    }
+
+    files.forEach((file) => {
+      const dokumentId = uuidv4();
+      this.dokumentFiles.set(dokumentId, new Blob([file]));
+      const dokument: Dokument = {
+        id: dokumentId,
+        name: file.name,
+        dokumentKlasse: "Anlage",
+      };
+      const dokumente = this.dokumente.get(eingangsOrdner.id!) || [];
+      dokumente.push(dokument);
+      this.dokumente.set(eingangsOrdner.id!, dokumente);
+    });
+    console.log("Uploaded document files successfully");
+    return Promise.resolve();
+  }
 }
 
 class JustizBackendServiceImpl implements JustizBackendService {
   private hardcodedUserId: string = "PierreM"; // TODO: Get the SAFE-ID from the session and set it as the X-User-ID
   private baseUrl: string;
 
-  constructor(url: string = config().JUSTIZ_BACKEND_API_URL) {
+  constructor(url: string = "https://kompla.sinc.de") {
     this.baseUrl = url;
   }
 
@@ -375,6 +408,36 @@ class JustizBackendServiceImpl implements JustizBackendService {
       throw error;
     }
   }
+
+  async uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void> {
+    const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokumente`;
+
+    const formData = new FormData();
+    files.forEach((file) => formData.append("files", file));
+
+    const headers = {
+      "X-User-ID": this.hardcodedUserId,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const error = "Failed to upload document files: ";
+        handleErrorResponse(response, error);
+        throw new Error(error);
+      }
+
+      console.log("Uploaded document files successfully");
+    } catch (error) {
+      console.error("Error uploading document files:", error);
+      throw error;
+    }
+  }
 }
 
 async function handleErrorResponse(
@@ -386,10 +449,10 @@ async function handleErrorResponse(
     const { value } = await reader.read();
     const decoder = new TextDecoder();
     const decodedText = decoder.decode(value); // Decodes the Uint8Array to a string
-    console.error(`${errorMessage}: `, decodedText);
+    console.error(`${response.status}: ${errorMessage}: `, decodedText);
     return decodedText;
   }
-  console.error(errorMessage);
+  console.error(`${response.status}: ${errorMessage}: `);
   return errorMessage;
 }
 
