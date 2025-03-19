@@ -1,5 +1,5 @@
 import { justizBackendService } from "~/services/servicesContext.server";
-import { Form, useLoaderData } from "react-router";
+import { useFetcher, useLoaderData } from "react-router";
 import { ActionFunctionArgs } from "@remix-run/node";
 import { getFormDataFromRequest } from "~/services/fileUpload.server";
 import { useRef } from "react";
@@ -126,6 +126,7 @@ function AkteWithDokumente() {
 function UploadFile() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const fetcher = useFetcher();
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Prevent form submission
@@ -133,18 +134,26 @@ function UploadFile() {
   };
 
   const handleFileChange = () => {
-    console.log(fileInputRef.current?.files);
-    // Submit the form after file selection
-    formRef.current?.submit();
+    const files = fileInputRef.current?.files;
+    if (files) {
+      const formData = new FormData();
+      Array.from(files).forEach((file) => {
+        formData.append("files", file);
+      });
+      fetcher.submit(formData, {
+        method: "post",
+        encType: "multipart/form-data",
+      });
+    }
   };
+
   return (
-    <Form
+    <fetcher.Form
       method="post"
       encType="multipart/form-data"
       action="."
       className="relative"
       ref={formRef}
-      replace={true}
     >
       <button
         className="ds-button ds-button-small ds-button-tertiary ds-button-with-icon"
@@ -178,6 +187,6 @@ function UploadFile() {
         ref={fileInputRef}
         onChange={handleFileChange}
       />
-    </Form>
+    </fetcher.Form>
   );
 }
