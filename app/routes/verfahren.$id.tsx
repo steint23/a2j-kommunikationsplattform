@@ -1,6 +1,5 @@
 import { justizBackendService } from "~/services/servicesContext.server";
-import { useFetcher, useLoaderData } from "react-router";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, useFetcher, useLoaderData } from "react-router";
 import { getFormDataFromRequest } from "~/services/fileUpload.server";
 import { useRef } from "react";
 
