@@ -19,6 +19,8 @@ fileignoreconfig:
     checksum: eadf50af9dc44e386d16bb8762cc230caf8bbf63e0aec8390b8113e665c8fa3c
   - filename: app/routes/verfahren.tsx
     checksum: fa275d581af157c132957b9a2c587e851dd293cc5ace0d5c6471f2103c4cfea1
+  - filename: doc/adr/0002-how-is-the-user-interface-built.md
+    checksum: 305489f427cf2319bee275276dc150c3544e406761ba19e5ed13b085d1cb5a6b
 version: ""
 scopeconfig:
   - scope: node
