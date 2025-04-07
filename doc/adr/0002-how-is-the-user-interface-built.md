@@ -36,26 +36,33 @@ In order to be able to start development soon and gather initial findings at an 
 
 #### KERN UX
 
-- HTML/CSS components have been tested
-  - There are also Web Components (WC) available, but its usage within a React project is not always easy. For example: Before React 19 prop passing and event handling (synthetic event system from React vs. custom DOM events for WCs) was not always easy, WC usage needs another evaluation.
-- Easy usage: A components HTML can be copy/pasted from its overview, see the [Checkbox](https://www.kern-ux.de/components/form-inputs/checkboxes) for example.
-- The rendered markup is slim and clean.
+> The [KERN components](https://www.kern-ux.de/components) (german only at the moment) have been specially developed to optimally support the main public services. Our aim is to make these solutions available on almost all devices and browsers - and preferably without the use of a lot of JavaScript.
 
-```html
-<div class="kern-form-check">
-  <input
-    class="kern-form-check__checkbox"
-    id="herr"
-    name="geschlecht"
-    type="checkbox"
-  />
-  <label class="kern-form-check__label" for="herr">Herr</label>
-</div>
-```
+- HTML/CSS components have been tested
+  - There are also Web Components (WC) available, but its usage within a React project is not always easy. For example: Before React 19 was released, prop passing and event handling (synthetic event system from React vs. custom DOM events for WCs) was not always easy, WC usage needs another evaluation, is another topic.
+- Usage: A components HTML can be copy/pasted from its overview to the displayed view/page. See the [Checkbox](https://www.kern-ux.de/components/form-inputs/checkboxes) component for a first impression. [CSS](https://www.kern-ux.de/erste-schritte/entwicklerinnen) needs to be configured through npm, for example.
+- The rendered markup is slim and clean:
+
+  ```html
+  <div class="kern-form-check">
+    <input
+      class="kern-form-check__checkbox"
+      id="divers"
+      name="geschlecht"
+      type="checkbox"
+    />
+    <label class="kern-form-check__label" for="divers">Divers</label>
+  </div>
+  ```
+
+- No React components are available.
 
 #### React Aria
 
-- Usage: React components can be imported into a view/page directly from the [npm package](https://www.npmjs.com/package/react-aria) or a custom component library can be customized according to our ideas.
+> [React Aria](https://react-spectrum.adobe.com/react-aria/getting-started.html) is a library of unstyled React components and hooks that helps you build accessible, high quality UI components for your application or design system.
+
+- React components have been tested, there are [starter kits](https://react-spectrum.adobe.com/react-aria/getting-started.html#starter-kits) with Vanilla or Tailwind CSS support to start your own component library.
+- Usage: React components can be imported into a view/page directly via [npm package](https://www.npmjs.com/package/react-aria) imports `import { Select } from "react-aria-components"`. Customized component imports are also possible `import { Checkbox } from "~/components/react-aria/Checkbox"` (with custom Tailwind/CSS classes, for example). Boilerplate code is available within the starter kits, see this [link](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-deae1e21337f415600148dc52180f740ecc6d7ff3a4fe512411051bdef090e7b) for a test implementation of a custom `Checkbox` component, based on Tailwind CSS starter kit.
 - It seems that a lot of HTML markup (Components) needs to be reworked to align with our design goals of Angie/KERN UX.
   To give an example, here is the rendered output of a React Aria Checkbox component:
 
@@ -73,19 +80,43 @@ In order to be able to start development soon and gather initial findings at an 
       <div
         class="outline-blue-600 dark:outline-blue-500 forced-colors:outline-[Highlight] outline-offset-2 w-40 h-40 shrink-0 rounded-sm flex items-center justify-center border-2 transition outline-0"
       ></div>
-      Herr
+      Divers
     </label>
   </div>
   ```
 
-  This markup can't be used out of the box with Angie DS CSS definitions. The Checkbox relevant stylings, e. g. the `.ds-checkbox+label` CSS styles, take care of the layout of an `<input>` and its related `<label>`. They need to be rendered in a specific order: a `<label>` followed by the Checkboxes `<input>` field. Therefor, markup/component rework is needed to get React Aria in a usable state for our needs.
+  This markup can't be used out of the box with Angie DS CSS definitions. The Checkbox relevant stylings, e. g. the `.ds-checkbox+label` CSS styles, take care of the layout of an `<input>` and its related `<label>`. They need to be rendered in a specific order: a `<label>` followed by the Checkboxes `<input>` field. Therefore, a revision of the components is necessary to bring React Aria to a usable state for our needs.
 
-- Additionally: A lot of markup is being rendered (as you can see above), this is not the most minimal approach of rendering a checkbox with a label.
+- Additionally: A lot of markup is being rendered to enable the React Aria custom layouts, as you can see above within the HTML example. Or within the rendered custom [Select](https://react-spectrum.adobe.com/react-aria/Select.html) markup. This is not the most minimal approach of rendering a checkbox with a label. However, it is also a way to develop accessible UI, see the [mixed-state Checkbox pattern example](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/examples/checkbox-mixed/) from the ARIA Authoring Practices Guide (AGP) for reference.
+
+#### Radix Primitives
+
+> [Radix Primitives](https://www.radix-ui.com/primitives/docs/overview/introduction) is a low-level UI component library with a focus on accessibility, customization and developer experience. You can use these components either as the base layer of your design system, or adopt them incrementally.
+
+- React components have been tested, its usage is well documented (see [Checkbox](https://www.radix-ui.com/primitives/docs/components/checkbox) documentation, for example) and can be imported via component based packages `npm install @radix-ui/react-checkbox` and `import * as Checkbox from "@radix-ui/react-checkbox";` or as needed from the npm package `npm install radix-ui` (_package is [tree-shakeable](https://www.radix-ui.com/primitives/docs/overview/introduction#incremental-adoption), so you should only ship the components you use_) and `import { Checkbox } from "radix-ui";`.
+- Usage: The imported React components can be adjusted as needed if the markup is not suitable, see the [Composition](https://www.radix-ui.com/primitives/docs/guides/composition) documentation for further details. With the `asChild` prop (see Composition docs) one can adjust Radix's functionality onto alternative element types or own React components. Here is a [link](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-ad9b933a5cef28a912f761bee26750f4e9a663dcaaeb4dd27d96e52af9e24c23) to a test implementation of some checkboxes with the `asChild` prop.
+- The rendered markup is slim and clean:
+
+  ```html
+  <div class="flex mb-20">
+    <input
+      type="checkbox"
+      role="checkbox"
+      aria-checked="false"
+      data-state="unchecked"
+      class="ds-checkbox"
+      id="herr"
+      value="on"
+    /><label for="herr">Herr</label>
+  </div>
+  ```
+
+- Additionally: Good developer experience (DX). The first impression in terms of usage and adjustability was great, especially compared to React Aria
 
 ## Decision
 
-The change that we're proposing or have agreed to implement.
+To be defined: The change that we're proposing or have agreed to implement.
 
 ## Consequences
 
-What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
+To be defined: What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
