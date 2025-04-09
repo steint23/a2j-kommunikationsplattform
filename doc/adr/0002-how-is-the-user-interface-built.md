@@ -8,29 +8,24 @@ Accepted
 
 ## Context
 
-The issue motivating this decision, and any context that influences or constrains the decision.
+Work in progress: The issue motivating this decision, and any context that influences or constrains the decision.
 
 Within the next 12 months we need to create a user interface (UI) that enables testing of a communication platform in online civil court proceedings. The scope of the MVP is clear from a functional perspective, but the user flow and its look and feel (design) is and will be work in progress for the weeks ahead. It will adjust iteratively. For example after doing a technical spike or user testing/interviews or an option that may seem promising for our roadmap. It is therefore important to be able to react flexibly to future user interface (product) requirements.
-In order to be able to start development soon and gather initial findings at an early stage, we have various options with regard to the UI development:
+In order to be able to start development soon and gather initial findings at an early stage, we have various options with regard to the UI development and considered the following:
 
+- [KERN UX](https://www.kern-ux.de/)
+- [React Aria Components](https://react-spectrum.adobe.com/react-aria/components.html)
+- [Radix UI Primitives](https://www.radix-ui.com/primitives)
 - A2J - Digitale Rechtsantragstelle [Components](https://github.com/digitalservicebund/a2j-rechtsantragstelle/tree/main/app/components)
-  - :heavy_exclamation_mark: Copy/paste/adjust and new components need to be created from scratch
-- Style-free (or headless) component library options:
-  - [React Aria Components](https://react-spectrum.adobe.com/react-aria/components.html)
-    - :white_check_mark: Tailwind support
-  - [Radix UI Primitives](https://www.radix-ui.com/primitives)
-    - :heavy_exclamation_mark: Tailwind is not encouraged
-- Other component library options that come already with styles:
-  - [KERN UX](https://www.kern-ux.de/)
-    - :bangbang: Non customizable design system with a lot of instantly usable components
-  - [Material 3](https://m3.material.io/)
-    - :white_check_mark: A full customizable design system with a Figma Kit (also good for our design colleagues to get quickly started)
+- [Material 3](https://m3.material.io/)
 
-|     | A2J | KERN UX | React Aria | Radix |
-| --- | --- | ------- | ---------- | ----- |
-| a   |     |         |            |       |
-| b   |     |         |            |       |
-| c   |     |         |            |       |
+|                                                    | KERN UX                  | React Aria  | Radix                | A2J Components    | Material 3 |
+| -------------------------------------------------- | ------------------------ | ----------- | -------------------- | ----------------- | ---------- |
+| Was tested                                         | yes                      | yes         | yes                  | yes               | no[^1]     |
+| Developer experience (DX)                          | good                     | challenging | very good            | ok                | -          |
+| Integration type                                   | npm package + copy/paste | npm package | npm package          | copy/paste/adjust | -          |
+| Tailwind support                                   | yes                      | yes         | yes (not encouraged) | yes               | -          |
+| Good starting point for a shared component library | yes                      | no          | yes                  | yes               | -          |
 
 ### Testing notes
 
@@ -94,7 +89,7 @@ In order to be able to start development soon and gather initial findings at an 
 > [Radix Primitives](https://www.radix-ui.com/primitives/docs/overview/introduction) is a low-level UI component library with a focus on accessibility, customization and developer experience. You can use these components either as the base layer of your design system, or adopt them incrementally.
 
 - React components have been tested, its usage is well documented (see [Checkbox](https://www.radix-ui.com/primitives/docs/components/checkbox) documentation, for example) and can be imported via component based packages `npm install @radix-ui/react-checkbox` and `import * as Checkbox from "@radix-ui/react-checkbox";` or as needed from the npm package `npm install radix-ui` (_package is [tree-shakeable](https://www.radix-ui.com/primitives/docs/overview/introduction#incremental-adoption), so you should only ship the components you use_) and `import { Checkbox } from "radix-ui";`.
-- Usage: The imported React components can be adjusted as needed if the markup is not suitable, see the [Composition](https://www.radix-ui.com/primitives/docs/guides/composition) documentation for further details. With the `asChild` prop (see Composition docs) one can adjust Radix's functionality onto alternative element types or own React components. Here is a [link](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-ad9b933a5cef28a912f761bee26750f4e9a663dcaaeb4dd27d96e52af9e24c23) to a test implementation of some checkboxes with the `asChild` prop.
+- Usage: The imported React components can be adjusted as needed if the markup is not suitable, see the [Composition](https://www.radix-ui.com/primitives/docs/guides/composition) documentation for further details. With the `asChild` prop (also part of the Composition docs) one can adjust Radix's functionality onto alternative element types or own React components. Here is a [link](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-ad9b933a5cef28a912f761bee26750f4e9a663dcaaeb4dd27d96e52af9e24c23) to a test implementation of some checkboxes with the `asChild` prop.
 - The rendered markup is slim and clean:
 
   ```html
@@ -111,7 +106,34 @@ In order to be able to start development soon and gather initial findings at an 
   </div>
   ```
 
-- Additionally: Good developer experience (DX). The first impression in terms of usage and adjustability was great, especially compared to React Aria
+- Additionally: Good DX. The first impression in terms of usage and adjustability was great, especially compared to React Aria.
+
+#### A2J Components (RAST/ZOV)
+
+> Within the Access 2 Justice (A2J) space are two other projects, "Digitale Rechtsantragstelle" (RAST) and "Zivilgerichtliches Online-Verfahren" (ZOV), that share a codebase. Within that codebase the engineering teams have already created a lot of components that we could use as well to develop the UI. The components are developed with a focus on accessibility and have a familiar judicial appearance in regards to its layout. The components have been developed with a focus on accessibility and have a familiar legal look in terms of their layout.
+
+- React components have been tested by a copy/paste and adjust approach. Copied from the GitHub projects [components](https://github.com/digitalservicebund/a2j-rechtsantragstelle/tree/main/app/components).
+- Usage: The tested React components (Checkbox related ones) haven't been adjusted in regards to its markup or layout as that is already perfect for our use cases. Also in regards to accessibility. It was not easy to use a component as some utility functions, helpers that relate to service/domain logic need to be refactored into a shared utils folder, for example, if we decide to use A2J components. For a better understanding of this, please have a look at the test integration [here](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-9074d64f6adde9ac3649cdc155b9345e4183a45a65d810a8a6475235c798725c) and start with the Checkbox related needed imports and comments in regards to the `useStringField()` usage.
+  - The Checkbox component could benefit from an optional `onChange` handler, to enable Reacts controlled input option.
+- The rendered markup is slim and clean:
+
+  ```html
+  <div class="flex mb-20">
+    <div class="flex flex-col flex-nowrap">
+      <div class="flex items-center">
+        <input type="hidden" value="off" name="herr" /><input
+          id="herr"
+          class="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] "
+          type="checkbox"
+          value="on"
+        />
+      </div>
+    </div>
+    <label for="herr">Herr</label>
+  </div>
+  ```
+
+- Additionally: A lot of components could already been used to create a new shared component library within the A2J cosmos.
 
 ## Decision
 
@@ -120,3 +142,5 @@ To be defined: The change that we're proposing or have agreed to implement.
 ## Consequences
 
 To be defined: What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
+
+[^1]: The design discipline had previously classified this design system as unsuitable for our project.
