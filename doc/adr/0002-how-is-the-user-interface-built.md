@@ -14,8 +14,8 @@ Within the next 12 months we need to create a user interface (UI) that enables t
 In order to be able to start development soon and gather initial findings at an early stage, we have various options with regard to the UI development and considered the following:
 
 - [KERN UX](https://www.kern-ux.de/)
-- [React Aria Components](https://react-spectrum.adobe.com/react-aria/components.html)
-- [Radix UI Primitives](https://www.radix-ui.com/primitives)
+- [React Aria](https://react-spectrum.adobe.com/react-aria/components.html)
+- [Radix Primitives](https://www.radix-ui.com/primitives)
 - A2J - Digitale Rechtsantragstelle [Components](https://github.com/digitalservicebund/a2j-rechtsantragstelle/tree/main/app/components)
 - [Material 3](https://m3.material.io/)
 
@@ -100,9 +100,9 @@ In order to be able to start development soon and gather initial findings at an 
       aria-checked="false"
       data-state="unchecked"
       class="ds-checkbox"
-      id="herr"
+      id="divers"
       value="on"
-    /><label for="herr">Herr</label>
+    /><label for="divers">Divers</label>
   </div>
   ```
 
@@ -112,8 +112,8 @@ In order to be able to start development soon and gather initial findings at an 
 
 > Within the Access 2 Justice (A2J) space are two other projects, "Digitale Rechtsantragstelle" (RAST) and "Zivilgerichtliches Online-Verfahren" (ZOV), that share a codebase. Within that codebase the engineering teams have already created a lot of components that we could use as well to develop the UI. The components are developed with a focus on accessibility and have a familiar judicial appearance in regards to its layout. The components have been developed with a focus on accessibility and have a familiar legal look in terms of their layout.
 
-- React components have been tested by a copy/paste and adjust approach. Copied from the GitHub projects [components](https://github.com/digitalservicebund/a2j-rechtsantragstelle/tree/main/app/components).
-- Usage: The tested React components (Checkbox related ones) haven't been adjusted in regards to its markup or layout as that is already perfect for our use cases. Also in regards to accessibility. It was not easy to use a component as some utility functions, helpers that relate to service/domain logic need to be refactored into a shared utils folder, for example, if we decide to use A2J components. For a better understanding of this, please have a look at the test integration [here](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-9074d64f6adde9ac3649cdc155b9345e4183a45a65d810a8a6475235c798725c) and start with the Checkbox related needed imports and comments in regards to the `useStringField()` usage.
+- React components have been tested by a copy/paste and adjust approach. Copied from the related GitHub project [components](https://github.com/digitalservicebund/a2j-rechtsantragstelle/tree/main/app/components) folder.
+- Usage: The tested React components (Checkbox related ones) haven't been adjusted in regards to its markup or layout as both are well coded and in sync with the latest DigitalService Design System ([Angie](https://github.com/digitalservicebund/angie)). This also applies to the topic of accessibility. It was not easy to use a component instantly, because of imported helper and service functions that needed to be refactored into a shared utils folder, so that a `<Checkbox />` component could be rendered. So if we decide to use A2J components we need to refactor such functionalities for its usage within a shared component library. For a better understanding of this, please have a look at the test integration [here](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-9074d64f6adde9ac3649cdc155b9345e4183a45a65d810a8a6475235c798725c) and start with the Checkbox related needed imports and comments in regards to the `useStringField()` usage.
   - The Checkbox component could benefit from an optional `onChange` handler, to enable Reacts controlled input option.
 - The rendered markup is slim and clean:
 
@@ -121,15 +121,15 @@ In order to be able to start development soon and gather initial findings at an 
   <div class="flex mb-20">
     <div class="flex flex-col flex-nowrap">
       <div class="flex items-center">
-        <input type="hidden" value="off" name="herr" /><input
-          id="herr"
+        <input type="hidden" value="off" name="divers" /><input
+          id="divers"
           class="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] "
           type="checkbox"
           value="on"
         />
       </div>
     </div>
-    <label for="herr">Herr</label>
+    <label for="divers">Divers</label>
   </div>
   ```
 
