@@ -7,23 +7,28 @@ import {
   useNavigation,
 } from "react-router";
 import { getFormDataFromRequest } from "~/services/fileUpload.server";
-// import { requireUserSession } from "~/services/session.server";
-import { justizBackendService } from "~/services/servicesContext.server";
+import { ServicesContext } from "~/services/servicesContext.server";
+import { requireUserSession } from "~/services/session.server";
 
-export async function loader() {
-  // await requireUserSession(request);
-  const verfahren = await justizBackendService.getAllVerfahren(10, 0);
+export async function loader({ request }: { request: Request }) {
+  const { demoMode } = await requireUserSession(request);
+  const verfahren = await ServicesContext.getJustizBackendService(
+    demoMode,
+  ).getAllVerfahren(10, 0);
   return verfahren;
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  // await requireUserSession(request);
+  const { demoMode } = await requireUserSession(request);
   const formData = await getFormDataFromRequest(request);
 
   const xjustiz = formData.get("xjustiz") as File;
   const files = formData.getAll("files") as File[];
 
-  await justizBackendService.createVerfahren(xjustiz, files);
+  await ServicesContext.getJustizBackendService(demoMode).createVerfahren(
+    xjustiz,
+    files,
+  );
 
   return null;
 }
@@ -77,7 +82,11 @@ function ListVerfahren() {
   return (
     <div className="mt-14 flex flex-col gap-24 w-full">
       {verfahren.map((v) => (
-        <div key={v.id} className="flex border-2 border-gray-500 p-24">
+        <div
+          key={v.id}
+          className="flex border-2 border-gray-500 p-24"
+          data-testid="verfahren-item"
+        >
           <div className="w-full">
             <div className="font-bold text-3xl">{v.aktenzeichen}</div>
             <div className="text-sm text-gray-500">Aktenzeichen</div>
@@ -144,7 +153,11 @@ function CreateVerfahren() {
   return (
     <>
       {!formVisible && (
-        <button onClick={toggleFormVisibility} className="ds-button mt-20">
+        <button
+          onClick={toggleFormVisibility}
+          className="ds-button mt-20"
+          data-testid="create-verfahren-button"
+        >
           Neue Klage einreichen
         </button>
       )}
@@ -196,6 +209,7 @@ function CreateVerfahren() {
             type="submit"
             className={`ds-button mt-20 ${xjustizSelected ? "" : "hidden is-disabled"}`}
             disabled={!xjustizSelected}
+            data-testid="submit-verfahren-button"
           >
             Klage einreichen
           </button>
