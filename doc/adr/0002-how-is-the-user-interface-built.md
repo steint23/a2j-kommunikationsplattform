@@ -4,7 +4,7 @@ Date: 2025-03-21
 
 ## Status
 
-Accepted
+Pending
 
 ## Context
 
@@ -89,7 +89,7 @@ In order to be able to start development soon and gather initial findings at an 
 > [Radix Primitives](https://www.radix-ui.com/primitives/docs/overview/introduction) is a low-level UI component library with a focus on accessibility, customization and developer experience. You can use these components either as the base layer of your design system, or adopt them incrementally.
 
 - React components have been tested, its usage is well documented (see [Checkbox](https://www.radix-ui.com/primitives/docs/components/checkbox) documentation, for example) and can be imported via component based packages `npm install @radix-ui/react-checkbox` and `import * as Checkbox from "@radix-ui/react-checkbox"` or as needed from the npm package `npm install radix-ui` (_package is [tree-shakeable](https://www.radix-ui.com/primitives/docs/overview/introduction#incremental-adoption), so you should only ship the components you use_) and `import { Checkbox } from "radix-ui"`.
-- Usage: The imported React components can be adjusted as needed if the markup is not suitable, see the [Composition](https://www.radix-ui.com/primitives/docs/guides/composition) documentation for further details. With the `asChild` prop (also part of the Composition docs) one can adjust Radix's functionality onto alternative element types or own React components. Here is a [link](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-ad9b933a5cef28a912f761bee26750f4e9a663dcaaeb4dd27d96e52af9e24c23) to a test implementation of some checkboxes with the `asChild` prop.
+- Usage: The imported React components can be adjusted as needed if the markup is not suitable, see the [Composition](https://www.radix-ui.com/primitives/docs/guides/composition) documentation for further details. With the `asChild` prop (also part of the Composition docs) one can adjust Radix's functionality onto alternative element types or own React components. Here is a [link](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-16ea3513260055d297cf5c60f1c6081fad810616a19c23b7f8c8649e879e3f8b) to a test implementation of some checkboxes with the `asChild` prop.
 - The rendered markup is slim and clean:
 
   ```html
@@ -114,7 +114,7 @@ In order to be able to start development soon and gather initial findings at an 
 
 - React components have been tested by a copy/paste and adjust approach. Copied from the related GitHub project [components](https://github.com/digitalservicebund/a2j-rechtsantragstelle/tree/main/app/components) folder.
 - Usage: The tested React components (Checkbox related ones) haven't been adjusted in regards to its markup or layout as both are well coded and in sync with the latest DigitalService Design System ([Angie](https://github.com/digitalservicebund/angie)). This also applies to the topic of accessibility.
-- It was not easy to use a component instantly, because of imported helper and service functions (e.g. `import { useStringField } from "~/services/validation/useStringField"`) that needed to be refactored into a shared utils folder before the `<Checkbox />` component could render.
+- It was not easy to use a component instantly, because of imported helper and service functions within the Checkbox component (e.g. `import { useStringField } from "~/services/validation/useStringField"`) that needed to be refactored into a shared utils folder before the `<Checkbox />` component could render.
   - If we decide to use A2J components, we need to refactor such functionalities for its usage within our codebase or a shared component library. For a better understanding of this, please have a look at the test integration [here](https://github.com/digitalservicebund/a2j-kommunikationsplattform/pull/166/files#diff-9074d64f6adde9ac3649cdc155b9345e4183a45a65d810a8a6475235c798725c) and start with the Checkbox related needed imports and comments in regards to the `useStringField()` usage.
   - The Checkbox component could benefit from an optional `onChange` handler, to enable Reacts controlled input option.
 - The rendered markup is slim and clean:
