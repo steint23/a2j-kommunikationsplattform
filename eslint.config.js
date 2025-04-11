@@ -9,6 +9,7 @@ export default tseslint.config(
   {
     ignores: ["**/*", "!app/**", "!tests/**"],
   },
+  // Global ESLint configuration
   {
     languageOptions: {
       ecmaVersion: "latest",
