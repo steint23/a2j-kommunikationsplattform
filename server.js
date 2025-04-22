@@ -4,9 +4,7 @@ import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
 
-/**
- * @see: https://github.com/dotenv-org/examples/blob/master/usage/dotenv-express/index.mjs
- */
+// @see: https://github.com/dotenv-org/examples/blob/master/usage/dotenv-express/index.mjs
 dotenv.config();
 
 const viteDevServer =
@@ -41,12 +39,7 @@ if (viteDevServer) {
 app.use(express.static("build/client", { maxAge: "1h" }));
 app.use(morgan("tiny"));
 
-/**
- * Express v5 upgrade is missing regular expression documentation
- *
- * @see: https://github.com/expressjs/express/issues/5936#issuecomment-2808486653 and
- * @see: https://expressjs.com/en/guide/migrating-5.html#path-syntax
- */
+// express v5 upgrade, see: https://github.com/expressjs/express/issues/5936#issuecomment-2808486653
 app.all(/(.*)/, reactRouterHandler);
 
 const port = process.env.PORT || 3000;
