@@ -2,10 +2,6 @@ import { createRequestHandler } from "@react-router/express";
 import compression from "compression";
 import express from "express";
 import morgan from "morgan";
-import dotenv from "dotenv";
-
-// @see: https://github.com/dotenv-org/examples/blob/master/usage/dotenv-express/index.mjs
-dotenv.config();
 
 const viteDevServer =
   process.env.NODE_ENV === "production"
