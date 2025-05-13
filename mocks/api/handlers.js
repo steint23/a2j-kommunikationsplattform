@@ -1,4 +1,16 @@
 import { http, HttpResponse } from "msw";
+import { v4 as uuidv4 } from "uuid";
+
+import {
+  mockVerfahrenEingereichtId,
+  mockVerfahrenEingereicht,
+  mockVerfahrenEingereichtAkte,
+  mockVerfahrenErstelltId,
+  mockVerfahrenErstellt,
+  mockVerfahrenErstelltAkte,
+  mockAktenteilDokumente,
+  getDokumentByAktenteilId,
+} from "./data.js";
 
 /**
  * All defined Handlers intercept a request and handle its response
@@ -12,28 +24,77 @@ import { http, HttpResponse } from "msw";
 
 const baseMockApiUrl = "https://kompla.sinc.de";
 
+// Let's keep a map of all mocked Verfahren and its Dokumente and Aktenteile in memory.
+// At the beginning, we add some default data to each mocked Verfahren (e.g. Aktenteile & Dokumente).
+const verfahren = new Map();
+let verfahrenId = 0;
+verfahren.set(verfahrenId++, mockVerfahrenErstellt);
+verfahren.set(verfahrenId++, mockVerfahrenEingereicht);
+
+const aktenteilDokumenteVerfahrenEingereicht = new Map();
+const aktenteilDokumenteVerfahrenErstellt = new Map();
+
+const getVerfahren = () => {
+  let collectVerfahren = [];
+  for (const value of verfahren.values()) {
+    collectVerfahren.push(value);
+  }
+  return collectVerfahren;
+};
+
 export const handlers = [
   http.get(`${baseMockApiUrl}/api/v1/verfahren`, async () => {
-    const resultArray = [[getGetApiV1Verfahren200Response(), { status: 200 }]];
+    const collectVerfahren = getVerfahren();
+    const getVerfahrenResponse = [collectVerfahren, { status: 200 }];
 
-    return HttpResponse.json(...resultArray[0]);
+    return HttpResponse.json(...getVerfahrenResponse);
   }),
+
   http.post(`${baseMockApiUrl}/api/v1/verfahren`, async () => {
-    const resultArray = [[getPostApiV1Verfahren201Response(), { status: 201 }]];
+    // generate random 8 digit number for "aktenzeichen"
+    const randomAktenId = Math.floor(10000000 + Math.random() * 900000);
+    const dateTimeNow = new Date().toJSON();
+    // create a new "Verfahren"
+    const randomNewVerfahren = {
+      id: uuidv4(),
+      aktenzeichen: `JBA-${randomAktenId}`,
+      status: "Eingereicht",
+      status_changed: dateTimeNow,
+      eingereicht_am: dateTimeNow,
+      gericht_name: "Landgericht Berlin",
+    };
+    // increment verfahrenId
+    verfahrenId++;
+    // and add the randomNewVerfahren to the verfahren Map
+    verfahren.set(verfahrenId, randomNewVerfahren);
+    const getAddedVerfahren = verfahren.get(verfahrenId);
 
-    return HttpResponse.json(...resultArray[0]);
+    const postVerfahrenResponse = [getAddedVerfahren, { status: 201 }];
+
+    return HttpResponse.json(...postVerfahrenResponse);
   }),
+
+  // endpoint is not used by the frontend at the moment
   http.get(
     `${baseMockApiUrl}/api/v1/verfahren/:verfahrenId`,
     async ({ params }) => {
-      const resultArray = [
-        [
-          getGetApiV1VerfahrenVerfahrenId200Response(params.verfahrenId),
-          { status: 200 },
-        ],
+      let getRequestedVerfahren;
+      for (const [verfahrenKey, verfahrenValue] of verfahren) {
+        for (const [key, value] of Object.entries(verfahrenValue)) {
+          if (key === "id") {
+            if (value === params.verfahrenId) {
+              getRequestedVerfahren = verfahren.get(verfahrenKey);
+            }
+          }
+        }
+      }
+
+      const getGetApiV1VerfahrenVerfahrenId200Response = [
+        getRequestedVerfahren,
+        { status: 200 },
       ];
 
-      return HttpResponse.json(...resultArray[0]);
+      return HttpResponse.json(...getGetApiV1VerfahrenVerfahrenId200Response);
     },
   ),
   http.get(
@@ -46,6 +107,7 @@ export const handlers = [
         ],
       ];
 
+      // console.log('Captured "GET /api/v1/verfahren/:verfahrenId/akte" request');
       return HttpResponse.json(...resultArray[0]);
     },
   ),
@@ -56,11 +118,22 @@ export const handlers = [
         [
           getGetApiV1VerfahrenVerfahrenIdAkteAktenteilIdDokumente200Response(
             params.verfahrenId,
+            params.aktenteilId,
           ),
           { status: 200 },
         ],
       ];
 
+      // console.log(
+      //   "GET /api/v1/verfahren/:verfahrenId/akte/:aktenteilId/dokumente, mockVerfahrenErstelltAkte:\n",
+      //   mockVerfahrenErstelltAkte,
+      //   "aktenteilDokumente:\n",
+      //   aktenteilDokumenteVerfahrenErstellt,
+      // );
+
+      // console.log(
+      //   'Captured "GET /api/v1/verfahren/:verfahrenId/akte/:aktenteilId/dokumente" request',
+      // );
       return HttpResponse.json(...resultArray[0]);
     },
   ),
@@ -76,12 +149,15 @@ export const handlers = [
         ],
       ];
 
+      // console.log(
+      //   'Captured "GET /api/v1/verfahren/:verfahrenId/akte/dokumente/:dokumentId" request',
+      // );
       return HttpResponse.json(...resultArray[0]);
     },
   ),
   http.post(
     `${baseMockApiUrl}/api/v1/verfahren/:verfahrenId/dokumente`,
-    async () => {
+    async ({ params }) => {
       const resultArray = [
         [
           getPostApiV1VerfahrenVerfahrenIdDokumente201Response(),
@@ -89,104 +165,25 @@ export const handlers = [
         ],
       ];
 
+      /**
+       * TODO:
+       *
+       * - [x] for the respective verfahrenId, can we find that on the client side already!?
+       * - [ ] find "Eingänge" within mockVerfahrenErstelltAkte and mockVerfahrenEingereichtAkte
+       *   - [ ] create "Eingänge" within mockVerfahrenEingereichtAkte
+       * - [ ] and push the "Dokument_uploaded.pdf" dokument to that aktenteil
+       *
+       * params exmaple: {"verfahrenId":"1abbb42e-beec-4407-938e-a2d05321de01"}
+       */
+
+      console.log(
+        'Captured "POST /api/v1/verfahren/:verfahrenId/dokumente" request, params:',
+        JSON.stringify(params),
+      );
       return HttpResponse.json(...resultArray[0]);
     },
   ),
 ];
-
-const mockVerfahrenEingereichtId = "4e7fb42e-beec-4407-938e-a2d05321de01";
-const mockVerfahrenEingereichtAktenzeichen = "JBA-17546037";
-const mockVerfahrenEingereicht = {
-  id: mockVerfahrenEingereichtId,
-  aktenzeichen: mockVerfahrenEingereichtAktenzeichen,
-  status: "Eingereicht",
-  status_changed: "2025-04-03T10:42:08.749Z",
-  eingereicht_am: "2025-03-08T04:08:25.169Z",
-  gericht_name: "Landgericht Bonn",
-};
-const mockVerfahrenEingereichtAkte = {
-  id: "ab2dd8f0-b00c-415a-825b-22e1c2b0f88a",
-  aktenzeichen: mockVerfahrenEingereichtAktenzeichen,
-  aktenteile: [
-    {
-      id: "2bea6db9-bfc5-43fc-ba2f-3da34ec5629f",
-      name: "Eingänge",
-      parent_id: "6a75d179-cc76-4d75-ada0-ccdcbaa0fd0d",
-    },
-  ],
-};
-
-const mockVerfahrenErstelltAktenzeichen = "JBA-82746242";
-const mockVerfahrenErstellt = {
-  id: "dea3cbc7-d00a-48bf-95a1-4d6f07406196",
-  aktenzeichen: mockVerfahrenErstelltAktenzeichen,
-  status: "Erstellt",
-  status_changed: "2025-03-08T05:00:29.659Z",
-  eingereicht_am: "2024-12-29T22:46:29.329Z",
-  gericht_name: "Landgericht Frankfurt",
-};
-const mockVerfahrenErstelltAkte = {
-  id: "ab2dd8f0-b00c-415a-825b-22e1c2b0f88a",
-  aktenzeichen: mockVerfahrenErstelltAktenzeichen,
-  aktenteile: [
-    {
-      id: "19fc08e6-520a-4667-a3f1-5018dd20d736",
-      name: "Vorakte",
-      parent_id: "5eb79a71-6a6d-4d9c-b9c2-b59482f03efa",
-    },
-    {
-      id: "0b673fef-1c0a-4b12-8294-45893f178e5a",
-      name: "Hauptakte",
-      parent_id: "f98943c6-68c7-434c-86a8-0467b56a3501",
-    },
-    {
-      id: "387e30cb-a82c-4d60-ac4a-35dbc38bfe3f",
-      name: "Kostenheft",
-      parent_id: "2f06d0b6-0041-432f-86cd-27ecc27bc9d4",
-    },
-    {
-      id: "4dbf56f7-b209-4bf6-957e-52b2298890c4",
-      name: "Zum Geschäftsgang",
-      parent_id: "e84096be-d929-458e-93ee-674d0af60b7b",
-    },
-    {
-      id: "2bea6db9-bfc5-43fc-ba2f-3da34ec5629f",
-      name: "Eingänge",
-      parent_id: "6a75d179-cc76-4d75-ada0-ccdcbaa0fd0d",
-    },
-    {
-      id: "e008da8b-5ec4-43e4-837f-cbce00d63358",
-      name: "Ausgänge",
-      parent_id: "83ccf9d2-9e62-482e-9e19-acc49151c911",
-    },
-    {
-      id: "50e62760-f591-401f-bc54-1a8506d81ba3",
-      name: "Entwürfe",
-      parent_id: "9cdd0996-0fa9-4a1d-b79f-6ead4703f9e0",
-    },
-    {
-      id: "fbf4ada6-b73d-47db-a0d6-5d0ed5ac19d4",
-      name: "Ablage",
-      parent_id: "",
-    },
-  ],
-};
-
-export function getGetApiV1Verfahren200Response() {
-  return [mockVerfahrenErstellt, mockVerfahrenEingereicht];
-}
-
-export function getPostApiV1Verfahren201Response() {
-  return mockVerfahrenEingereicht;
-}
-
-export function getGetApiV1VerfahrenVerfahrenId200Response(id) {
-  const returnVerfahrenById =
-    id === mockVerfahrenEingereichtId
-      ? mockVerfahrenEingereicht
-      : mockVerfahrenErstellt;
-  return returnVerfahrenById;
-}
 
 export function getGetApiV1VerfahrenVerfahrenIdAkte200Response(id) {
   const returnAkteByVerfahrenId =
@@ -200,22 +197,58 @@ export function getGetApiV1VerfahrenVerfahrenIdAkte200Response(id) {
 // @TODO verify good demo ability
 export function getGetApiV1VerfahrenVerfahrenIdAkteAktenteilIdDokumente200Response(
   verfahrenId,
+  aktenteilId,
 ) {
+  // console.log("\n---");
+  // console.log(
+  //   "getGetApiV1VerfahrenVerfahrenIdAkteAktenteilIdDokumente200Response:: verfahrenId",
+  //   verfahrenId,
+  //   "and aktenteilId",
+  //   aktenteilId,
+  //   "\n\n",
+  // );
+
+  const dokumente = getDokumentByAktenteilId(aktenteilId);
+
+  if (verfahrenId === mockVerfahrenEingereichtId) {
+    // console.log("safe it in this folder\n");
+    aktenteilDokumenteVerfahrenEingereicht.set(aktenteilId, dokumente);
+  } else {
+    // console.log("safe it in the other folder\n");
+    aktenteilDokumenteVerfahrenErstellt.set(aktenteilId, dokumente);
+  }
+
+  // console.log(`dokumente for ${aktenteilId}:\n${JSON.stringify(dokumente)}\n`);
+
+  // hier bekommen wir die verfahren_id im response zurück (gleiche wie im request)
+  // im response ist außerdem eine id für das jeweilge dokument,
+  // die beim GET request für eine Dokument mitgegeben werden muss
+  // - verfahren_id (wie im request)
+  // - array an dokumenten, mit "id" (mit dem es angezeigt werden kann via GET request)
+
+  // NEXT STEP:::
+  // in mockVerfahrenErstelltAkte je aktenteile item ein
+  // passendes dokumente response erstellen
+  //
+  // benötigt selbe verfahren_id
+  //
+  // dokumente id(s) können eigenständig sein
+  // - werden dann aber im folgenden request wiederum genutzt um ein dokument darzustellen (gleiche id)
+
+  // console.log("dokumente", dokumente);
+  // console.log("dokumente.values", dokumente.values());
+  // console.log("Array from dokumente.values", Array.from(dokumente.values()));
+  // get random dokumente from mockAktenteilDokumente
+
+  // console.log(
+  //   "\nlog aktenteilDokumenteVerfahrenErstellt",
+  //   aktenteilDokumenteVerfahrenErstellt,
+  // );
+
   return {
     verfahren_id: verfahrenId,
-    dokumente: [
-      {
-        id: "92eb7f26-41a3-40d7-ba79-a22914a1bb80",
-        name: "Akteninnendeckel.docx",
-        dokument_klasse: "Andere / Sonstige",
-      },
-      {
-        id: "4e22f0a4-49f0-4ed9-ba43-90901ff7e4f4",
-        name: "Aktendeckel.docx",
-        dokument_klasse: "Andere / Sonstige",
-      },
-    ],
-    count: 2,
+    dokumente: dokumente,
+    count: dokumente.length,
   };
 }
 
