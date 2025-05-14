@@ -29,7 +29,7 @@ export const mockVerfahrenEingereicht = {
 };
 
 // mapping for /api/v1/verfahren/{verfahren-id}/akte response examples
-const aktenteileIds = {
+export const aktenteileIds = {
   mockVerfahrenErstelltAkte: {
     0: "1efc08e6-520a-4667-a3f1-5018dd20d736",
     1: "2za73fef-1c0a-4b12-8294-45893f178e5a",
@@ -38,7 +38,9 @@ const aktenteileIds = {
     4: "5kl62760-f591-401f-bc54-1a8506d81ba3",
   },
   mockVerfahrenEingereichtAkte: {
-    0: "1efc08e6-520a-4667-a3f1-5018dd20d736",
+    0: "a1ec08e6-520a-4667-a3f1-5018dd20d736",
+    // for created verfahren by a user
+    1: "a2ce08e6-520a-4667-a3f1-5018dd20d736",
   },
 };
 
@@ -172,6 +174,7 @@ export const getDokumentByAktenteilId = (aktenteilId) => {
   let dokumente;
 
   switch (aktenteilId) {
+    // mockVerfahrenErstellt
     case aktenteileIds.mockVerfahrenErstelltAkte[0]:
       dokumente = mockAktenteilDokumente[0];
       break;
@@ -187,15 +190,19 @@ export const getDokumentByAktenteilId = (aktenteilId) => {
     case aktenteileIds.mockVerfahrenErstelltAkte[4]:
       dokumente = mockAktenteilDokumente[4];
       break;
-    // this case is showing the "Dokument_uploaded.pdf"
-    // for each Dokument that has been uploaded by a user
-    case aktenteileIds.mockVerfahrenEingereichtAkte[5]:
+    // mockVerfahrenEingereicht
+    case aktenteileIds.mockVerfahrenEingereichtAkte[0]:
+      dokumente = mockAktenteilDokumente[0];
+      break;
+    // this case mocks any Verfahren that was created "eingereicht"
+    // by a user: we show a "Dokument_uploaded.pdf" for each upload
+    // action by a user
+    case aktenteileIds.mockVerfahrenEingereichtAkte[1]:
       dokumente = mockAktenteilDokumente[5];
       break;
+    // return default docs, e.g. for verfahren created by a user
     default:
-      console.log(
-        `${aktenteilId} is not maintained so far. Add it to "aktenteileIds" and the respective mock akte data.`,
-      );
+      dokumente = mockAktenteilDokumente[0];
   }
 
   return dokumente;
