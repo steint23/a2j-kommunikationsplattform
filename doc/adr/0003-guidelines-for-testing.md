@@ -131,6 +131,7 @@ Ultimately, [MSW](https://github.com/mswjs/msw) and [msw-auto-mock](https://gith
 
 - Move unit tests close to the units that they test: `./tests/unit/*` tests will be moved to the appropriate unit within the `./app/*` folder
 - Remove `JustizBackendService` (see `./app/services/justizBackend.server.ts`), its features and its mock implementation. Use mocked backend API (MSW implementation, see `./mocks/api/**`) instead within the application
+  - `Demo mode` option is currently based on this service, a new way must be found to enable it on the staging environment
 - Implement and add relevant E2E tests that mock API calls with MSW
 
 [^1]: (good/ok/bad) Can it detect timing issues, interface mismatches or data integrity problems?
