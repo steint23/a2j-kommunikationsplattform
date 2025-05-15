@@ -1,10 +1,11 @@
 # 3. Guidelines for testing
 
-Date: 2025-04-10
+- 2025-04-10: Drafted
+- 2025-05-15: Accepted
 
 ## Status
 
-Pending
+Accepted
 
 ## Context
 
