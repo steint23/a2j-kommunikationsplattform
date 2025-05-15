@@ -74,7 +74,7 @@ The following tools have been tested:
   - Takes some time to get everything up and running: see [boilerplate examples](https://openapistack.co/docs/examples/boilerplate/) for a good first impression, e. g. [express-ts-mock](https://github.com/openapistack/openapi-backend/tree/main/examples/express-ts-mock). To get a mock server up and running [openapi-generator-cli](https://openapi-generator.tech/docs/installation/) can be used: `openapi-generator-cli generate -i openapi.yaml -g nodejs-express-server -o mock-server
 `
 - [MockServer](https://www.mock-server.com/)
-  - Has a Java dependency to get it up and running locally: not suitable. Mock server setup can be achieved with a docker image, see [jamesdbloom/mockserver](https://hub.docker.com/r/jamesdbloom/mockserver).
+  - Has a Java dependency to get it up and running locally: not suitable. Mock server setup could be up and running with a docker image, see [jamesdbloom/mockserver](https://hub.docker.com/r/jamesdbloom/mockserver).
 - [Mockoon CLI](https://mockoon.com/)
   - CLI tool is great and delivers data in no time, for example `mockoon-cli start --data doc/api/swagger.json`.
 
