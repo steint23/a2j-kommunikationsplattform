@@ -48,8 +48,7 @@ These could be questions such as:
     - JSON Schema Validator
     - Express middlewares (e.g. `express-openapi-validator`)
 - **End-to-end (E2E) testing** ([Playwright](https://playwright.dev/) is already configured and working for this project)
-  - **with a simulated backend API.**
-  - For example with:
+  - **with a simulated backend API.** For example with:
     - [Prism](https://stoplight.io/open-source/prism): The [concepts](https://docs.stoplight.io/docs/prism/1593d1470e4df-concepts) of Prism.
     - [MSW](https://mswjs.io/) (Mock Service Worker): JavaScript based API mocking. It enables the shared use of mocks for development, unit and E2E tests.
     - [OpenAPI Backend](https://openapistack.co/docs/openapi-backend/intro/): Is a Framework-agnostic middleware tool for building APIs with OpenAPI Specification.
