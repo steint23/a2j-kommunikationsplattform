@@ -2,9 +2,10 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 
 interface JustizBackendService {
-  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void>;
+  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<Dokument[]>;
   createVerfahren(xjustiz: File, files: File[]): Promise<Verfahren>;
   getAllVerfahren(limit: number, offset: number): Promise<Verfahren[]>;
+  // this fn is not used at the moment within the Web UI
   getVerfahren(id: string): Promise<Verfahren | undefined>;
   getAkte(verfahrenId: string): Promise<Akte | undefined>;
   getAllDokumente(
@@ -29,6 +30,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
     return this.verfahren;
   }
 
+  // this endpoint is not used at the moment within the Web UI
   async getVerfahren(id: string): Promise<Verfahren | undefined> {
     return this.verfahren.find((v) => v.id === id);
   }
@@ -82,7 +84,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
 
     this.dokumente.set(mockAkte.aktenteile![0].id!, mockDokumente);
 
-    console.log("Created Verfahren:", this.verfahren);
+    console.log("Mock: Created Verfahren:", this.verfahren);
     return mockVerfahren;
   }
 
@@ -119,7 +121,8 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
     return undefined;
   }
 
-  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void> {
+  // eslint-disable-next-line
+  uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<any> {
     const verfahren = this.verfahren.find((v) => v.id === verfahrenId);
     const akte = this.akten.get(verfahrenId);
 
@@ -148,7 +151,7 @@ class JustizBackendServiceMockImpl implements JustizBackendService {
       dokumente.push(dokument);
       this.dokumente.set(eingangsOrdner.id!, dokumente);
     });
-    console.log("Uploaded document files successfully");
+    console.log("Mock: Uploaded document files successfully");
     return Promise.resolve();
   }
 }
@@ -161,6 +164,7 @@ class JustizBackendServiceImpl implements JustizBackendService {
     this.baseUrl = url;
   }
 
+  // this endpoint is not used at the moment within the Web UI
   async getVerfahren(id: string): Promise<Verfahren | undefined> {
     const url = `${this.baseUrl}/api/v1/verfahren/${id}`;
     try {
@@ -409,7 +413,10 @@ class JustizBackendServiceImpl implements JustizBackendService {
     }
   }
 
-  async uploadDocumentFiles(verfahrenId: string, files: File[]): Promise<void> {
+  async uploadDocumentFiles(
+    verfahrenId: string,
+    files: File[],
+  ): Promise<Dokument[]> {
     const url = `${this.baseUrl}/api/v1/verfahren/${verfahrenId}/dokumente`;
 
     const formData = new FormData();
@@ -432,7 +439,15 @@ class JustizBackendServiceImpl implements JustizBackendService {
         throw new Error(error);
       }
 
-      console.log("Uploaded document files successfully");
+      const data = await response.json();
+      const parsedDocuments: Dokument[] = z.array(DokumentSchema).parse(data);
+
+      console.log(
+        "Uploaded document files successfully",
+        JSON.stringify(parsedDocuments),
+      );
+
+      return parsedDocuments;
     } catch (error) {
       console.error("Error uploading document files:", error);
       throw error;
