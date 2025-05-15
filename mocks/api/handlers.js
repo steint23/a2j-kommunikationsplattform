@@ -175,12 +175,20 @@ export const handlers = [
   http.get(
     `${baseMockApiUrl}/api/v1/verfahren/:verfahrenId/akte`,
     async ({ params }) => {
-      const resultArray = [
-        [
-          getGetApiV1VerfahrenVerfahrenIdAkte200Response(params.verfahrenId),
-          { status: 200 },
-        ],
-      ];
+      let returnAkteByVerfahrenId;
+
+      if (params.verfahrenId === mockVerfahrenErstelltId) {
+        returnAkteByVerfahrenId = verfahrenErstelltAkte.get(akteErstelltId);
+      } else if (params.verfahrenId === mockVerfahrenEingereichtId) {
+        returnAkteByVerfahrenId =
+          verfahrenEingereichtAkte.get(akteEingereichtId);
+      } else {
+        // we have a user created verfahren
+        returnAkteByVerfahrenId =
+          verfahrenEingereichtByUserAkte.get(akteCreatedByUserId);
+      }
+
+      const resultArray = [[returnAkteByVerfahrenId, { status: 200 }]];
 
       return HttpResponse.json(...resultArray[0]);
     },
@@ -332,19 +340,3 @@ export const handlers = [
     },
   ),
 ];
-
-export function getGetApiV1VerfahrenVerfahrenIdAkte200Response(verfahrenId) {
-  let returnAkteByVerfahrenId;
-
-  if (verfahrenId === mockVerfahrenErstelltId) {
-    returnAkteByVerfahrenId = verfahrenErstelltAkte.get(akteErstelltId);
-  } else if (verfahrenId === mockVerfahrenEingereichtId) {
-    returnAkteByVerfahrenId = verfahrenEingereichtAkte.get(akteEingereichtId);
-  } else {
-    // we have a user created verfahren
-    returnAkteByVerfahrenId =
-      verfahrenEingereichtByUserAkte.get(akteCreatedByUserId);
-  }
-
-  return returnAkteByVerfahrenId;
-}
