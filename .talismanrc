@@ -30,7 +30,7 @@ fileignoreconfig:
   - filename: doc/adr/0002-how-is-the-user-interface-built.md
     checksum: 1d9396e66ec739b2313290ea782a1d8019450bd3f916a220b5760032c5ca4242
   - filename: mocks/api/handlers.js
-    checksum: 7f962e0814ff9d7c57fdb2bdcd0584b8e8ec7d8964ed10f37cd8c6233c87fd00
+    checksum: f514867d51538bd0cceef385c2e9a6277afff81c2f9bfc435b9ea512730815d4
 
 version: ""
 scopeconfig:
