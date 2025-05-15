@@ -60,27 +60,92 @@ These could be questions such as:
 | ---------------------------------- | ---------------- | --------------------- | -------------------- | ----------------------------- |
 | Fault detection effectiveness [^1] | ok               | ok                    | good                 | good                          |
 | Time to execute & maintain [^2]    | ok               | ok                    | good                 | good                          |
-| Easy to use [^3]                   | easy             | easy                  | ok                   | much                          |
+| Easy to use [^3]                   | easy             | easy                  | ok                   | not really                    |
 | External dependencies [^4]         | no               | no                    | no                   | yes                           |
 
-Based on the above options, it was decided to proceed with **end-to-end (E2E) tests simulating the backend API**, as this is where we have the fewest external dependencies. Using an OpenAPI specification of the backend API, we can simulate the API in a good way and start development quickly. Further integration tests can be added later, e.g. when a production environment exists. Local development is also simplified by a simulated backend API.
+Based on the above options, it was decided to proceed with **end-to-end (E2E) tests simulating the backend API**, as this is where we have the fewest external dependencies. Using an OpenAPI specification of the backend API as single source of truth, we can simulate the API in a good way and start development quickly. Further integration tests can be added later, e.g. when a production environment exists. Local development is also simplified by a simulated backend API.
 
 The following tools have been tested:
-| Stub/mock API tools | [Prism](https://stoplight.io/open-source/prism) | [MSW](https://mswjs.io/) | [OpenAPI Backend](https://openapistack.co/docs/openapi-backend/intro/) | [MockServer](https://www.mock-server.com/) | [Mockoon CLI](https://mockoon.com/) |
-| ---------------------------------- | ---------------- | --------------------- | -------------------- | ----------------------------- | -- |
-| Time to setup | - | - | - | - | - |
-| Easy to use | - | - | - | - | - |
+
+- [Prism](https://stoplight.io/open-source/prism)
+  - CLI tool is great and delivers data in no time. For example: `prism mock doc/api/swagger.json`.
+- [MSW](https://mswjs.io/)
+  - Great documentation and examples to get up and running. No need to install a CLI tool, after the [installation](https://mswjs.io/docs/getting-started) of the npm package responses can be mocked.
+- [OpenAPI Backend](https://openapistack.co/docs/openapi-backend/intro/)
+  - Takes some time to get everything up and running: see [boilerplate examples](https://openapistack.co/docs/examples/boilerplate/) for a good first impression, e. g. [express-ts-mock](https://github.com/openapistack/openapi-backend/tree/main/examples/express-ts-mock). To get a mock server up and running [openapi-generator-cli](https://openapi-generator.tech/docs/installation/) can be used: `openapi-generator-cli generate -i openapi.yaml -g nodejs-express-server -o mock-server
+`
+- [MockServer](https://www.mock-server.com/)
+  - Has a Java dependency to get it up and running locally: not suitable. Mock server setup can be achieved with a docker image, see [jamesdbloom/mockserver](https://hub.docker.com/r/jamesdbloom/mockserver).
+- [Mockoon CLI](https://mockoon.com/)
+  - CLI tool is great and delivers data in no time, for example `mockoon-cli start --data doc/api/swagger.json`.
+
+| Stub/mock API tools comparison table | Prism | MSW  | OpenAPI Backend | MockServer | Mockoon CLI |
+| ------------------------------------ | ----- | ---- | --------------- | ---------- | ----------- |
+| Initial setup [^5]                   | ok    | good | ok              | bad        | good        |
+| Easy to use [^3]                     | ok    | ok   | ok              | not really | easy        |
+| Helpful for our use case             | yes   | yes  | yes             | no         | yes         |
+
+General notes in regards to all tested options:
+
+As soon as the mock/stub is running (e.g. with [Mockoon CLI](https://mockoon.com/cli/) `mockoon-cli start --data doc/api/swagger.json`) simple API calls can be made. For example `curl -i -X "GET" "http://localhost:3000/api/v1/verfahren?limit=10&offset=0" -H "accept: application/json" -H "X-User-ID: TestId"`:
+
+```
+HTTP/1.1 200 OK
+
+...
+
+[
+  {
+    "id": "df983b9c-5842-4f0b-ad21-e97119927f14",
+    "aktenzeichen": "",
+    "status": "Erstellt",
+    "status_changed": "Thu May 15 2025 05:01:38 GMT+0200 (Mitteleuropäische Sommerzeit)",
+    "eingereicht_am": "Thu May 15 2025 11:17:50 GMT+0200 (Mitteleuropäische Sommerzeit)",
+    "gericht_name": ""
+  }
+]
+```
+
+However, when it comes to parameter-based API calls or API calls that build on each other, none of the solutions could provide suitable responses out of the box. No tool was found within the npm Ecosystem that could do this without additional effort. To give an example: Getting a specific `Verfahren` based on the previously received `id` parameter was not possible with the Mockoon CLI: `curl -i -X "GET" "http://localhost:3000/api/v1/verfahren/df983b9c-5842-4f0b-ad21-e97119927f14" -H "accept: application/json" -H "X-User-ID: TestId"`.
+
+````
+HTTP/1.1 404 Not Found
+
+...
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/v1/verfahren/df983b9c-5842-4f0b-ad21-e97119927f14</pre>
+</body>
+</html>
+```
+
+In this case, further manual configuration of the tested tool was always required. Be it installing additional tools that, for example, deliver random data based on parameters or switching to the paid version. In the case of Mockoon, this requires the import of the OpenAPI spec into a Mockoon data file (see [documentation](https://mockoon.com/docs/latest/mockoon-data-files/data-files-location/)) and the use of the Mockoon GUI, which in turn is subject to a fee in order to be able to use it without restriction.
+
+**Conclusion**
+
+Ultimately, [MSW](https://github.com/mswjs/msw) and [msw-auto-mock](https://github.com/zoubingwu/msw-auto-mock) provided a good option for implementing API calls automatically and manually using request interception and response mocking. Manual work is also necessary here, but the result and the associated setup work was by far the best compared to the other options. Use case: Mock API calls to an external service as realistically as possible for local development as well as E2E testing.
 
 ## Consequences
 
 To be defined: What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
 
 - Move unit tests close to the units that they test: `./tests/unit/*` tests will be moved to the appropriate unit within the `./app/*` folder
+- Remove `JustizBackendService` (see `./app/services/justizBackend.server.ts`), its features and its mock implementation. Use mocked backend API (MSW implementation, see `./mocks/api/**`) instead within the application
+- Implement and add relevant E2E tests that mock API calls with MSW
 
 [^1]: (good/ok/bad) Can it detect timing issues, interface mismatches or data integrity problems?
 
 [^2]: (good/ok/bad) Complexity of writing and updating tests, CI/CD compatibility and runtime speed.
 
-[^3]: (easy/ok/much) Time, resources, effort to get it up and running.
+[^3]: (easy/ok/not really) Time, resources, effort to get it up and running and to update it later. Ok means it's easy to use but can require a lot of manual work
 
 [^4]: (yes/no) E.g. maintenance of a testing environment
+
+[^5]: (good/ok/bad) From an OpenAPI Specification JSON file to a running stub/mock of the defined HTTP API, how good, ok or bad is the setup?
+````
