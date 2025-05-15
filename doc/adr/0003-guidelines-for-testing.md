@@ -8,13 +8,9 @@ Pending
 
 ## Context
 
-To be defined: The issue motivating this decision, and any context that influences or constrains the decision.
-
 We need to ensure that our application is well tested so that all features work as expected for our users. There are many ways to achieve good test coverage, this ADR will document our testing guidelines.
 
 ## Decision
-
-To be defined: The change that we're proposing or have agreed to implement.
 
 ### We want to test the entire user journey through our application, from start to finish, to ensure that all the building blocks work together as expected.
 
@@ -74,7 +70,7 @@ The following tools have been tested:
   - Takes some time to get a mock server up and running. See the [boilerplate examples](https://openapistack.co/docs/examples/boilerplate/) for a good first impression, e. g. the [express-ts-mock](https://github.com/openapistack/openapi-backend/tree/main/examples/express-ts-mock) example or use the [openapi-generator-cli](https://openapi-generator.tech/docs/installation/): `openapi-generator-cli generate -i openapi.yaml -g nodejs-express-server -o mock-server
 `
 - [MockServer](https://www.mock-server.com/)
-  - Has a Java dependency to get it up and running locally. The mock server can be set up and operated with a Docker image, see [jamesdbloom/mockserver](https://hub.docker.com/r/jamesdbloom/mockserver). As this degrades the development experience, it is not appropriate here.
+  - Has a Java dependency. The mock server can be set up and operated with a Docker image, see [jamesdbloom/mockserver](https://hub.docker.com/r/jamesdbloom/mockserver). As this degrades the development experience, it is not appropriate here.
 - [Mockoon CLI](https://mockoon.com/)
   - CLI tool is great and delivers data in no time, for example with `mockoon-cli start --data doc/api/swagger.json`.
 
@@ -124,15 +120,13 @@ HTTP/1.1 404 Not Found
 </html>
 ```
 
-In this case, further manual configuration of the tested tool was always required. Be it installing additional tools that, for example, deliver random data based on parameters or switching to the paid version. In the case of Mockoon, this requires the import of the OpenAPI spec into a Mockoon data file (see [documentation](https://mockoon.com/docs/latest/mockoon-data-files/data-files-location/)) and the use of the Mockoon GUI, which in turn is subject to a fee in order to be able to use it without restriction.
+In this case, further manual configuration of the tested tool was required. Be it installing additional tools that, for example, deliver random data based on parameters or switching to the paid version. In the case of Mockoon, this requires the import of the OpenAPI spec into a Mockoon data file (see [documentation](https://mockoon.com/docs/latest/mockoon-data-files/data-files-location/)) and the use of the Mockoon GUI, which in turn is subject to a fee in order to be able to use it without restriction.
 
-**Conclusion**
+**Conclusion for integration testing with Justiz-Backend-API**
 
-Ultimately, [MSW](https://github.com/mswjs/msw) and [msw-auto-mock](https://github.com/zoubingwu/msw-auto-mock) provided a good option for implementing API calls automatically and manually using request interception and response mocking. Manual work is also necessary here, but the result and the associated setup work was by far the best compared to the other options. Use case: Mock API calls to an external service as realistically as possible for local development as well as E2E testing.
+Ultimately, [MSW](https://github.com/mswjs/msw) and [msw-auto-mock](https://github.com/zoubingwu/msw-auto-mock) provided a good option for implementing API calls automatically and manually using [request interception](https://mswjs.io/docs/basics/intercepting-requests) and [response mocking](https://mswjs.io/docs/basics/mocking-responses/). Manual work is also necessary here, but the result and the associated setup work was by far the best compared to the other options. Specifically for our use case: Enable mock API calls to an external service as realistically as possible for local development as well as for E2E testing.
 
 ## Consequences
-
-To be defined: What becomes easier or more difficult to do and any risks introduced by the change that will need to be mitigated.
 
 - Move unit tests close to the units that they test: `./tests/unit/*` tests will be moved to the appropriate unit within the `./app/*` folder
 - Remove `JustizBackendService` (see `./app/services/justizBackend.server.ts`), its features and its mock implementation. Use mocked backend API (MSW implementation, see `./mocks/api/**`) instead within the application
@@ -147,7 +141,3 @@ To be defined: What becomes easier or more difficult to do and any risks introdu
 [^4]: (yes/no) E.g. maintenance of a testing environment
 
 [^5]: (good/ok/bad) From an OpenAPI Specification JSON file to a running stub/mock of the defined HTTP API, how good, ok or bad is the setup?
-
-```
-
-```
