@@ -10,8 +10,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const environment = process.env.ENVIRONMENT?.trim() ?? "";
-const mockJustizBackendAPI =
-  environment === "development" || environment === "staging";
+const mockJustizBackendAPI = environment === "development";
 const isProduction = process.env.NODE_ENV === "production";
 
 // info logs
@@ -20,7 +19,7 @@ console.log(
   -> Environment is '${environment}'
   -> Production build: ${isProduction ? "yes" : "no"}
   -> API will be mocked: ${mockJustizBackendAPI ? "yes" : "no"}
-  ${mockJustizBackendAPI && `-> Setting up a Justiz-Backend-API mock for ${environment === "development" ? "easy local development" : "E2E testing on 'staging'"}`}
+  ${mockJustizBackendAPI && `-> Setting up a Justiz-Backend-API mock for local development`}
   ${!isProduction && `-> Setting up a viteDevServer for local development`}
   `,
 );
