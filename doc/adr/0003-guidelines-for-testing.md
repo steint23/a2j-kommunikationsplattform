@@ -31,9 +31,13 @@ These could be questions such as:
 - Does our overview page for Verfahren (lawsuits) correctly call the API and handle the response(s)?
 - Does a POST request respond with `status: 200, headers: {'Content-Type': 'application/json'}`
 
-To ensure this, **we write end-to-end tests (E2E) against a simulation of the backend API using [Mock Service Worker](https://mswjs.io/).**
+**To ensure this, we write end-to-end tests (E2E) against a simulation of the backend API using [Mock Service Worker](https://mswjs.io/).**
 
-Why we do this and how we decided to use Mock Service Worker can be read in the following section "[Integration testing (IT) options](#integration-testing-with-justiz-backend-api)".
+Why we do this and how we decided to use Mock Service Worker can be read in the following section "[Integration testing (IT) options](#integration-testing-it-options)".
+
+Skip to [Consequences](#consequences).
+
+---
 
 #### Integration testing (IT) options
 
