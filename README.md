@@ -16,7 +16,7 @@ Install the project dependencies using npm.
 npm install
 ```
 
-### Testing
+#### Playwright
 
 For E2E and a11y testing with [Playwright](https://playwright.dev/docs/intro) you will need to install the supported browsers:
 
@@ -24,7 +24,7 @@ For E2E and a11y testing with [Playwright](https://playwright.dev/docs/intro) yo
 npx playwright install
 ```
 
-### Git Hooks
+#### Git Hooks
 
 For the provided Git hooks you will need to install [lefthook](https://github.com/evilmartians/lefthook)
 (git hook manager) and [talisman](https://github.com/thoughtworks/talisman/) (secrets scanner) `brew install lefthook talisman`. Afterwards execute `lefthook install` to initialize the hooks or run `lefthook run pre-commit` before commiting new changes.
@@ -50,6 +50,10 @@ npm run dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
+
+#### XJustiz test files
+
+An XJustiz file is required to submit a new claim (is called “Klageeinreichung” in German). Test files are stored in the `/doc/xjustiz/**` [folder](/doc/xjustiz/). Further information regarding the XJustiz-standard can be found [here](https://xjustiz.justiz.de/).
 
 ### Testing
 
@@ -109,14 +113,6 @@ The website is then available under http://localhost:3000
 If you want to include any additional files during the build that are not in the `app` directories you need to add them to the `.dockerignore` file.
 
 The `.github/workflows/pipeline.yml` GitHub Action includes a `build-and-push-image` job to build the Docker Image and push it to GitHub Packages.
-
-### DIY
-
-If you're familiar with deploying node applications, React Router can create a production-ready build.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/`
 
 ## Architecture Decision Records
 
