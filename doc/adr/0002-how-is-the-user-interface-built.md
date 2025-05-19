@@ -64,7 +64,7 @@ In order to be able to start development soon and gather initial findings at an 
   ```html
   <div>
     <label
-      class="flex gap-2 items-center group transition ds-checkbox"
+      class="group ds-checkbox flex items-center gap-2 transition"
       data-rac=""
     >
       <span
@@ -73,7 +73,7 @@ In order to be able to start development soon and gather initial findings at an 
         <input type="checkbox" tabindex="0" title="" />
       </span>
       <div
-        class="outline-blue-600 dark:outline-blue-500 forced-colors:outline-[Highlight] outline-offset-2 w-40 h-40 shrink-0 rounded-xs flex items-center justify-center border-2 transition outline-0"
+        class="flex h-40 w-40 shrink-0 items-center justify-center rounded-xs border-2 outline-0 outline-offset-2 outline-blue-600 transition dark:outline-blue-500 forced-colors:outline-[Highlight]"
       ></div>
       Divers
     </label>
@@ -93,7 +93,7 @@ In order to be able to start development soon and gather initial findings at an 
 - The rendered markup is slim and clean:
 
   ```html
-  <div class="flex mb-20">
+  <div class="mb-20 flex">
     <input
       type="checkbox"
       role="checkbox"
@@ -120,12 +120,12 @@ In order to be able to start development soon and gather initial findings at an 
 - The rendered markup is slim and clean:
 
   ```html
-  <div class="flex mb-20">
+  <div class="mb-20 flex">
     <div class="flex flex-col flex-nowrap">
       <div class="flex items-center">
         <input type="hidden" value="off" name="divers" /><input
           id="divers"
-          class="ds-checkbox forced-colors:outline forced-colors:border-[ButtonText] "
+          class="ds-checkbox forced-colors:border-[ButtonText] forced-colors:outline"
           type="checkbox"
           value="on"
         />

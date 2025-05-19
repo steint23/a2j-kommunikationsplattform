@@ -1,8 +1,8 @@
+import { parse } from "cookie";
 import { createCookieSessionStorage, redirect } from "react-router";
 import { config } from "~/config/config.server";
 import type { AuthenticationContext } from "./oAuth.server";
 import { ServicesContext } from "./servicesContext.server";
-import { parse } from "cookie";
 
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
@@ -16,7 +16,7 @@ const { getSession, commitSession, destroySession } =
     },
   });
 
-export { getSession, commitSession, destroySession };
+export { commitSession, destroySession, getSession };
 
 // Once a user has authenticated with the OAuth2 strategy, we create a session for the user.
 export const createUserSession = async (

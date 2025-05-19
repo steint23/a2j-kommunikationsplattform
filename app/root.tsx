@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/react-router";
+import type { PropsWithChildren } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -6,12 +8,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import type { PropsWithChildren } from "react";
 import type { Route } from "./+types/root";
-import * as Sentry from "@sentry/react-router";
 
-import stylesheet from "~/styles.css?url";
 import fontsStylesheet from "@digitalservice4germany/angie/fonts.css?url";
+import stylesheet from "~/styles.css?url";
 import { clientConfig } from "./config/config";
 
 type LayoutProps = PropsWithChildren & {
@@ -83,11 +83,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 mx-auto">
+    <main className="mx-auto p-4 pt-16">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className="w-full overflow-x-auto p-4">
           <code>{stack}</code>
         </pre>
       )}

@@ -1,7 +1,7 @@
-import { ServicesContext } from "~/services/servicesContext.server";
+import { useRef } from "react";
 import { ActionFunctionArgs, useFetcher, useLoaderData } from "react-router";
 import { getFormDataFromRequest } from "~/services/fileUpload.server";
-import { useRef } from "react";
+import { ServicesContext } from "~/services/servicesContext.server";
 import { requireUserSession } from "~/services/session.server";
 
 export async function loader({
@@ -58,7 +58,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 export default function VerfahrenInfo() {
   return (
     <div>
-      <div className="text-xl mb-20 font-bold">Datenraum</div>
+      <div className="mb-20 text-xl font-bold">Datenraum</div>
       <AkteWithDokumente />
       <UploadFile />
     </div>
@@ -86,7 +86,7 @@ function AkteWithDokumente() {
           return (
             <div className="my-10" key={aktenteil.aktenteilId}>
               <div className="mb-10 font-medium">{aktenteil.aktenteilName}</div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-y-16 flex-wrap">
+              <div className="grid grid-cols-1 flex-wrap gap-y-16 lg:grid-cols-2 xl:grid-cols-3">
                 {aktenteil.dokumente &&
                   aktenteil.dokumente.map((dokument, index) => {
                     return (
@@ -98,7 +98,7 @@ function AkteWithDokumente() {
                           download
                           key={dokument!.id}
                           href={`/verfahren/${verfahrenId}/dokument/${dokument!.id}`}
-                          className="flex gap-10 items-center"
+                          className="flex items-center gap-10"
                         >
                           <svg
                             width="24"

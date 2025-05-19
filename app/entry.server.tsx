@@ -5,15 +5,15 @@
 
 import { PassThrough } from "node:stream";
 
+import { createReadableStreamFromReadable } from "@react-router/node";
+import * as Sentry from "@sentry/react-router";
+import { isbot } from "isbot";
+import { renderToPipeableStream } from "react-dom/server";
 import {
   HandleErrorFunction,
   ServerRouter,
   type EntryContext,
 } from "react-router";
-import { createReadableStreamFromReadable } from "@react-router/node";
-import { isbot } from "isbot";
-import { renderToPipeableStream } from "react-dom/server";
-import * as Sentry from "@sentry/react-router";
 
 // Reject/cancel all pending promises after 5 seconds
 export const streamTimeout = 5000;

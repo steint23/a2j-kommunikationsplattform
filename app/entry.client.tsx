@@ -3,9 +3,9 @@
  * For more information, see https://reactrouter.com/explanation/special-files#entryclienttsx
  */
 import * as Sentry from "@sentry/react-router";
-import { HydratedRouter } from "react-router/dom";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { HydratedRouter } from "react-router/dom";
 import { clientConfig } from "./config/config";
 
 const { SENTRY_DSN } = clientConfig();

@@ -1,8 +1,8 @@
 import { createRequestHandler } from "@react-router/express";
 import compression from "compression";
+import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
-import dotenv from "dotenv";
 
 /**
  * @see: https://github.com/dotenv-org/examples/blob/master/usage/dotenv-express/index.mjs

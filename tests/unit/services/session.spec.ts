@@ -1,10 +1,10 @@
 /**
  * @jest-environment node
  */
-import { requireUserSession } from "~/services/session.server";
-import { ServicesContext } from "~/services/servicesContext.server";
 import { jest } from "@jest/globals";
+import { ServicesContext } from "~/services/servicesContext.server";
 import * as sessionServer from "~/services/session.server";
+import { requireUserSession } from "~/services/session.server";
 
 describe("requireUserSession", () => {
   let mockRequest: Request;

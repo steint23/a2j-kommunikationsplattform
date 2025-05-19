@@ -36,7 +36,7 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function Verfahren() {
   return (
     <ContentContainer>
-      <div className="flex gap-8 items-center mt-40">
+      <div className="mt-40 flex items-center gap-8">
         <svg
           width="22"
           height="22"
@@ -80,7 +80,7 @@ function ListVerfahren() {
   }
 
   return (
-    <div className="mt-14 flex flex-col gap-24 w-full">
+    <div className="mt-14 flex w-full flex-col gap-24">
       {verfahren.map((v) => (
         <div
           key={v.id}
@@ -88,10 +88,10 @@ function ListVerfahren() {
           data-testid="verfahren-item"
         >
           <div className="w-full">
-            <div className="font-bold text-3xl">{v.aktenzeichen}</div>
+            <div className="text-3xl font-bold">{v.aktenzeichen}</div>
             <div className="text-sm text-gray-500">Aktenzeichen</div>
 
-            <div className="grid grid-cols-2 gap-y-2  mt-24">
+            <div className="mt-24 grid grid-cols-2 gap-y-2">
               <div className="text-xl">{v.status}</div>
               <div className="text-xl">
                 {new Date(v.status_changed).toLocaleDateString("de-DE")}
@@ -115,7 +115,7 @@ function ListVerfahren() {
             to={`/verfahren/${v.id}`}
             onClick={() => toggleSidebar(v.id)}
             preventScrollReset={true}
-            className="items-stretch cursor-pointer pl-24 border-l-2 border-gray-300 flex"
+            className="flex cursor-pointer items-stretch border-l-2 border-gray-300 pl-24"
           >
             <div className="my-auto">
               <svg
@@ -168,19 +168,19 @@ function CreateVerfahren() {
           action="/verfahren"
           className="relative"
         >
-          <h2 className="text-xl font-bold mt-24 mb-10">Klage einreichen</h2>
+          <h2 className="mt-24 mb-10 text-xl font-bold">Klage einreichen</h2>
           <button
             onClick={toggleFormVisibility}
             className="absolute top-0 right-0 mt-2 mr-2 text-red-500"
           >
             X
           </button>
-          <div className="flex flex-col gap-4 border-2 rounded-sm border-dashed border-[#0073A8] px-40 py-20">
+          <div className="flex flex-col gap-4 rounded-sm border-2 border-dashed border-[#0073A8] px-40 py-20">
             <label className="font-bold" htmlFor="xjustiz">
               XJustiz-Datei <span className="text-red-500">*</span>
             </label>
             <input
-              className={`border-2 border-black-300 p-10 hover:border-blue-600 ${xjustizSelected ? "border-green-500" : ""}`}
+              className={`border-black-300 border-2 p-10 hover:border-blue-600 ${xjustizSelected ? "border-green-500" : ""}`}
               type="file"
               accept=".xml"
               name="xjustiz"
@@ -194,7 +194,7 @@ function CreateVerfahren() {
             </label>
 
             <input
-              className={`border-2 border-black-300 p-10 hover:border-blue-600 ${filesSelected ? "border-green-500" : ""}`}
+              className={`border-black-300 border-2 p-10 hover:border-blue-600 ${filesSelected ? "border-green-500" : ""}`}
               type="file"
               name="files"
               id="files"
@@ -207,7 +207,7 @@ function CreateVerfahren() {
 
           <button
             type="submit"
-            className={`ds-button mt-20 ${xjustizSelected ? "" : "hidden is-disabled"}`}
+            className={`ds-button mt-20 ${xjustizSelected ? "" : "is-disabled hidden"}`}
             disabled={!xjustizSelected}
             data-testid="submit-verfahren-button"
           >

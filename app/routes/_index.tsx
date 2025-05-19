@@ -53,7 +53,7 @@ export default function Index() {
 
       <div className={"m-40 text-center"}>
         <p className={"pb-20"}>Bitte wählen Sie Ihre Loginmethode:</p>
-        <div className="flex flex-col gap-16 items-center">
+        <div className="flex flex-col items-center gap-16">
           <Link to={"/login"} className={"ds-button"}>
             beA-Portal
           </Link>
