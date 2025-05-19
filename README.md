@@ -27,9 +27,11 @@ npx playwright install
 #### Git Hooks
 
 For the provided Git hooks you will need to install [lefthook](https://github.com/evilmartians/lefthook)
-(git hook manager) and [talisman](https://github.com/thoughtworks/talisman/) (secrets scanner) `brew install lefthook talisman`. Afterwards execute `lefthook install` to initialize the hooks or run `lefthook run pre-commit` before commiting new changes.
+(git hook manager) and [talisman](https://github.com/thoughtworks/talisman/) (secrets scanner) `brew install lefthook talisman`. Afterwards execute `lefthook install` to initialize the hooks or run `lefthook run pre-commit` before commiting new changes. See `lefthook.yml` for more details in regards to the currently configured git hooks.
 
-See `lefthook.yml` for more details and have a look at [conventional commit messages](https://chris.beams.io/posts/git-commit/).
+### Everything else
+
+- Please have a look at [conventional commit messages](https://chris.beams.io/posts/git-commit/) to know how to write Git Commit Messages.
 
 ## Development
 
