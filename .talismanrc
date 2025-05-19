@@ -11,12 +11,6 @@ fileignoreconfig:
     checksum: 628dadabf0e8d96fa9b39090f961bbc37b5df938f2e854b386f5fd4b7646ef6d
   - filename: app/services/oAuth.server.ts
     checksum: fc6496454bc77167082b3027de63303f9c748104c5edfff02cd37eaec417a478
-  - filename: app/config/config.server.ts
-    checksum: 8a39529add3929bf11584c904d7e372e9296723e95271626c0e42889aafb2629
-  - filename: app/services/session.server.ts
-    checksum: c540a3922c223ae1589f535586d7100245ebebda0cb911afb50c37361c1261b0
-  - filename: app/routes/verfahren.$id.tsx
-    checksum: 7cdeb08c5e7796b553112f18a5dcaacdf4b6acb9285b55cf79cfa61720b6e876
   - filename: app/routes/verfahren.tsx
     checksum: fa275d581af157c132957b9a2c587e851dd293cc5ace0d5c6471f2103c4cfea1
   - filename: app/services/fileUpload.server.ts
@@ -28,9 +22,15 @@ fileignoreconfig:
   - filename: .github/workflows/scan.yml
     checksum: b845ef02e7f8e27be5b69e151e8084ca89bb08567cd4284cfd0c0dc3e0ab9a1f
   - filename: doc/adr/0002-how-is-the-user-interface-built.md
-    checksum: 1d9396e66ec739b2313290ea782a1d8019450bd3f916a220b5760032c5ca4242
+    checksum: de6a2cfb03e97d6c65a5a8351e968b98f912e34e911a144fce70bcb9ad86a91e
+  - filename: app/config/config.server.ts
+    checksum: d7ce54de5fd49a95da652dc5716543ff767ce0ff3bc83ca79e38d2c7940b5a1a
+  - filename: app/routes/verfahren.$id.tsx
+    checksum: 0727efb5d565dae591f7413ee57c506d5cb8f1fa5042d3cb98b0214b9a3a6132
+  - filename: app/services/session.server.ts
+    checksum: 3f28dc6e48ed60ef459a02ee67d09113797a926b6ac6e4c5d48b650d256b9c16
   - filename: mocks/api/handlers.js
-    checksum: f514867d51538bd0cceef385c2e9a6277afff81c2f9bfc435b9ea512730815d4
+    checksum: 55bbc42a5428e7ee61b74d5c38e2b056d2b53f0e7deb3807e088cda51acb6495
 
 version: ""
 scopeconfig:
