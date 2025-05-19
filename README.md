@@ -53,7 +53,7 @@ This starts your app in development mode, rebuilding assets on file changes.
 
 #### XJustiz test files
 
-An XJustiz file is required to submit a new claim (is called “Klageeinreichung” in German). Test files are stored in the `/doc/xjustiz/**` [folder](/doc/xjustiz/). Further information regarding the XJustiz-standard can be found [here](https://xjustiz.justiz.de/).
+An XJustiz file is required to submit a new claim (this is called “Klageeinreichung” in German). Test files are stored in the `/doc/xjustiz/**` [folder](/doc/xjustiz/). Further information regarding the XJustiz-standard can be found [here](https://xjustiz.justiz.de/).
 
 ### Testing
 
