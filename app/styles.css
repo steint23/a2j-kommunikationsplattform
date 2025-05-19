@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* tailwindcss v4+ */
+@import "tailwindcss";
 
 h1,
 h2 {

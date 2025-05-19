@@ -175,7 +175,7 @@ function CreateVerfahren() {
           >
             X
           </button>
-          <div className="flex flex-col gap-4 border-2 rounded border-dashed border-[#0073A8] px-40 py-20">
+          <div className="flex flex-col gap-4 border-2 rounded-sm border-dashed border-[#0073A8] px-40 py-20">
             <label className="font-bold" htmlFor="xjustiz">
               XJustiz-Datei <span className="text-red-500">*</span>
             </label>

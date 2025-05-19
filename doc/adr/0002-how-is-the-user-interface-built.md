@@ -73,7 +73,7 @@ In order to be able to start development soon and gather initial findings at an 
         <input type="checkbox" tabindex="0" title="" />
       </span>
       <div
-        class="outline-blue-600 dark:outline-blue-500 forced-colors:outline-[Highlight] outline-offset-2 w-40 h-40 shrink-0 rounded-sm flex items-center justify-center border-2 transition outline-0"
+        class="outline-blue-600 dark:outline-blue-500 forced-colors:outline-[Highlight] outline-offset-2 w-40 h-40 shrink-0 rounded-xs flex items-center justify-center border-2 transition outline-0"
       ></div>
       Divers
     </label>
