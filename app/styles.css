@@ -1,5 +1,10 @@
 /* tailwindcss v4+ */
+@import "@digitalservice4germany/angie/fonts.css" layer(base);
+
 @import "tailwindcss";
+
+@config "@digitalservice4germany/style-dictionary/tailwind";
+@plugin "@digitalservice4germany/angie";
 
 h1,
 h2 {
