@@ -70,14 +70,14 @@ npx msw-auto-mock data/api/swagger.json -o ./msw-auto-mock
 
 The application has
 
-- unit tests (using [Jest](https://jestjs.io/docs/getting-started))
+- unit tests (using [Vitest](https://vitest.dev/))
 - end-to-end tests (using [Playwright](https://playwright.dev/docs/intro))
 - accessibility tests (using [Playwright](https://playwright.dev/docs/intro) and [Axe](https://www.deque.com/axe/))
 
 **Test commands**
 
 - Run unit tests: `npm test`
-- Run unit tests with watcher: `npm test -- --watch`
+- Run unit tests in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `npm run test:watch`
 - Run E2E tests: `npm run test:e2e`
 - Run A11y tests: `npm run test:a11y`
 - Generate test coverage: `npm run test:generate-coverage` (used by SonarQube)
