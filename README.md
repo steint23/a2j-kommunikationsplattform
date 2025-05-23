@@ -55,7 +55,11 @@ This starts your app in development mode, rebuilding assets on file changes.
 
 #### XJustiz test files
 
-An XJustiz file is required to submit a new claim (this is called “Klageeinreichung” in German). Test files are stored in the `/doc/xjustiz/**` [folder](/doc/xjustiz/). Further information regarding the XJustiz-standard can be found [here](https://xjustiz.justiz.de/).
+An XJustiz file is required to submit a new claim (this is called “Klageeinreichung” in German). Test files are stored in the `/data/xjustiz/**` [folder](/data/xjustiz/). Further information regarding the XJustiz-standard can be found [here](https://xjustiz.justiz.de/).
+
+#### OpenAPI Specification of Justiz-Backend-API
+
+The [OpenAPI Specification](https://swagger.io/specification/) of the Justiz-Backend-API (Single Source of Truth for the external backend service) is stored at `/data/api/swagger.json` [folder](/data/api/).
 
 ### Testing
 
