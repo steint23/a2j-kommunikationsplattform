@@ -59,7 +59,7 @@ An XJustiz file is required to submit a new claim (this is called “Klageeinrei
 
 #### OpenAPI Specification of Justiz-Backend-API
 
-The [OpenAPI Specification](https://swagger.io/specification/) of the Justiz-Backend-API (Single Source of Truth for the external backend service) is stored at `/data/api/swagger.json` [folder](/data/api/).
+The [OpenAPI Specification](https://swagger.io/specification/) of the Justiz-Backend-API (Single Source of Truth for the external backend service) is stored within the `/data/api/` [folder](/data/api/) (file: `/data/api/swagger.json`).
 
 ```sh
 # Read from OpenAPI file and output generated code for mocking with MSW (see: /mocks/handlers.js)
