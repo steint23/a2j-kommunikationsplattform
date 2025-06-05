@@ -47,55 +47,59 @@ async function authUserRemixOAuth(request: Request) {
 export default function Index() {
   return (
     <>
-      <div className="login">
-        <div className="kern-container">
-          <div className="kern-col-12 kern-col-sm-10 kern-col-md-8 kern-col-xl-6 kern-col-sm-offset-1 kern-col-md-offset-2 kern-col-xl-offset-3">
-            <div className="login__container">
-              <div className="logo">
-                <span
-                  className="kern-icon icon--network_node kern-icon--large"
-                  aria-hidden="true"
-                ></span>
-                <h1 className="kern-heading-large">Kommunikationsplattform</h1>
-              </div>
+      <main>
+        <div className="login">
+          <div className="kern-container">
+            <div className="kern-col-12 kern-col-sm-10 kern-col-md-8 kern-col-xl-6 kern-col-sm-offset-1 kern-col-md-offset-2 kern-col-xl-offset-3">
+              <div className="login__container">
+                <div className="logo">
+                  <span
+                    className="kern-icon icon--network_node kern-icon--large"
+                    aria-hidden="true"
+                  ></span>
+                  <h1 className="kern-heading-large">
+                    Kommunikationsplattform
+                  </h1>
+                </div>
 
-              <hr className="kern-divider" aria-hidden="true" />
+                <hr className="kern-divider" aria-hidden="true" />
 
-              <p className="kern-body">
-                Willkommen auf der Pilotplattform für den digitalen Austausch
-                zwischen Gerichten und Verfahrensbeteiligten.
-              </p>
+                <p className="kern-body">
+                  Willkommen auf der Pilotplattform für den digitalen Austausch
+                  zwischen Gerichten und Verfahrensbeteiligten.
+                </p>
 
-              <div className="login__buttons">
-                <Link
-                  to="/login"
-                  className="kern-btn kern-btn--block kern-btn--primary"
-                >
-                  <span className="kern-label">Anmeldung Anwaltschaft</span>
-                </Link>
+                <div className="login__buttons">
+                  <Link
+                    to="/login"
+                    className="kern-btn kern-btn--block kern-btn--primary"
+                  >
+                    <span className="kern-label">Anmeldung Anwaltschaft</span>
+                  </Link>
 
-                <button
-                  className="kern-btn kern-btn--block kern-btn--primary"
-                  aria-disabled="true"
-                  disabled
-                >
-                  <span className="kern-label">Anmeldung Gerichte</span>
-                </button>
+                  <button
+                    className="kern-btn kern-btn--block kern-btn--primary"
+                    aria-disabled="true"
+                    disabled
+                  >
+                    <span className="kern-label">Anmeldung Gerichte</span>
+                  </button>
 
-                <Link
-                  to="/verfahren"
-                  className="kern-btn kern-btn--block kern-btn--secondary"
-                  onClick={() => {
-                    document.cookie = "demoMode=true; path=/; max-age=3600"; // 1 hour
-                  }}
-                >
-                  <span className="kern-label">Testzugang</span>
-                </Link>
+                  <Link
+                    to="/verfahren"
+                    className="kern-btn kern-btn--block kern-btn--secondary"
+                    onClick={() => {
+                      document.cookie = "demoMode=true; path=/; max-age=3600"; // 1 hour
+                    }}
+                  >
+                    <span className="kern-label">Testzugang</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
       <footer>
         <div className="kern-container">
           <div className="kern-col-12 kern-col-sm-10 kern-col-md-8 kern-col-xl-6 kern-col-sm-offset-1 kern-col-md-offset-2 kern-col-xl-offset-3">
