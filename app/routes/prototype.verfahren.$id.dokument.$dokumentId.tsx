@@ -1,6 +1,6 @@
 import { LoaderFunction } from "react-router";
-import { ServicesContext } from "~/services/servicesContext.server";
-import { requireUserSession } from "~/services/session.server";
+import { ServicesContext } from "~/services/prototype.servicesContext.server";
+import { requireUserSession } from "~/services/prototype.session.server";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { demoMode } = await requireUserSession(request);

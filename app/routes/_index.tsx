@@ -1,6 +1,9 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { data, Link, redirect } from "react-router";
-import { AuthenticationProvider, authenticator } from "~/services/oAuth.server";
+import {
+  AuthenticationProvider,
+  authenticator,
+} from "~/services/prototype.oAuth.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -86,7 +89,7 @@ export default function Index() {
                   </button>
 
                   <Link
-                    to="/verfahren"
+                    to="/prototype/verfahren"
                     className="kern-btn kern-btn--block kern-btn--secondary"
                     onClick={() => {
                       document.cookie = "demoMode=true; path=/; max-age=3600"; // 1 hour

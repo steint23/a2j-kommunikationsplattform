@@ -1,7 +1,7 @@
 import { Authenticator } from "remix-auth";
 import { CodeChallengeMethod, OAuth2Strategy } from "remix-auth-oauth2";
 import { serverConfig } from "~/config/config.server";
-import { createUserSession } from "./session.server";
+import { createUserSession } from "./prototype.session.server";
 
 export interface AuthenticationContext {
   accessToken: string;

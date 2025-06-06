@@ -3,7 +3,7 @@ import {
   type JustizBackendService,
   JustizBackendServiceImpl,
   JustizBackendServiceMockImpl,
-} from "./justizBackend.server";
+} from "./prototype.justizBackend.server";
 
 class ServicesContext {
   private static justizBackendService: JustizBackendService;

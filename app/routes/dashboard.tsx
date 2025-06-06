@@ -1,5 +1,5 @@
 import { LoaderFunction } from "react-router";
-import { requireUserSession } from "~/services/session.server";
+import { requireUserSession } from "~/services/prototype.session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUserSession(request);

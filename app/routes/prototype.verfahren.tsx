@@ -6,9 +6,9 @@ import {
   useLoaderData,
   useNavigation,
 } from "react-router";
-import { getFormDataFromRequest } from "~/services/fileUpload.server";
-import { ServicesContext } from "~/services/servicesContext.server";
-import { requireUserSession } from "~/services/session.server";
+import { getFormDataFromRequest } from "~/services/prototype.fileUpload.server";
+import { ServicesContext } from "~/services/prototype.servicesContext.server";
+import { requireUserSession } from "~/services/prototype.session.server";
 
 export async function loader({ request }: { request: Request }) {
   const { demoMode } = await requireUserSession(request);
@@ -112,7 +112,7 @@ function ListVerfahren() {
             )}
           </div>
           <Link
-            to={`/verfahren/${v.id}`}
+            to={`/prototype/verfahren/${v.id}`}
             onClick={() => toggleSidebar(v.id)}
             preventScrollReset={true}
             className="flex cursor-pointer items-stretch border-l-2 border-gray-300 pl-24"
@@ -165,7 +165,7 @@ function CreateVerfahren() {
         <form
           method="post"
           encType="multipart/form-data"
-          action="/verfahren"
+          action="/prototype/verfahren"
           className="relative"
         >
           <h2 className="mt-24 mb-10 text-xl font-bold">Klage einreichen</h2>

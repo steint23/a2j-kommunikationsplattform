@@ -1,5 +1,5 @@
-import { ServicesContext } from "~/services/servicesContext.server";
-import { requireUserSession } from "~/services/session.server";
+import { ServicesContext } from "~/services/prototype.servicesContext.server";
+import { requireUserSession } from "~/services/prototype.session.server";
 
 describe("requireUserSession", () => {
   let mockRequest: Request;

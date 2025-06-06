@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { ActionFunctionArgs, useFetcher, useLoaderData } from "react-router";
-import { getFormDataFromRequest } from "~/services/fileUpload.server";
-import { ServicesContext } from "~/services/servicesContext.server";
-import { requireUserSession } from "~/services/session.server";
+import { getFormDataFromRequest } from "~/services/prototype.fileUpload.server";
+import { ServicesContext } from "~/services/prototype.servicesContext.server";
+import { requireUserSession } from "~/services/prototype.session.server";
 
 export async function loader({
   request,
@@ -97,7 +97,7 @@ function AkteWithDokumente() {
                         <a
                           download
                           key={dokument!.id}
-                          href={`/verfahren/${verfahrenId}/dokument/${dokument!.id}`}
+                          href={`/prototype/verfahren/${verfahrenId}/dokument/${dokument!.id}`}
                           className="flex items-center gap-10"
                         >
                           <svg
