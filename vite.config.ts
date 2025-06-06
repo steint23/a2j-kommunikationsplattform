@@ -34,12 +34,10 @@ export default defineConfig((config) => {
           "app/root.tsx",
           // exclude routes (pages)
           "app/routes/**",
-          // excluded technical prototypes (spikes) that will be removed/reworked
-          "app/services/fileUpload.server.ts",
-          "app/services/justizBackend.server.ts",
-          "app/services/servicesContext.server.ts",
           // test files
           "app/**/__test__/*.test.{ts,tsx}",
+          // excluded technical prototypes (spikes) that will be removed/reworked
+          "app/**/prototype.*.{ts,tsx}",
         ],
         reporter: ["text", "lcov"],
       },
