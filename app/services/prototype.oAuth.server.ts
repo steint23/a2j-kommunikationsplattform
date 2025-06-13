@@ -29,7 +29,7 @@ authenticator.use(
       authorizationEndpoint: `${serverConfig().BRAK_IDP_OIDC_ISSUER}/protocol/openid-connect/auth`,
       tokenEndpoint: `${serverConfig().BRAK_IDP_OIDC_ISSUER}/protocol/openid-connect/token`,
       redirectURI: `${serverConfig().BRAK_IDP_OIDC_REDIRECT_URI}`,
-      // scopes: ["safe_oidc", "email", "profile"], // TODO: Check which scopes we need
+      // scopes: ["openid", "safeid"], // is optional,
       codeChallengeMethod: CodeChallengeMethod.S256,
     },
     async ({ tokens, request }) => {
