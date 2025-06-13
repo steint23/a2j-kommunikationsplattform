@@ -30,13 +30,13 @@ describe("config()", () => {
     (configModule as any).instance = undefined;
   });
 
-  it("returns the same instance and config items (singleton)", () => {
+  it("returns defined config items for browser environment (window.ENV)", () => {
     (window as any).ENV = { SENTRY_DSN: "first" };
-    const first = configModule.config();
-    (window as any).ENV = { SENTRY_DSN: "second" };
-    const second = configModule.config();
-    expect(first).toBe(second);
-    expect(second!.SENTRY_DSN).toBe("first");
+    const browserConfig = configModule.config();
+    expect(browserConfig).toStrictEqual({
+      JUSTIZ_BACKEND_API_URL: "",
+      SENTRY_DSN: "first",
+    });
   });
   /* eslint-enable @typescript-eslint/no-explicit-any */
 });

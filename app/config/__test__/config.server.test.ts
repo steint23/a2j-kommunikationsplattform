@@ -1,12 +1,19 @@
-import * as cerverConfigModule from "../config.server";
+import { existsSync, readFileSync } from "fs";
+import { expect, it, vi } from "vitest";
+import * as serverConfigModule from "../config.server";
+
+// mock used fs imports within config.server
+vi.mock("fs", () => {
+  return {
+    existsSync: vi.fn().mockReturnValue(true),
+    readFileSync: vi.fn().mockReturnValue("XYZ"),
+  };
+});
 
 describe("serverConfig()", () => {
   const originalEnv = process.env;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
 
   beforeEach(() => {
-    // reset singleton instance before each test
-    (cerverConfigModule as any).instance = undefined;
     // save and clear process.env
     process.env = { ...originalEnv };
     delete process.env.SENTRY_DSN;
@@ -15,16 +22,20 @@ describe("serverConfig()", () => {
   afterEach(() => {
     // restore process.env
     process.env = originalEnv;
-    (cerverConfigModule as any).instance = undefined;
   });
 
-  it("returns the same instance and config items (singleton)", () => {
-    process.env = { SENTRY_DSN: "first" };
-    const first = cerverConfigModule.serverConfig();
-    process.env = { SENTRY_DSN: "second" };
-    const second = cerverConfigModule.serverConfig();
-    expect(first).toBe(second);
-    expect(second.SENTRY_DSN).toBe("first");
+  it("returns a defined server config item (container env variable)", () => {
+    process.env = { SENTRY_DSN: "ABC" };
+    const testConfig = serverConfigModule.serverConfig();
+
+    expect(testConfig).toBeDefined();
+    expect(testConfig.SENTRY_DSN).toBe("ABC");
   });
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+
+  it("returns a defined server config item (secret env variable)", () => {
+    const testConfig = serverConfigModule.serverConfig();
+    expect(existsSync).toHaveBeenCalled();
+    expect(readFileSync).toHaveBeenCalled();
+    expect(testConfig.BRAK_IDP_OIDC_CLIENT_SECRET).toBe("XYZ");
+  });
 });

@@ -1,8 +1,7 @@
 interface ClientConfig {
+  JUSTIZ_BACKEND_API_URL: string;
   SENTRY_DSN: string;
 }
-
-let instance: ClientConfig | undefined = undefined;
 
 const envFromBrowser = () =>
   typeof window === "object" && "ENV" in window
@@ -12,16 +11,13 @@ const envFromBrowser = () =>
 const envFromNode = () =>
   typeof process === "object" && "env" in process ? process?.env : undefined;
 
-export function config() {
+export function config(): ClientConfig {
   const env = envFromBrowser() ?? envFromNode() ?? {};
 
-  if (env && instance === undefined) {
-    instance = {
-      SENTRY_DSN: env.SENTRY_DSN?.trim() ?? "",
-    };
-  }
-
-  return instance;
+  return {
+    JUSTIZ_BACKEND_API_URL: env.JUSTIZ_BACKEND_API_URL?.trim() ?? "",
+    SENTRY_DSN: env.SENTRY_DSN?.trim() ?? "",
+  };
 }
 
 // in-source test suites
@@ -38,7 +34,10 @@ if (import.meta.vitest) {
     // @ts-expect-error to test this use case
     delete global.window;
     const getConfig = config();
-    expect(getConfig).toStrictEqual({ SENTRY_DSN: "" });
+    expect(getConfig).toStrictEqual({
+      SENTRY_DSN: "",
+      JUSTIZ_BACKEND_API_URL: "",
+    });
     // restore process
     global.process = originalProcess;
     // restore window
