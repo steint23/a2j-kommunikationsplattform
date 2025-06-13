@@ -24,7 +24,7 @@ describe("serverConfig()", () => {
     process.env = originalEnv;
   });
 
-  it("returns a defined server config item (container env variable)", () => {
+  it("returns a defined container env variable as server config item", () => {
     process.env = { SENTRY_DSN: "ABC" };
     const testConfig = serverConfigModule.serverConfig();
 
@@ -32,7 +32,7 @@ describe("serverConfig()", () => {
     expect(testConfig.SENTRY_DSN).toBe("ABC");
   });
 
-  it("returns a defined server config item (secret env variable)", () => {
+  it("returns a defined secret as server config item", () => {
     const testConfig = serverConfigModule.serverConfig();
     expect(existsSync).toHaveBeenCalled();
     expect(readFileSync).toHaveBeenCalled();
