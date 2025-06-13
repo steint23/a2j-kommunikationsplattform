@@ -1,5 +1,4 @@
 interface ClientConfig {
-  JUSTIZ_BACKEND_API_URL: string;
   SENTRY_DSN: string;
 }
 
@@ -15,7 +14,6 @@ export function config(): ClientConfig {
   const env = envFromBrowser() ?? envFromNode() ?? {};
 
   return {
-    JUSTIZ_BACKEND_API_URL: env.JUSTIZ_BACKEND_API_URL?.trim() ?? "",
     SENTRY_DSN: env.SENTRY_DSN?.trim() ?? "",
   };
 }
@@ -36,7 +34,6 @@ if (import.meta.vitest) {
     const getConfig = config();
     expect(getConfig).toStrictEqual({
       SENTRY_DSN: "",
-      JUSTIZ_BACKEND_API_URL: "",
     });
     // restore process
     global.process = originalProcess;

@@ -34,7 +34,6 @@ describe("config()", () => {
     (window as any).ENV = { SENTRY_DSN: "first" };
     const browserConfig = configModule.config();
     expect(browserConfig).toStrictEqual({
-      JUSTIZ_BACKEND_API_URL: "",
       SENTRY_DSN: "first",
     });
   });
