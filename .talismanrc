@@ -34,7 +34,7 @@ fileignoreconfig:
   - filename: app/config/config.server.ts
     checksum: 842a37619c5c0d7f768010e44ec8abc6a6e6c9797dd03cb3ae5b2243f78015c9
   - filename: app/config/__test__/config.server.test.ts
-    checksum: d3b3f90e585efcaf4785b4c73b0a4d64890b42ee59807832fe8e151059fb7ae8
+    checksum: 55ff306d55c77f5317c6a4b03cebe9685b34f65a7c1983376d09ecaaf6c54e60
 
 version: ""
 scopeconfig:
