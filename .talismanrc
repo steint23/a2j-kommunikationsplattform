@@ -6,7 +6,7 @@ fileignoreconfig:
   - filename: SECURITY.md
     checksum: b1743150cdd537be3a66f5308f887d130f0f320ab21628b63713808090a84e3f
   - filename: .github/workflows/pipeline.yml
-    checksum: 7335e7f7a04c76db877e7c94014be333e70f45d8d588835f984b60654f856cc7
+    checksum: 73af1c8856e05aadd42f3c6192902028d20825c77341f8b202b6f9a78291709d
   - filename: .env.example
     checksum: c262fbe55a8a17bce80354843f8e68d77dc4847319efa6a4a720989adbb6fea1
   - filename: app/routes/verfahren.tsx
