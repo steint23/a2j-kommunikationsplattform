@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return authenticator
     .authenticate(authenticationProvider, request)
     .then((authenticationResponse) => {
-      return redirect("/prototype-verfahren", {
+      return redirect("/prototype/verfahren", {
         headers: {
           "Set-Cookie": authenticationResponse.sessionCookieHeader,
         },
