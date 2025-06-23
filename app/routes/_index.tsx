@@ -1,9 +1,5 @@
-import type { LoaderFunctionArgs, MetaFunction } from "react-router";
-import { data, Link, redirect } from "react-router";
-import {
-  AuthenticationProvider,
-  authenticator,
-} from "~/services/prototype.oAuth.server";
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,37 +11,6 @@ export const meta: MetaFunction = () => {
     },
   ];
 };
-
-export async function loader({ request }: LoaderFunctionArgs) {
-  // TODO: Update this to be done within the auth.callback endpoint, when redirect_uri has been updated by beA support team.
-  // As a workaround, we will call the authUserRemixOAuth function here, instead of in the `auth.callback.tsx` route.
-  return await authUserRemixOAuth(request);
-}
-
-async function authUserRemixOAuth(request: Request) {
-  const url = new URL(request.url);
-  const code = url.searchParams.get("code");
-
-  if (code) {
-    try {
-      const authenticationResponse = await authenticator.authenticate(
-        AuthenticationProvider.BEA,
-        request,
-      );
-
-      return redirect("/dashboard", {
-        headers: {
-          "Set-Cookie": authenticationResponse.sessionCookieHeader,
-        },
-      });
-    } catch (error) {
-      console.error("Authentication error:", error);
-      return data(null);
-    }
-  } else {
-    return data(null);
-  }
-}
 
 export default function Index() {
   return (

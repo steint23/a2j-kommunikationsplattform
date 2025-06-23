@@ -5,11 +5,19 @@ import {
 } from "~/services/prototype.oAuth.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
+  // refactoring of _index.tsx code:
+  // test for a code param, will be deleted, if it is not present
+  const url = new URL(request.url);
+  const code = url.searchParams.get("code");
+  if (code) {
+    console.log("Auth code is:", code);
+  }
+
   const authenticationProvider = AuthenticationProvider.BEA;
   return authenticator
     .authenticate(authenticationProvider, request)
     .then((authenticationResponse) => {
-      return redirect("/dashboard", {
+      return redirect("/prototype-verfahren", {
         headers: {
           "Set-Cookie": authenticationResponse.sessionCookieHeader,
         },
