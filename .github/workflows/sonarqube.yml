@@ -1,3 +1,5 @@
+name: SonarQube
+
 on:
   workflow_call:
     secrets:
