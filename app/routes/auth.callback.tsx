@@ -5,13 +5,14 @@ import {
 } from "~/services/prototype.oAuth.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  // refactoring of _index.tsx code:
-  // test for a code param, will be deleted, if it is not present
-  const url = new URL(request.url);
-  const code = url.searchParams.get("code");
-  if (code) {
-    console.log("Auth code is:", code);
-  }
+  // Fyi: When the authorization server redirects to this route (Redirect URI),
+  // then there is currently a code in the URL that could be used
+  // for further identification
+  // const url = new URL(request.url);
+  // const code = url.searchParams.get("code");
+  // if (code) {
+  //   // do something
+  // }
 
   const authenticationProvider = AuthenticationProvider.BEA;
   return authenticator

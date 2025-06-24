@@ -18,8 +18,8 @@ export enum AuthenticationProvider {
   BEA = "bea",
 }
 
+// BRAK IdP uses "Authorization Code" OAuth 2.0 flow
 export const authenticator = new Authenticator<AuthenticationResponse>();
-
 authenticator.use(
   new OAuth2Strategy(
     {
