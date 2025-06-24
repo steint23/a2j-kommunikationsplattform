@@ -8,9 +8,6 @@ on:
   # Allow to run this workflow manually
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 env:
   IMAGE_NAME: ${{ github.repository }}
   CONTAINER_IMAGE_VERSION: ${{ github.sha }}
@@ -167,10 +164,6 @@ jobs:
       - build
       - audit-licenses
       - vulnerability-scan
-    permissions:
-      id-token: write # for cosign w/ keyless signing
-      packages: write # for updating cosign attestation
-      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
