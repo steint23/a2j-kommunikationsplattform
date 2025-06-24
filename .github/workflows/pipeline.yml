@@ -8,6 +8,9 @@ on:
   # Allow to run this workflow manually
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   IMAGE_NAME: ${{ github.repository }}
   CONTAINER_IMAGE_VERSION: ${{ github.sha }}
