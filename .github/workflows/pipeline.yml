@@ -22,9 +22,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -172,8 +169,9 @@ jobs:
       - vulnerability-scan
     permissions:
       contents: read
-      id-token: write # This is used to complete the identity challenge with sigstore/fulcio..
-      packages: write
+      id-token: write # for cosign w/ keyless signing
+      packages: write # for updating cosign attestation
+      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
