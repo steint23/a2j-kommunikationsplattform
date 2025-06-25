@@ -16,6 +16,8 @@ jobs:
   sonarqube:
     uses: ./.github/workflows/sonarqube.yml
     secrets: inherit
+    permissions:
+      contents: read
 
   build:
     runs-on: ubuntu-latest
