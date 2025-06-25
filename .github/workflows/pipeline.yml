@@ -122,6 +122,8 @@ jobs:
 
   audit-licenses:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -246,6 +248,8 @@ jobs:
   deploy-staging:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
+    permissions:
+      contents: read
     environment: staging
     needs: build-and-push-image # Will only run if the build and push job succeded
     steps:
