@@ -17,8 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # for cosign w/ keyless signing
-      packages: write # for updating cosign attestation
+      packages: read
       security-events: write
     steps:
       - name: Checkout code
